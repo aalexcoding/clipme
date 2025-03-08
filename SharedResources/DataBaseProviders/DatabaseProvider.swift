@@ -21,4 +21,12 @@ public protocol DatabaseProvider {
     
     // Nueva función para obtener la imagen de un SharedURLItem
     func getImage(for item: SharedURLItem) -> Data?
+    
+    // Funciones para gestionar configuraciones de categorías
+    func fetchCategorySettings() -> [CategorySettingsItem]
+    func saveCategorySettings(_ settings: [CategorySettingsItem])
+    func updateCategorySetting(for category: String, isFavorite: Bool?, color: String?)
+    
+    // Nueva función para eliminar una categoría
+    func removeCategory(_ category: String)
 }

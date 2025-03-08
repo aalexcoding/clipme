@@ -9,56 +9,82 @@ import SwiftUI
 
 struct MainView: View {
     @ObservedObject var viewModel: MainViewViewModel
-    @State private var searchQuery: String = ""
-    
-    var body: some View {
-        NavigationView {
-            VStack {
-                // Barra de búsqueda
-                SearchBar(text: $searchQuery)
-                    .padding(.horizontal)
+    @State private var selectedCategory: String = "Todas"
+    @State private var isAddCategoryPresented: Bool = false
 
-                List {
-                    // Agrupar elementos por categoría
-                    ForEach(viewModel.groupedItems(for: searchQuery), id: \.key) { category, items in
-                        Section(header: Text(category).font(.headline)) {
-                            ForEach(items) { item in
-                                Button {
-                                    viewModel.openURL(item.url.absoluteString)
-                                } label: {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        Text(item.url.absoluteString)
-                                            .font(.body)
-                                            .lineLimit(1)
-                                            .truncationMode(.middle)
-                                        Text(item.date, style: .date)
-                                            .font(.caption)
-                                            .foregroundColor(.gray)
-                                    }
-                                    .padding(.vertical, 4)
+    var body: some View {
+        ZStack {
+            NavigationView {
+                VStack {
+                    // Barra de búsqueda
+                    SearchBar(text: $viewModel.searchQuery)
+                        .padding(.horizontal)
+
+                    // Scroll de Categorías
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack {
+                            ForEach(viewModel.categories, id: \.self) { category in
+                                Button(category) {
+                                    viewModel.selectedCategory = category
                                 }
+                                .padding()
+                                .background(viewModel.selectedCategory == category ? Color.blue.opacity(0.2) : Color.clear)
+                                .cornerRadius(8)
+                            }
+                            
+                            Button(action: {
+                                isAddCategoryPresented = true
+                            }) {
+                                Image(systemName: "plus")
+                                    .padding()
+                                    .background(Color.blue.opacity(0.2))
+                                    .clipShape(Circle())
                             }
                         }
                     }
+                    .padding(.horizontal)
+
+                List {
+                    ForEach(viewModel.filteredItems(), id: \.id) { item in
+                        Button {
+                            viewModel.openURL(item.url.absoluteString)
+                        } label: {
+                            HStack {
+                                if let imageData = item.imageData, let uiImage = UIImage(data: imageData) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 40, height: 40)
+                                        .cornerRadius(5)
+                                        .clipped()
+                                }
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(item.title.isEmpty ? item.url.absoluteString : item.title)
+                                        .font(.body)
+                                        .lineLimit(1)
+                                        .truncationMode(.middle)
+                                    Text(item.date, style: .date)
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
+                        .padding(.vertical, 4)
+                    }
                 }
-                .navigationTitle("URLs Recibidos")
-                .refreshable {
-                    viewModel.fetchSharedURLs()
+                .animation(.default, value: viewModel.filteredItems()) // Para actualizar visualmente la lista con animación
+                    .navigationTitle("URLs por Categoría")
+                    .refreshable {
+                        viewModel.fetchSharedURLs()
+                    }
                 }
             }
-        }
-    }
-}
-
-// Vista para la barra de búsqueda
-struct SearchBar: View {
-    @Binding var text: String
-    
-    var body: some View {
-        HStack {
-            TextField("Buscar por categoría, tag o título...", text: $text)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+            
+            if isAddCategoryPresented {
+                AddCategoryPopupView(isPresented: $isAddCategoryPresented) { newCategory in
+                    viewModel.addNewCategory(newCategory)
+                }
+            }
         }
     }
 }

@@ -16,6 +16,7 @@ public class SharedFileManager {
         self.database = database
     }
 
+    // Gestión de elementos
     public func getURLItems() -> [SharedURLItem] {
         return database.fetchItems()
     }
@@ -31,22 +32,43 @@ public class SharedFileManager {
     public func clearURLInfo() {
         database.clearAllItems()
     }
-}
 
-extension SharedFileManager {
+    // Búsquedas
     public func getURLItemsByTag(_ tag: String) -> [SharedURLItem] {
-        return getURLItems().filter { $0.tags.contains(tag) }
+        return database.getURLItemsByTag(tag)
     }
 
     public func getFavoriteURLItems() -> [SharedURLItem] {
-        return getURLItems().filter { $0.isFavorite }
+        return database.getFavoriteURLItems()
     }
 
     public func getURLItemsByCategory(_ category: String) -> [SharedURLItem] {
-        return getURLItems().filter { $0.category.lowercased() == category.lowercased() }
+        return database.getURLItemsByCategory(category)
     }
 
     public func searchURLItemsByTitle(_ query: String) -> [SharedURLItem] {
-        return getURLItems().filter { $0.title.lowercased().contains(query.lowercased()) }
+        return database.searchURLItemsByTitle(query)
+    }
+
+    // Obtención de imágenes
+    public func getImage(for item: SharedURLItem) -> Data? {
+        return database.getImage(for: item)
+    }
+
+    // Gestión de categorías
+    public func fetchCategorySettings() -> [CategorySettingsItem] {
+        return database.fetchCategorySettings()
+    }
+
+    public func saveCategorySettings(_ settings: [CategorySettingsItem]) {
+        database.saveCategorySettings(settings)
+    }
+
+    public func updateCategorySetting(for category: String, isFavorite: Bool?, color: String?) {
+        database.updateCategorySetting(for: category, isFavorite: isFavorite, color: color)
+    }
+
+    public func removeCategory(_ category: String) {
+        database.removeCategory(category)
     }
 }

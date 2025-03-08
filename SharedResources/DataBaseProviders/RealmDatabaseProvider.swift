@@ -13,66 +13,103 @@ class RealmDatabaseProvider: DatabaseProvider {
 
     init() {
         do {
-            let config = Realm.Configuration(schemaVersion: 1)
-            Realm.Configuration.defaultConfiguration = config
             self.realm = try Realm()
         } catch {
-            fatalError("Error al inicializar Realm: \(error)")
+            fatalError("No se pudo inicializar Realm: \(error.localizedDescription)")
         }
     }
 
     func fetchItems() -> [SharedURLItem] {
-        let results = realm.objects(SharedURLItemRealm.self)
-        return results.map { $0.toSharedURLItem() }
+        return realm.objects(SharedURLItemRealm.self).map { $0.toSharedURLItem() }
     }
 
     func deleteItem(by id: UUID) {
-        guard let item = realm.object(ofType: SharedURLItemRealm.self, forPrimaryKey: id.uuidString) else { return }
-        try? realm.write {
-            realm.delete(item)
+        if let item = realm.objects(SharedURLItemRealm.self).filter("id == %@", id).first {
+            try? realm.write {
+                realm.delete(item)
+            }
         }
     }
 
-    func saveItems(_ items: [SharedURLItem], append: Bool = true) {
-        do {
-            try realm.write {
-                if !append {
-                    realm.deleteAll()
-                }
-                let realmItems = items.map { SharedURLItemRealm(from: $0) }
-                realm.add(realmItems, update: .modified)
+    func saveItems(_ items: [SharedURLItem], append: Bool) {
+        try? realm.write {
+            if !append {
+                realm.delete(realm.objects(SharedURLItemRealm.self))
             }
-        } catch {
-            print("Error guardando datos en Realm: \(error)")
+            let realmItems = items.map { SharedURLItemRealm(from: $0) }
+            realm.add(realmItems, update: .all)
         }
     }
 
     func clearAllItems() {
         try? realm.write {
-            realm.deleteAll()
+            realm.delete(realm.objects(SharedURLItemRealm.self))
         }
     }
 
     func getURLItemsByTag(_ tag: String) -> [SharedURLItem] {
-        return fetchItems().filter { $0.tags.contains(tag) }
+        return realm.objects(SharedURLItemRealm.self)
+            .filter("ANY tags == %@", tag)
+            .map { $0.toSharedURLItem() }
     }
 
     func getFavoriteURLItems() -> [SharedURLItem] {
-        return fetchItems().filter { $0.isFavorite }
+        return realm.objects(SharedURLItemRealm.self)
+            .filter("isFavorite == true")
+            .map { $0.toSharedURLItem() }
     }
 
     func getURLItemsByCategory(_ category: String) -> [SharedURLItem] {
-        return fetchItems().filter { $0.category.lowercased() == category.lowercased() }
+        return realm.objects(SharedURLItemRealm.self)
+            .filter("category == %@", category)
+            .map { $0.toSharedURLItem() }
     }
 
     func searchURLItemsByTitle(_ query: String) -> [SharedURLItem] {
-        return fetchItems().filter { $0.title.lowercased().contains(query.lowercased()) }
+        return realm.objects(SharedURLItemRealm.self)
+            .filter("title CONTAINS[c] %@", query)
+            .map { $0.toSharedURLItem() }
     }
-    
+
     func getImage(for item: SharedURLItem) -> Data? {
-        guard let realmItem = realm.objects(SharedURLItemRealm.self).filter("url == %@", item.url.absoluteString).first,
-              let imageData = realmItem.imageData else { return nil }
-        
-        return imageData
+        return realm.objects(SharedURLItemRealm.self)
+            .filter("id == %@", item.id)
+            .first?.imageData
+    }
+
+    // Gestión de categorías
+
+    func fetchCategorySettings() -> [CategorySettingsItem] {
+        return realm.objects(CategorySettingsItemRealm.self).map { $0.toCategorySettings() }
+    }
+
+    func saveCategorySettings(_ settings: [CategorySettingsItem]) {
+        try? realm.write {
+            let realmSettings = settings.map { CategorySettingsItemRealm(name: $0.name, color: $0.color ?? "FFFFFFF") }
+            realm.add(realmSettings, update: .all)
+        }
+    }
+
+    func updateCategorySetting(for category: String, isFavorite: Bool?, color: String?) {
+        if let existingSetting = realm.objects(CategorySettingsItemRealm.self).filter("name == %@", category).first {
+            try? realm.write {
+                if let color = color {
+                    existingSetting.color = color
+                }
+            }
+        } else {
+            let newSetting = CategorySettingsItemRealm(name: category, color: color ?? "#FFFFFF")
+            try? realm.write {
+                realm.add(newSetting)
+            }
+        }
+    }
+
+    func removeCategory(_ category: String) {
+        if let categorySetting = realm.objects(CategorySettingsItemRealm.self).filter("name == %@", category).first {
+            try? realm.write {
+                realm.delete(categorySetting)
+            }
+        }
     }
 }
