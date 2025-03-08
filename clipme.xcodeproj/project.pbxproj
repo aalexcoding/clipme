@@ -103,8 +103,8 @@
 
 /* Begin PBXFileReference section */
 		D1CD99A72D7A123E00FDB5CC /* ClipMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D1CD99B92D7A123F00FDB5CC /* reelKeeperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = reelKeeperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D1CD99C32D7A123F00FDB5CC /* reelKeeperUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = reelKeeperUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1CD99B92D7A123F00FDB5CC /* clipmeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clipmeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1CD99C32D7A123F00FDB5CC /* clipmeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clipmeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1CD99DA2D7A125D00FDB5CC /* shareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = shareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SharedResources.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -127,9 +127,9 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		D1CD99A92D7A123E00FDB5CC /* reelKeeper */ = {
+		D1CD99A92D7A123E00FDB5CC /* clipme */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = reelKeeper;
+			path = clipme;
 			sourceTree = "<group>";
 		};
 		D1CD99BC2D7A123F00FDB5CC /* reelKeeperTests */ = {
@@ -205,7 +205,7 @@
 		D1CD999E2D7A123E00FDB5CC = {
 			isa = PBXGroup;
 			children = (
-				D1CD99A92D7A123E00FDB5CC /* reelKeeper */,
+				D1CD99A92D7A123E00FDB5CC /* clipme */,
 				D1CD99BC2D7A123F00FDB5CC /* reelKeeperTests */,
 				D1CD99C62D7A123F00FDB5CC /* reelKeeperUITests */,
 				D1CD99DB2D7A125D00FDB5CC /* shareExtension */,
@@ -219,8 +219,8 @@
 			isa = PBXGroup;
 			children = (
 				D1CD99A72D7A123E00FDB5CC /* ClipMe.app */,
-				D1CD99B92D7A123F00FDB5CC /* reelKeeperTests.xctest */,
-				D1CD99C32D7A123F00FDB5CC /* reelKeeperUITests.xctest */,
+				D1CD99B92D7A123F00FDB5CC /* clipmeTests.xctest */,
+				D1CD99C32D7A123F00FDB5CC /* clipmeUITests.xctest */,
 				D1CD99DA2D7A125D00FDB5CC /* shareExtension.appex */,
 				D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */,
 			);
@@ -247,9 +247,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		D1CD99A62D7A123E00FDB5CC /* reelKeeper */ = {
+		D1CD99A62D7A123E00FDB5CC /* clipme */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D1CD99CD2D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "reelKeeper" */;
+			buildConfigurationList = D1CD99CD2D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipme" */;
 			buildPhases = (
 				D1CD99A32D7A123E00FDB5CC /* Sources */,
 				D1CD99A42D7A123E00FDB5CC /* Frameworks */,
@@ -264,18 +264,18 @@
 				D1CD9A532D7A2EFE00FDB5CC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				D1CD99A92D7A123E00FDB5CC /* reelKeeper */,
+				D1CD99A92D7A123E00FDB5CC /* clipme */,
 			);
-			name = reelKeeper;
+			name = clipme;
 			packageProductDependencies = (
 			);
 			productName = reelKeeper;
 			productReference = D1CD99A72D7A123E00FDB5CC /* ClipMe.app */;
 			productType = "com.apple.product-type.application";
 		};
-		D1CD99B82D7A123F00FDB5CC /* reelKeeperTests */ = {
+		D1CD99B82D7A123F00FDB5CC /* clipmeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D1CD99D02D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "reelKeeperTests" */;
+			buildConfigurationList = D1CD99D02D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipmeTests" */;
 			buildPhases = (
 				D1CD99B52D7A123F00FDB5CC /* Sources */,
 				D1CD99B62D7A123F00FDB5CC /* Frameworks */,
@@ -289,16 +289,16 @@
 			fileSystemSynchronizedGroups = (
 				D1CD99BC2D7A123F00FDB5CC /* reelKeeperTests */,
 			);
-			name = reelKeeperTests;
+			name = clipmeTests;
 			packageProductDependencies = (
 			);
 			productName = reelKeeperTests;
-			productReference = D1CD99B92D7A123F00FDB5CC /* reelKeeperTests.xctest */;
+			productReference = D1CD99B92D7A123F00FDB5CC /* clipmeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		D1CD99C22D7A123F00FDB5CC /* reelKeeperUITests */ = {
+		D1CD99C22D7A123F00FDB5CC /* clipmeUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D1CD99D32D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "reelKeeperUITests" */;
+			buildConfigurationList = D1CD99D32D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipmeUITests" */;
 			buildPhases = (
 				D1CD99BF2D7A123F00FDB5CC /* Sources */,
 				D1CD99C02D7A123F00FDB5CC /* Frameworks */,
@@ -312,11 +312,11 @@
 			fileSystemSynchronizedGroups = (
 				D1CD99C62D7A123F00FDB5CC /* reelKeeperUITests */,
 			);
-			name = reelKeeperUITests;
+			name = clipmeUITests;
 			packageProductDependencies = (
 			);
 			productName = reelKeeperUITests;
-			productReference = D1CD99C32D7A123F00FDB5CC /* reelKeeperUITests.xctest */;
+			productReference = D1CD99C32D7A123F00FDB5CC /* clipmeUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		D1CD99D92D7A125D00FDB5CC /* shareExtension */ = {
@@ -397,7 +397,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D1CD99A22D7A123E00FDB5CC /* Build configuration list for PBXProject "reelKeeper" */;
+			buildConfigurationList = D1CD99A22D7A123E00FDB5CC /* Build configuration list for PBXProject "clipme" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -414,9 +414,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D1CD99A62D7A123E00FDB5CC /* reelKeeper */,
-				D1CD99B82D7A123F00FDB5CC /* reelKeeperTests */,
-				D1CD99C22D7A123F00FDB5CC /* reelKeeperUITests */,
+				D1CD99A62D7A123E00FDB5CC /* clipme */,
+				D1CD99B82D7A123F00FDB5CC /* clipmeTests */,
+				D1CD99C22D7A123F00FDB5CC /* clipmeUITests */,
 				D1CD99D92D7A125D00FDB5CC /* shareExtension */,
 				D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */,
 			);
@@ -502,12 +502,12 @@
 /* Begin PBXTargetDependency section */
 		D1CD99BB2D7A123F00FDB5CC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D1CD99A62D7A123E00FDB5CC /* reelKeeper */;
+			target = D1CD99A62D7A123E00FDB5CC /* clipme */;
 			targetProxy = D1CD99BA2D7A123F00FDB5CC /* PBXContainerItemProxy */;
 		};
 		D1CD99C52D7A123F00FDB5CC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = D1CD99A62D7A123E00FDB5CC /* reelKeeper */;
+			target = D1CD99A62D7A123E00FDB5CC /* clipme */;
 			targetProxy = D1CD99C42D7A123F00FDB5CC /* PBXContainerItemProxy */;
 		};
 		D1CD99E32D7A125D00FDB5CC /* PBXTargetDependency */ = {
@@ -652,13 +652,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = reelKeeper/reelKeeper.entitlements;
+				CODE_SIGN_ENTITLEMENTS = clipme/clipme.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"reelKeeper/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"clipme/Preview Content\"";
 				DEVELOPMENT_TEAM = 54B96T6J84;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ClipMe;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -669,7 +671,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.add.testing.reelKeeper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme;
 				PRODUCT_NAME = ClipMe;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -685,13 +687,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = reelKeeper/reelKeeper.entitlements;
+				CODE_SIGN_ENTITLEMENTS = clipme/clipme.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"reelKeeper/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"clipme/Preview Content\"";
 				DEVELOPMENT_TEAM = 54B96T6J84;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ClipMe;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -702,7 +706,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.add.testing.reelKeeper;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme;
 				PRODUCT_NAME = ClipMe;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -723,12 +727,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.add.testing.reelKeeperTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/reelKeeper.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/reelKeeper";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipme.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/clipme";
 			};
 			name = Debug;
 		};
@@ -742,12 +746,12 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.add.testing.reelKeeperTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/reelKeeper.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/reelKeeper";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipme.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/clipme";
 			};
 			name = Release;
 		};
@@ -759,7 +763,7 @@
 				DEVELOPMENT_TEAM = 54B96T6J84;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.add.testing.reelKeeperUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -776,7 +780,7 @@
 				DEVELOPMENT_TEAM = 54B96T6J84;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.add.testing.reelKeeperUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -802,7 +806,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.add.testing.reelKeeper.shareExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -831,7 +835,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.add.testing.reelKeeper.shareExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.shareExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -866,7 +870,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.add.testing.reelKeeper.SharedResources;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.SharedResources;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -901,7 +905,7 @@
 				MARKETING_VERSION = 1.0;
 				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
 				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
-				PRODUCT_BUNDLE_IDENTIFIER = com.add.testing.reelKeeper.SharedResources;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.SharedResources;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -916,7 +920,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D1CD99A22D7A123E00FDB5CC /* Build configuration list for PBXProject "reelKeeper" */ = {
+		D1CD99A22D7A123E00FDB5CC /* Build configuration list for PBXProject "clipme" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D1CD99CB2D7A123F00FDB5CC /* Debug */,
@@ -925,7 +929,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D1CD99CD2D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "reelKeeper" */ = {
+		D1CD99CD2D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipme" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D1CD99CE2D7A123F00FDB5CC /* Debug */,
@@ -934,7 +938,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D1CD99D02D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "reelKeeperTests" */ = {
+		D1CD99D02D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipmeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D1CD99D12D7A123F00FDB5CC /* Debug */,
@@ -943,7 +947,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D1CD99D32D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "reelKeeperUITests" */ = {
+		D1CD99D32D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipmeUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D1CD99D42D7A123F00FDB5CC /* Debug */,

@@ -3,7 +3,7 @@ import SwiftData
 import SharedResources
 
 @main
-struct reelKeeperApp: App {
+struct clipmeApp: App {
 
     @StateObject var viewModel: MainViewViewModel
     @Environment(\.scenePhase) private var scenePhase

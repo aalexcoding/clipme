@@ -19,7 +19,7 @@
                BlueprintIdentifier = "D1CD99D92D7A125D00FDB5CC"
                BuildableName = "shareExtension.appex"
                BlueprintName = "shareExtension"
-               ReferencedContainer = "container:reelKeeper.xcodeproj">
+               ReferencedContainer = "container:clipme.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,9 +31,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D1CD99A62D7A123E00FDB5CC"
-               BuildableName = "reelKeeper.app"
-               BlueprintName = "reelKeeper"
-               ReferencedContainer = "container:reelKeeper.xcodeproj">
+               BuildableName = "ClipMe.app"
+               BlueprintName = "clipme"
+               ReferencedContainer = "container:clipme.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D1CD99A62D7A123E00FDB5CC"
-            BuildableName = "reelKeeper.app"
-            BlueprintName = "reelKeeper"
-            ReferencedContainer = "container:reelKeeper.xcodeproj">
+            BuildableName = "ClipMe.app"
+            BlueprintName = "clipme"
+            ReferencedContainer = "container:clipme.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -81,9 +81,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D1CD99A62D7A123E00FDB5CC"
-            BuildableName = "reelKeeper.app"
-            BlueprintName = "reelKeeper"
-            ReferencedContainer = "container:reelKeeper.xcodeproj">
+            BuildableName = "ClipMe.app"
+            BlueprintName = "clipme"
+            ReferencedContainer = "container:clipme.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

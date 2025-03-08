@@ -6,9 +6,9 @@
 //
 
 import XCTest
-@testable import reelKeeper
+@testable import ClipMe
 
-final class reelKeeperTests: XCTestCase {
+final class clipmeTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

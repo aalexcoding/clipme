@@ -6,7 +6,7 @@
 //
 
 public class JSONDatabaseProvider: DatabaseProvider {
-    private let appGroup = "group.com.add.testing.reelKeeper.2"
+    private let appGroup = "group.com.add.clipme.shared"
     private let fileName = "sharedURLs.json"
     private let backupFileName = "sharedURLs.backup.json"
 

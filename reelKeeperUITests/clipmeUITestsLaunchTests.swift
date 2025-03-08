@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class reelKeeperUITestsLaunchTests: XCTestCase {
+final class clipmeUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

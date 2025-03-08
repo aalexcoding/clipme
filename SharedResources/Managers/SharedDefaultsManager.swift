@@ -12,7 +12,7 @@ public final class SharedDefaultsManager {
     public static let shared = SharedDefaultsManager()
     
     // Nombre del App Group. Debe coincidir en ambos targets.
-    private let suiteName = "group.com.add.testing.reelKeeper.2"
+    private let suiteName = "group.com.add.clipme.shared"
     
     // Clave donde se almacenará la información (ahora un array de diccionarios)
     private let sharedURLItemListKey = "sharedURLItemList"
