@@ -6,6 +6,12 @@
 //
 
 public class JSONDatabaseProvider: DatabaseProvider {
+    
+    public func getImage(for item: SharedURLItem) -> Data? {
+        let items = fetchItems()
+        return items.first(where: { $0.url == item.url })?.image
+    }
+    
     private let appGroup = "group.com.add.clipme.shared"
     private let fileName = "sharedURLs.json"
     private let backupFileName = "sharedURLs.backup.json"

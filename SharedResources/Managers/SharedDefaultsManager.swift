@@ -5,7 +5,6 @@
 //  Created by AlexDelgado on 6/3/25.
 //
 
-
 import Foundation
 
 public final class SharedDefaultsManager {
@@ -24,16 +23,25 @@ public final class SharedDefaultsManager {
 
     public func saveURL(_ url: URL,
                         origin: String,
+                        title: String = "",
                         itemDescription: String = "",
                         category: String = "",
-                        userNotes: String = "") {
+                        userNotes: String = "",
+                        date: Date = Date(),
+                        tags: [String] = [],
+                        isFavorite: Bool = false,
+                        imageData: Data? = nil) {
         var currentItems = retrieveURLItems() ?? []
         let newItem = SharedURLItem(url: url,
                                     origin: origin,
+                                    title: title,
                                     itemDescription: itemDescription,
                                     category: category,
                                     userNotes: userNotes,
-                                    date: Date())
+                                    date: date,
+                                    tags: tags,
+                                    isFavorite: isFavorite,
+                                    imageData: imageData)
         currentItems.append(newItem)
         
         do {

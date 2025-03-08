@@ -13,15 +13,84 @@ struct ShareExtensionView: View {
     
     @State private var sharedURL: URL?
     @State private var errorMessage: String?
+    @State private var title: String?
+    @State private var itemDescription: String = ""
+    @State private var category: String = ""
+    @State private var userNotes: String = ""
+    @State var tags: [String] = []
+    @State private var imageURL: String = "" // Add new state variable for image URL
+    @State private var sharedMetadata: WebMetadata? // Almacena la metadata completa, incluyendo la imagen
     
     var body: some View {
         VStack(spacing: 20) {
-            if let url = sharedURL {
-                Text("Link recibido:")
-                    .font(.headline)
-                Text(url.absoluteString)
-                    .multilineTextAlignment(.center)
+            if let url = sharedURL, let title = title {
+                
+                if let imageData = sharedMetadata?.image, let uiImage = UIImage(data: imageData) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 200)
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
+                        .padding()
+                    
+                } else if !imageURL.isEmpty { // Display downloaded image
+                    AsyncImage(url: URL(string: imageURL)) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView() // Show loading indicator
+                        case .success(let image):
+                            image.resizable()
+                                .scaledToFit()
+                                .frame(height: 200)
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+                        case .failure:
+                            Image(systemName: "photo") // Fallback image icon
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 200)
+                                .foregroundColor(.gray)
+                        @unknown default:
+                            ProgressView()
+                        }
+                    }
                     .padding()
+                }
+                
+                Text(title)
+                    .font(.body)
+                    .lineLimit(1)
+                    .truncationMode(.middle)
+                    .padding()
+                
+                TextField("Categoría", text: $category)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .padding()
+                
+                TagsInputView(tags: $tags) // Componente para añadir tags
+                
+                Button("Guardar") {
+                    let origin = extractOrigin(from: url.absoluteString)
+                    
+                    let imageData = sharedMetadata?.image // Eliminamos la conversión innecesaria
+
+                    SharedDefaultsManager.shared.saveURL(
+                        url,
+                        origin: origin,
+                        title: title,
+                        itemDescription: itemDescription,
+                        category: category,
+                        userNotes: userNotes,
+                        date: Date(),
+                        tags: tags,
+                        isFavorite: false,
+                        imageData: imageData // Guardamos la imagen en Data
+                    )
+
+                    extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+                }
+                .padding(.top, 20)
             } else if let error = errorMessage {
                 Text("Error:")
                     .font(.headline)
@@ -31,25 +100,6 @@ struct ShareExtensionView: View {
             } else {
                 Text("Procesando link...")
             }
-            
-            Button("Finalizar") {
-                if let url = sharedURL {
-                    // Extraer el origen de la URL
-                    let origin = extractOrigin(from: url.absoluteString)
-                    
-                    // Ejemplo en la extensión al finalizar la acción de compartir:
-                    SharedDefaultsManager.shared.saveURL(
-                        url,
-                        origin: origin, // O el identificador que prefieras
-                        itemDescription: "", // Opcional
-                        category: "",        // Opcional
-                        userNotes: ""        // Opcional
-                    )
-
-                }
-                extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
-            }
-            .padding(.top, 30)
         }
         .padding()
         .onAppear {
@@ -78,6 +128,7 @@ struct ShareExtensionView: View {
                                 DispatchQueue.main.async {
                                     if isSupportedURL(url) {
                                         self.sharedURL = url
+                                        fetchMetadata(for: url)
                                     } else {
                                         self.errorMessage = "URL no soportada. Asegúrate de compartir links de TikTok, Instagram, YouTube o Twitter."
                                     }
@@ -98,6 +149,7 @@ struct ShareExtensionView: View {
                                 DispatchQueue.main.async {
                                     if isSupportedURL(url) {
                                         self.sharedURL = url
+                                        fetchMetadata(for: url)
                                     } else {
                                         self.errorMessage = "URL no soportada. Asegúrate de compartir links de TikTok, Instagram, YouTube o Twitter."
                                     }
@@ -111,6 +163,17 @@ struct ShareExtensionView: View {
                         return
                     }
                 }
+            }
+        }
+    }
+    
+    public func fetchMetadata(for url: URL) {
+        WebMetadataFetcher.fetch(url: url) { metadata in
+            DispatchQueue.main.async {
+                self.title = metadata.title
+                self.itemDescription = metadata.description
+                self.imageURL = metadata.imageURL.isEmpty ? "https://example.com/default-placeholder.jpg" : metadata.imageURL
+                self.sharedMetadata = metadata // Almacena la metadata completa, incluyendo la imagen
             }
         }
     }

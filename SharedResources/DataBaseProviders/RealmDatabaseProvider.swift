@@ -68,4 +68,11 @@ class RealmDatabaseProvider: DatabaseProvider {
     func searchURLItemsByTitle(_ query: String) -> [SharedURLItem] {
         return fetchItems().filter { $0.title.lowercased().contains(query.lowercased()) }
     }
+    
+    func getImage(for item: SharedURLItem) -> Data? {
+        guard let realmItem = realm.objects(SharedURLItemRealm.self).filter("url == %@", item.url.absoluteString).first,
+              let imageData = realmItem.imageData else { return nil }
+        
+        return imageData
+    }
 }

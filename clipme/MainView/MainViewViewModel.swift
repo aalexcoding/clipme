@@ -29,3 +29,23 @@ final class MainViewViewModel: ObservableObject {
         UIApplication.shared.open(url)
     }
 }
+
+extension MainViewViewModel {
+    func groupedItems(for query: String) -> [(key: String, value: [SharedURLItem])] {
+        let items = searchItems(query)
+        let grouped = Dictionary(grouping: items, by: { $0.category.isEmpty ? "Sin Categoría" : $0.category })
+        return grouped.sorted { $0.key < $1.key }
+    }
+    
+    func searchItems(_ query: String) -> [SharedURLItem] {
+        if query.isEmpty {
+            return sharedURLs
+        } else {
+            return sharedURLs.filter { item in
+                item.category.lowercased().contains(query.lowercased()) ||
+                item.tags.contains(where: { $0.lowercased().contains(query.lowercased()) }) ||
+                item.title.lowercased().contains(query.lowercased())
+            }
+        }
+    }
+}

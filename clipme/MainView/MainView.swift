@@ -7,54 +7,64 @@
 
 import SwiftUI
 
-
 struct MainView: View {
     @ObservedObject var viewModel: MainViewViewModel
-//    @Environment(\.scenePhase) private var scenePhase
-
+    @State private var searchQuery: String = ""
     
     var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.sharedURLs) { item in
-                    Button {
-                        viewModel.openURL(item.url.absoluteString)
-                    } label: {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(item.url.absoluteString)
-                                .font(.body)
-                                .lineLimit(1)
-                                .truncationMode(.middle)
-                            Text(item.date, style: .date)
-                                .font(.caption)
-                                .foregroundColor(.gray)
+            VStack {
+                // Barra de búsqueda
+                SearchBar(text: $searchQuery)
+                    .padding(.horizontal)
+
+                List {
+                    // Agrupar elementos por categoría
+                    ForEach(viewModel.groupedItems(for: searchQuery), id: \.key) { category, items in
+                        Section(header: Text(category).font(.headline)) {
+                            ForEach(items) { item in
+                                Button {
+                                    viewModel.openURL(item.url.absoluteString)
+                                } label: {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(item.url.absoluteString)
+                                            .font(.body)
+                                            .lineLimit(1)
+                                            .truncationMode(.middle)
+                                        Text(item.date, style: .date)
+                                            .font(.caption)
+                                            .foregroundColor(.gray)
+                                    }
+                                    .padding(.vertical, 4)
+                                }
+                            }
                         }
-                        .padding(.vertical, 4)
                     }
                 }
+                .navigationTitle("URLs Recibidos")
+                .refreshable {
+                    viewModel.fetchSharedURLs()
+                }
             }
-//            .onChange(of: scenePhase) {
-//                if scenePhase == .active {
-//                    viewModel.insertFromSharedFileManager()
-//                }
-//            }
-            
-            .navigationTitle("URLs Recibidos")
-            // Permite refrescar la lista manualmente
-            .refreshable {
-                viewModel.fetchSharedURLs()
-            }
-
-            
         }
-
     }
+}
+
+// Vista para la barra de búsqueda
+struct SearchBar: View {
+    @Binding var text: String
     
+    var body: some View {
+        HStack {
+            TextField("Buscar por categoría, tag o título...", text: $text)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+        }
+    }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        // Para previsualización usamos un ViewModel de ejemplo
         MainView(viewModel: MainViewViewModel())
     }
 }

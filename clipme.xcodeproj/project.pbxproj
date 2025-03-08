@@ -119,6 +119,9 @@
 		};
 		D1CD9A562D7A2EFE00FDB5CC /* Exceptions for "SharedResources" folder in "SharedResources" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DataBaseProviders/JSONDatabaseProvider.swift,
+			);
 			publicHeaders = (
 				SharedResources.h,
 			);

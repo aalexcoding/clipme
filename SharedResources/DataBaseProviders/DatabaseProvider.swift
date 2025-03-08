@@ -18,4 +18,7 @@ public protocol DatabaseProvider {
     func getFavoriteURLItems() -> [SharedURLItem]
     func getURLItemsByCategory(_ category: String) -> [SharedURLItem]
     func searchURLItemsByTitle(_ query: String) -> [SharedURLItem]
+    
+    // Nueva función para obtener la imagen de un SharedURLItem
+    func getImage(for item: SharedURLItem) -> Data?
 }
