@@ -2,39 +2,30 @@ import SwiftUI
 import Foundation
 import SharedResources
 import MobileCoreServices
-
-// MARK: - ShareExtensionViewModel
+import LinkPresentation
+import UIKit
 
 class ShareExtensionViewModel: ObservableObject {
-    // Propiedades observadas para actualizar la UI
-    @Published var title: String?
-    @Published var imageURL: String = ""
-    @Published var category: String = ""
-    @Published var categories: [String] = []
-    @Published var errorMessage: String?
+    // Propiedades para la interfaz
+    @Published var title: String?            // Título a mostrar (del metadata)
+    @Published var imageURL: String = ""       // URL de la imagen (si la hay)
+    @Published var category: String = ""       // Categoría seleccionada
+    @Published var categories: [String] = []   // Lista de categorías disponibles
+    @Published var errorMessage: String?       // Mensaje de error en caso de fallo
+    @Published var sharedMetadata: WebMetadata? // Metadatos obtenidos desde la URL
     
-    // Esta propiedad puede usarse para almacenar datos adicionales (por ejemplo, imagen compartida)
-    var sharedMetadata: SharedMetadata? // Asegúrate de que SharedMetadata esté definido o elimínalo si no se usa.
+    // Almacenamos el URL original extraído del NSExtensionContext
+    var sharedURL: URL?
     
-    // Instancia del proveedor de base de datos
-    var databaseProvider: DatabaseProvider
-    
-    // Inicializador inyectando el proveedor de base de datos
-    init(databaseProvider: DatabaseProvider) {
-        self.databaseProvider = databaseProvider
+    init() {
         loadCategories()
-    }
-    
-    // Inicializador de conveniencia (necesitas tener una implementación por defecto del DatabaseProvider)
-    convenience init() {
-        self.init(databaseProvider: DefaultDatabaseProvider())
     }
     
     // MARK: - Gestión de Categorías
     
-    /// Carga las categorías utilizando el método fetchCategorySettings del proveedor
+    /// Carga las categorías usando SharedFileManager
     func loadCategories() {
-        let categoryItems = databaseProvider.fetchCategorySettings()
+        let categoryItems = SharedFileManager.shared.fetchCategorySettings()
         let fetchedCategories = categoryItems.map { $0.name }
         
         DispatchQueue.main.async {
@@ -50,27 +41,26 @@ class ShareExtensionViewModel: ObservableObject {
         }
     }
     
-    /// Agrega una nueva categoría y la guarda usando el proveedor de base de datos
+    /// Agrega una nueva categoría y actualiza la lista
     func addNewCategory(_ categoryName: String) {
         guard !categoryName.isEmpty, !categories.contains(categoryName) else { return }
         
         let newCategory = CategorySettingsItem(name: categoryName, color: "#FFFFFF")
-        var currentSettings = databaseProvider.fetchCategorySettings()
+        var currentSettings = SharedFileManager.shared.fetchCategorySettings()
         currentSettings.append(newCategory)
-        databaseProvider.saveCategorySettings(currentSettings)
+        SharedFileManager.shared.saveCategorySettings(currentSettings)
         loadCategories()
     }
     
-    // MARK: - Gestión del URL Compartido
+    // MARK: - Gestión del URL Compartido y Metadatos
     
-    /// Extrae el URL (y opcionalmente otros datos) del extension context
+    /// Extrae el URL del NSExtensionContext y obtiene los metadatos web
     func loadURL(_ extensionContext: NSExtensionContext?) {
         guard let context = extensionContext else {
             self.errorMessage = "No se proporcionó un contexto."
             return
         }
         
-        // Se asume que el contexto tiene inputItems con attachments
         if let inputItem = context.inputItems.first as? NSExtensionItem,
            let attachments = inputItem.attachments,
            let itemProvider = attachments.first {
@@ -80,8 +70,18 @@ class ShareExtensionViewModel: ObservableObject {
                 itemProvider.loadItem(forTypeIdentifier: urlType, options: nil) { (item, error) in
                     DispatchQueue.main.async {
                         if let url = item as? URL {
-                            // Usamos la URL como título por ejemplo. Puedes extenderlo según tus necesidades.
+                            self.sharedURL = url
+                            // Inicialmente usamos la URL como título
                             self.title = url.absoluteString
+                            
+                            // Obtenemos metadatos web para mostrar un título más amigable y otros datos
+                            WebMetadataFetcher.fetch(url: url) { metadata in
+                                DispatchQueue.main.async {
+                                    self.sharedMetadata = metadata
+                                    self.title = metadata.title
+                                    self.imageURL = metadata.imageURL
+                                }
+                            }
                         } else if let error = error {
                             self.errorMessage = error.localizedDescription
                         } else {
@@ -97,14 +97,25 @@ class ShareExtensionViewModel: ObservableObject {
         }
     }
     
-    /// Crea un SharedURLItem a partir de la información obtenida y lo guarda usando el proveedor
+    // MARK: - Guardado del URL Compartido
+    
+    /// Crea y guarda un SharedURLItem usando SharedFileManager y SharedDefaultsManager
     func saveSharedURL() {
-        guard let title = title, let url = URL(string: title) else {
+        guard let url = self.sharedURL,
+              let displayTitle = self.title, let imageData = self.sharedMetadata?.image else {
             self.errorMessage = "URL inválido."
             return
         }
-        // Se asume que SharedURLItem tiene un inicializador con (id, title, url, category)
-        let newItem = SharedURLItem(id: UUID(), title: title, url: url, category: category)
-        databaseProvider.saveItems([newItem], append: true)
+        
+        // Extraer el dominio de la URL para usarlo como origin
+        let origin = url.host ?? "Desconocido"
+        
+        // Guarda el item en SharedDefaultsManager incluyendo la imageURL
+        SharedDefaultsManager.shared.saveURL(url,
+                                            origin: origin,
+                                            title: displayTitle,
+                                            category: category,
+                                            imageData: imageData,
+                                            imageURL: self.imageURL )
     }
 }

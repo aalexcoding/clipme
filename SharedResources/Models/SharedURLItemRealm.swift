@@ -18,6 +18,7 @@ class SharedURLItemRealm: Object {
     @Persisted var date: Date = Date()
     @Persisted var origin: String = ""
     @Persisted var imageData: Data?
+    @Persisted var imageURL: String = ""
 
     convenience init(from item: SharedURLItem) {
         self.init()
@@ -30,6 +31,7 @@ class SharedURLItemRealm: Object {
         self.date = item.date
         self.origin = item.origin
         self.imageData = item.imageData
+        self.imageURL = item.imageURL
     }
 
     func toSharedURLItem() -> SharedURLItem {
@@ -42,7 +44,8 @@ class SharedURLItemRealm: Object {
             date: self.date,
             tags: Array(self.tags),
             isFavorite: self.isFavorite,
-            imageData: self.imageData
+            imageData: self.imageData,
+            imageURL: self.imageURL
         )
     }
 }

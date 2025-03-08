@@ -22,6 +22,7 @@ public final class SharedURLItem: Codable, Equatable, Hashable, Identifiable {
     public var tags: [String]
     public var isFavorite: Bool
     public var imageData: Data?
+    public var imageURL: String
 
     public init(url: URL,
                 origin: String,
@@ -32,7 +33,8 @@ public final class SharedURLItem: Codable, Equatable, Hashable, Identifiable {
                 date: Date = Date(),
                 tags: [String] = [],
                 isFavorite: Bool = false,
-                imageData: Data? = nil) {
+                imageData: Data? = nil,
+                imageURL:String = "") {
         self.url = url
         self.origin = origin
         self.title = title
@@ -43,12 +45,13 @@ public final class SharedURLItem: Codable, Equatable, Hashable, Identifiable {
         self.tags = tags
         self.isFavorite = isFavorite
         self.imageData = imageData
+        self.imageURL = imageURL
     }
 
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {
-        case id, url, origin, title, itemDescription, category, userNotes, date, tags, isFavorite, imageData
+        case id, url, origin, title, itemDescription, category, userNotes, date, tags, isFavorite, imageData, imageURL
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -64,6 +67,7 @@ public final class SharedURLItem: Codable, Equatable, Hashable, Identifiable {
         try container.encode(tags, forKey: .tags)
         try container.encode(isFavorite, forKey: .isFavorite)
         try container.encode(imageData, forKey: .imageData)
+        try container.encode(imageURL, forKey: .imageURL)
     }
 
     public convenience init(from decoder: Decoder) throws {
@@ -78,7 +82,8 @@ public final class SharedURLItem: Codable, Equatable, Hashable, Identifiable {
         let tags = try container.decode([String].self, forKey: .tags)
         let isFavorite = try container.decode(Bool.self, forKey: .isFavorite)
         let imageData = try container.decodeIfPresent(Data.self, forKey: .imageData)
-        self.init(url: url, origin: origin, title: title, itemDescription: itemDescription, category: category, userNotes: userNotes, date: date, tags: tags, isFavorite: isFavorite, imageData: imageData)
+        let imageURL = try container.decode(String.self, forKey: .imageURL)
+        self.init(url: url, origin: origin, title: title, itemDescription: itemDescription, category: category, userNotes: userNotes, date: date, tags: tags, isFavorite: isFavorite, imageData: imageData, imageURL: imageURL)
         self.id = try container.decode(UUID.self, forKey: .id)
     }
     

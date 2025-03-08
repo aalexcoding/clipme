@@ -10,10 +10,17 @@ internal import RealmSwift
 
 class RealmDatabaseProvider: DatabaseProvider {
     private let realm: Realm
+    private let appGroup = "group.com.add.clipme.shared"
 
     init() {
+        guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroup) else {
+            fatalError("No se pudo obtener el contenedor del grupo \(appGroup)")
+        }
+        let realmURL = containerURL.appendingPathComponent("default.realm")
+        var config = Realm.Configuration()
+        config.fileURL = realmURL
         do {
-            self.realm = try Realm()
+            self.realm = try Realm(configuration: config)
         } catch {
             fatalError("No se pudo inicializar Realm: \(error.localizedDescription)")
         }

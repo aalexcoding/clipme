@@ -30,7 +30,8 @@ public final class SharedDefaultsManager {
                         date: Date = Date(),
                         tags: [String] = [],
                         isFavorite: Bool = false,
-                        imageData: Data? = nil) {
+                        imageData: Data? = nil,
+                        imageURL: String = "" ) {
         var currentItems = retrieveURLItems() ?? []
         let newItem = SharedURLItem(url: url,
                                     origin: origin,
@@ -41,7 +42,8 @@ public final class SharedDefaultsManager {
                                     date: date,
                                     tags: tags,
                                     isFavorite: isFavorite,
-                                    imageData: imageData)
+                                    imageData: imageData,
+                                    imageURL: imageURL)
         currentItems.append(newItem)
         
         do {
