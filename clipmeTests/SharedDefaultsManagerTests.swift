@@ -62,19 +62,6 @@ final class SharedDefaultsManagerTests: XCTestCase {
     }
 
     func testClearURLInfo() {
-        let testItem = SharedURLItem(
-            url: URL(string:"https://www.instagram.com/reel/DFpg5WJoqHY/?igsh=MWl2bmlrN3BibnNsNQ==")!,
-            origin: "instagram.com",
-            title: "Instagram Reel",
-            itemDescription: "Short video on Instagram",
-            category: "Social",
-            userNotes: "",
-            date: Date(),
-            tags: ["shorts", "video"],
-            isFavorite: false,
-            imageData: nil,
-            imageURL: "https://instagram.com/reel_image.jpg"
-        )
 
         sharedDefaultsManager.saveURL(URL(string:"https://www.instagram.com/reel/DFpg5WJoqHY/?igsh=MWl2bmlrN3BibnNsNQ==")!,
                                       origin: "instagram.com",

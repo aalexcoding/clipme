@@ -21,26 +21,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D18AF1932D7E16E900CA40D0 /* PBXContainerItemProxy */ = {
+		D18AF22A2D7E2A8C00CA40D0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D1CD9A4B2D7A2EFE00FDB5CC;
 			remoteInfo = SharedResources;
 		};
-		D18AF1982D7E16ED00CA40D0 /* PBXContainerItemProxy */ = {
+		D18AF22C2D7E2A9100CA40D0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D1CD9A4B2D7A2EFE00FDB5CC;
 			remoteInfo = SharedResources;
 		};
-		D1CD99BA2D7A123F00FDB5CC /* PBXContainerItemProxy */ = {
+		D18AF2332D7E34AE00CA40D0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = D1CD99A62D7A123E00FDB5CC;
-			remoteInfo = reelKeeper;
+			remoteInfo = clipme;
 		};
 		D1CD99C42D7A123F00FDB5CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -55,13 +55,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = D1CD99D92D7A125D00FDB5CC;
 			remoteInfo = shareExtension;
-		};
-		D1CD9A522D7A2EFE00FDB5CC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D1CD9A4B2D7A2EFE00FDB5CC;
-			remoteInfo = SharedResources;
 		};
 		D1CD9A602D7A2F3A00FDB5CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -150,22 +143,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		D18AF1A22D7E20A700CA40D0 /* Exceptions for "clipmeTests" folder in "clipme" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Mocks/MockSharedDefaultsManager.swift,
-				Mocks/MockSharedFileManager.swift,
-			);
-			target = D1CD99A62D7A123E00FDB5CC /* clipme */;
-		};
-		D18AF1A32D7E20A700CA40D0 /* Exceptions for "clipmeTests" folder in "clipmeTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Mocks/MockSharedDefaultsManager.swift,
-				Mocks/MockSharedFileManager.swift,
-			);
-			target = D1CD99B82D7A123F00FDB5CC /* clipmeTests */;
-		};
 		D1CD99E52D7A125D00FDB5CC /* Exceptions for "shareExtension" folder in "shareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -193,10 +170,6 @@
 		};
 		D1CD99BC2D7A123F00FDB5CC /* clipmeTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				D18AF1A22D7E20A700CA40D0 /* Exceptions for "clipmeTests" folder in "clipme" target */,
-				D18AF1A32D7E20A700CA40D0 /* Exceptions for "clipmeTests" folder in "clipmeTests" target */,
-			);
 			path = clipmeTests;
 			sourceTree = "<group>";
 		};
@@ -325,8 +298,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				D18AF22B2D7E2A8C00CA40D0 /* PBXTargetDependency */,
 				D1CD99E32D7A125D00FDB5CC /* PBXTargetDependency */,
-				D1CD9A532D7A2EFE00FDB5CC /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				D1CD99A92D7A123E00FDB5CC /* clipme */,
@@ -350,8 +323,8 @@
 			buildRules = (
 			);
 			dependencies = (
-				D1CD99BB2D7A123F00FDB5CC /* PBXTargetDependency */,
-				D18AF1942D7E16E900CA40D0 /* PBXTargetDependency */,
+				D18AF2342D7E34AE00CA40D0 /* PBXTargetDependency */,
+				D18AF22D2D7E2A9100CA40D0 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				D1CD99BC2D7A123F00FDB5CC /* clipmeTests */,
@@ -376,7 +349,6 @@
 			);
 			dependencies = (
 				D1CD99C52D7A123F00FDB5CC /* PBXTargetDependency */,
-				D18AF1992D7E16ED00CA40D0 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				D1CD99C62D7A123F00FDB5CC /* clipmeUITests */,
@@ -569,20 +541,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		D18AF1942D7E16E900CA40D0 /* PBXTargetDependency */ = {
+		D18AF22B2D7E2A8C00CA40D0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */;
-			targetProxy = D18AF1932D7E16E900CA40D0 /* PBXContainerItemProxy */;
+			targetProxy = D18AF22A2D7E2A8C00CA40D0 /* PBXContainerItemProxy */;
 		};
-		D18AF1992D7E16ED00CA40D0 /* PBXTargetDependency */ = {
+		D18AF22D2D7E2A9100CA40D0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */;
-			targetProxy = D18AF1982D7E16ED00CA40D0 /* PBXContainerItemProxy */;
+			targetProxy = D18AF22C2D7E2A9100CA40D0 /* PBXContainerItemProxy */;
 		};
-		D1CD99BB2D7A123F00FDB5CC /* PBXTargetDependency */ = {
+		D18AF2342D7E34AE00CA40D0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D1CD99A62D7A123E00FDB5CC /* clipme */;
-			targetProxy = D1CD99BA2D7A123F00FDB5CC /* PBXContainerItemProxy */;
+			targetProxy = D18AF2332D7E34AE00CA40D0 /* PBXContainerItemProxy */;
 		};
 		D1CD99C52D7A123F00FDB5CC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -593,11 +565,6 @@
 			isa = PBXTargetDependency;
 			target = D1CD99D92D7A125D00FDB5CC /* shareExtension */;
 			targetProxy = D1CD99E22D7A125D00FDB5CC /* PBXContainerItemProxy */;
-		};
-		D1CD9A532D7A2EFE00FDB5CC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */;
-			targetProxy = D1CD9A522D7A2EFE00FDB5CC /* PBXContainerItemProxy */;
 		};
 		D1CD9A612D7A2F3A00FDB5CC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -667,6 +634,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipme.app/clipme";
 			};
 			name = Debug;
 		};
@@ -722,6 +690,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipme.app/clipme";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -759,6 +728,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "";
 			};
 			name = Debug;
 		};
@@ -795,6 +765,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "";
 			};
 			name = Release;
 		};
