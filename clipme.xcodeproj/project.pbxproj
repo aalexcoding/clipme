@@ -1,0 +1,1057 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D18AF1912D7E16E900CA40D0 /* SharedResources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; };
+		D18AF1922D7E16E900CA40D0 /* SharedResources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D18AF1962D7E16ED00CA40D0 /* SharedResources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; };
+		D18AF1972D7E16ED00CA40D0 /* SharedResources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D194D9FC2D7C6EC700AC0B9A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D194D9FB2D7C6EC700AC0B9A /* RealmSwift */; };
+		D194D9FD2D7C6EC700AC0B9A /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = D194D9FB2D7C6EC700AC0B9A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		D1CD99E42D7A125D00FDB5CC /* shareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D1CD99DA2D7A125D00FDB5CC /* shareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D1CD9A542D7A2EFE00FDB5CC /* SharedResources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; };
+		D1CD9A552D7A2EFE00FDB5CC /* SharedResources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D1CD9A5E2D7A2F3A00FDB5CC /* SharedResources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; };
+		D1CD9A5F2D7A2F3A00FDB5CC /* SharedResources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D18AF22A2D7E2A8C00CA40D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1CD9A4B2D7A2EFE00FDB5CC;
+			remoteInfo = SharedResources;
+		};
+		D18AF22C2D7E2A9100CA40D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1CD9A4B2D7A2EFE00FDB5CC;
+			remoteInfo = SharedResources;
+		};
+		D18AF2332D7E34AE00CA40D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1CD99A62D7A123E00FDB5CC;
+			remoteInfo = clipme;
+		};
+		D1CD99C42D7A123F00FDB5CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1CD99A62D7A123E00FDB5CC;
+			remoteInfo = reelKeeper;
+		};
+		D1CD99E22D7A125D00FDB5CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1CD99D92D7A125D00FDB5CC;
+			remoteInfo = shareExtension;
+		};
+		D1CD9A602D7A2F3A00FDB5CC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1CD9A4B2D7A2EFE00FDB5CC;
+			remoteInfo = SharedResources;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D18AF1952D7E16E900CA40D0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D18AF1922D7E16E900CA40D0 /* SharedResources.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D18AF19A2D7E16ED00CA40D0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D18AF1972D7E16ED00CA40D0 /* SharedResources.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D194D9FE2D7C6EC700AC0B9A /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D194D9FD2D7C6EC700AC0B9A /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD99E92D7A125D00FDB5CC /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D1CD99E42D7A125D00FDB5CC /* shareExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD9A5A2D7A2EFE00FDB5CC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D1CD9A552D7A2EFE00FDB5CC /* SharedResources.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD9A622D7A2F3A00FDB5CC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D1CD9A5F2D7A2F3A00FDB5CC /* SharedResources.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D1CD99A72D7A123E00FDB5CC /* ClipMe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ClipMe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1CD99B92D7A123F00FDB5CC /* clipmeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clipmeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1CD99C32D7A123F00FDB5CC /* clipmeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = clipmeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1CD99DA2D7A125D00FDB5CC /* shareExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = shareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SharedResources.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D1CD99E52D7A125D00FDB5CC /* Exceptions for "shareExtension" folder in "shareExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D1CD99D92D7A125D00FDB5CC /* shareExtension */;
+		};
+		D1CD9A562D7A2EFE00FDB5CC /* Exceptions for "SharedResources" folder in "SharedResources" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				DataBaseProviders/JSONDatabaseProvider.swift,
+			);
+			publicHeaders = (
+				SharedResources.h,
+			);
+			target = D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		D1CD99A92D7A123E00FDB5CC /* clipme */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = clipme;
+			sourceTree = "<group>";
+		};
+		D1CD99BC2D7A123F00FDB5CC /* clipmeTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = clipmeTests;
+			sourceTree = "<group>";
+		};
+		D1CD99C62D7A123F00FDB5CC /* clipmeUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = clipmeUITests;
+			sourceTree = "<group>";
+		};
+		D1CD99DB2D7A125D00FDB5CC /* shareExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D1CD99E52D7A125D00FDB5CC /* Exceptions for "shareExtension" folder in "shareExtension" target */,
+			);
+			path = shareExtension;
+			sourceTree = "<group>";
+		};
+		D1CD9A4D2D7A2EFE00FDB5CC /* SharedResources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D1CD9A562D7A2EFE00FDB5CC /* Exceptions for "SharedResources" folder in "SharedResources" target */,
+			);
+			path = SharedResources;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D1CD99A42D7A123E00FDB5CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1CD9A542D7A2EFE00FDB5CC /* SharedResources.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD99B62D7A123F00FDB5CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D18AF1912D7E16E900CA40D0 /* SharedResources.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD99C02D7A123F00FDB5CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D18AF1962D7E16ED00CA40D0 /* SharedResources.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD99D72D7A125D00FDB5CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D1CD9A5E2D7A2F3A00FDB5CC /* SharedResources.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD9A492D7A2EFE00FDB5CC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D194D9FC2D7C6EC700AC0B9A /* RealmSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D1CD999E2D7A123E00FDB5CC = {
+			isa = PBXGroup;
+			children = (
+				D1CD99A92D7A123E00FDB5CC /* clipme */,
+				D1CD99BC2D7A123F00FDB5CC /* clipmeTests */,
+				D1CD99C62D7A123F00FDB5CC /* clipmeUITests */,
+				D1CD99DB2D7A125D00FDB5CC /* shareExtension */,
+				D1CD9A4D2D7A2EFE00FDB5CC /* SharedResources */,
+				D1CD9A5D2D7A2F3A00FDB5CC /* Frameworks */,
+				D1CD99A82D7A123E00FDB5CC /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D1CD99A82D7A123E00FDB5CC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D1CD99A72D7A123E00FDB5CC /* ClipMe.app */,
+				D1CD99B92D7A123F00FDB5CC /* clipmeTests.xctest */,
+				D1CD99C32D7A123F00FDB5CC /* clipmeUITests.xctest */,
+				D1CD99DA2D7A125D00FDB5CC /* shareExtension.appex */,
+				D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D1CD9A5D2D7A2F3A00FDB5CC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		D1CD9A472D7A2EFE00FDB5CC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		D1CD99A62D7A123E00FDB5CC /* clipme */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1CD99CD2D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipme" */;
+			buildPhases = (
+				D1CD99A32D7A123E00FDB5CC /* Sources */,
+				D1CD99A42D7A123E00FDB5CC /* Frameworks */,
+				D1CD99A52D7A123E00FDB5CC /* Resources */,
+				D1CD99E92D7A125D00FDB5CC /* Embed Foundation Extensions */,
+				D1CD9A5A2D7A2EFE00FDB5CC /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D18AF22B2D7E2A8C00CA40D0 /* PBXTargetDependency */,
+				D1CD99E32D7A125D00FDB5CC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D1CD99A92D7A123E00FDB5CC /* clipme */,
+			);
+			name = clipme;
+			packageProductDependencies = (
+			);
+			productName = reelKeeper;
+			productReference = D1CD99A72D7A123E00FDB5CC /* ClipMe.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D1CD99B82D7A123F00FDB5CC /* clipmeTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1CD99D02D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipmeTests" */;
+			buildPhases = (
+				D1CD99B52D7A123F00FDB5CC /* Sources */,
+				D1CD99B62D7A123F00FDB5CC /* Frameworks */,
+				D1CD99B72D7A123F00FDB5CC /* Resources */,
+				D18AF1952D7E16E900CA40D0 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D18AF2342D7E34AE00CA40D0 /* PBXTargetDependency */,
+				D18AF22D2D7E2A9100CA40D0 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D1CD99BC2D7A123F00FDB5CC /* clipmeTests */,
+			);
+			name = clipmeTests;
+			packageProductDependencies = (
+			);
+			productName = reelKeeperTests;
+			productReference = D1CD99B92D7A123F00FDB5CC /* clipmeTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D1CD99C22D7A123F00FDB5CC /* clipmeUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1CD99D32D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipmeUITests" */;
+			buildPhases = (
+				D1CD99BF2D7A123F00FDB5CC /* Sources */,
+				D1CD99C02D7A123F00FDB5CC /* Frameworks */,
+				D1CD99C12D7A123F00FDB5CC /* Resources */,
+				D18AF19A2D7E16ED00CA40D0 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1CD99C52D7A123F00FDB5CC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D1CD99C62D7A123F00FDB5CC /* clipmeUITests */,
+			);
+			name = clipmeUITests;
+			packageProductDependencies = (
+			);
+			productName = reelKeeperUITests;
+			productReference = D1CD99C32D7A123F00FDB5CC /* clipmeUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		D1CD99D92D7A125D00FDB5CC /* shareExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1CD99E62D7A125D00FDB5CC /* Build configuration list for PBXNativeTarget "shareExtension" */;
+			buildPhases = (
+				D1CD99D62D7A125D00FDB5CC /* Sources */,
+				D1CD99D72D7A125D00FDB5CC /* Frameworks */,
+				D1CD99D82D7A125D00FDB5CC /* Resources */,
+				D1CD9A622D7A2F3A00FDB5CC /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D1CD9A612D7A2F3A00FDB5CC /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				D1CD99DB2D7A125D00FDB5CC /* shareExtension */,
+			);
+			name = shareExtension;
+			packageProductDependencies = (
+			);
+			productName = shareExtension;
+			productReference = D1CD99DA2D7A125D00FDB5CC /* shareExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D1CD9A572D7A2EFE00FDB5CC /* Build configuration list for PBXNativeTarget "SharedResources" */;
+			buildPhases = (
+				D1CD9A472D7A2EFE00FDB5CC /* Headers */,
+				D1CD9A482D7A2EFE00FDB5CC /* Sources */,
+				D1CD9A492D7A2EFE00FDB5CC /* Frameworks */,
+				D1CD9A4A2D7A2EFE00FDB5CC /* Resources */,
+				D194D9FE2D7C6EC700AC0B9A /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				D1CD9A4D2D7A2EFE00FDB5CC /* SharedResources */,
+			);
+			name = SharedResources;
+			packageProductDependencies = (
+				D194D9FB2D7C6EC700AC0B9A /* RealmSwift */,
+			);
+			productName = SharedResources;
+			productReference = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D1CD999F2D7A123E00FDB5CC /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1620;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					D1CD99A62D7A123E00FDB5CC = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					D1CD99B82D7A123F00FDB5CC = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = D1CD99A62D7A123E00FDB5CC;
+					};
+					D1CD99C22D7A123F00FDB5CC = {
+						CreatedOnToolsVersion = 16.2;
+						TestTargetID = D1CD99A62D7A123E00FDB5CC;
+					};
+					D1CD99D92D7A125D00FDB5CC = {
+						CreatedOnToolsVersion = 16.2;
+					};
+					D1CD9A4B2D7A2EFE00FDB5CC = {
+						CreatedOnToolsVersion = 16.2;
+					};
+				};
+			};
+			buildConfigurationList = D1CD99A22D7A123E00FDB5CC /* Build configuration list for PBXProject "clipme" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D1CD999E2D7A123E00FDB5CC;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D194D9FA2D7C6EAE00AC0B9A /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D1CD99A82D7A123E00FDB5CC /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D1CD99A62D7A123E00FDB5CC /* clipme */,
+				D1CD99B82D7A123F00FDB5CC /* clipmeTests */,
+				D1CD99C22D7A123F00FDB5CC /* clipmeUITests */,
+				D1CD99D92D7A125D00FDB5CC /* shareExtension */,
+				D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D1CD99A52D7A123E00FDB5CC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD99B72D7A123F00FDB5CC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD99C12D7A123F00FDB5CC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD99D82D7A125D00FDB5CC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD9A4A2D7A2EFE00FDB5CC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D1CD99A32D7A123E00FDB5CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD99B52D7A123F00FDB5CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD99BF2D7A123F00FDB5CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD99D62D7A125D00FDB5CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D1CD9A482D7A2EFE00FDB5CC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D18AF22B2D7E2A8C00CA40D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */;
+			targetProxy = D18AF22A2D7E2A8C00CA40D0 /* PBXContainerItemProxy */;
+		};
+		D18AF22D2D7E2A9100CA40D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */;
+			targetProxy = D18AF22C2D7E2A9100CA40D0 /* PBXContainerItemProxy */;
+		};
+		D18AF2342D7E34AE00CA40D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1CD99A62D7A123E00FDB5CC /* clipme */;
+			targetProxy = D18AF2332D7E34AE00CA40D0 /* PBXContainerItemProxy */;
+		};
+		D1CD99C52D7A123F00FDB5CC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1CD99A62D7A123E00FDB5CC /* clipme */;
+			targetProxy = D1CD99C42D7A123F00FDB5CC /* PBXContainerItemProxy */;
+		};
+		D1CD99E32D7A125D00FDB5CC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1CD99D92D7A125D00FDB5CC /* shareExtension */;
+			targetProxy = D1CD99E22D7A125D00FDB5CC /* PBXContainerItemProxy */;
+		};
+		D1CD9A612D7A2F3A00FDB5CC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */;
+			targetProxy = D1CD9A602D7A2F3A00FDB5CC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D1CD99CB2D7A123F00FDB5CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipme.app/clipme";
+			};
+			name = Debug;
+		};
+		D1CD99CC2D7A123F00FDB5CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipme.app/clipme";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D1CD99CE2D7A123F00FDB5CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = clipme/clipme.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"clipme/Preview Content\"";
+				DEVELOPMENT_TEAM = 54B96T6J84;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ClipMe;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme;
+				PRODUCT_NAME = ClipMe;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "";
+			};
+			name = Debug;
+		};
+		D1CD99CF2D7A123F00FDB5CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = clipme/clipme.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"clipme/Preview Content\"";
+				DEVELOPMENT_TEAM = 54B96T6J84;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ClipMe;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme;
+				PRODUCT_NAME = ClipMe;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "";
+			};
+			name = Release;
+		};
+		D1CD99D12D7A123F00FDB5CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54B96T6J84;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClipMe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ClipMe";
+			};
+			name = Debug;
+		};
+		D1CD99D22D7A123F00FDB5CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54B96T6J84;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClipMe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ClipMe";
+			};
+			name = Release;
+		};
+		D1CD99D42D7A123F00FDB5CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54B96T6J84;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = reelKeeper;
+			};
+			name = Debug;
+		};
+		D1CD99D52D7A123F00FDB5CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54B96T6J84;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = reelKeeper;
+			};
+			name = Release;
+		};
+		D1CD99E72D7A125D00FDB5CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = shareExtension/shareExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54B96T6J84;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = shareExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = shareExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.shareExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D1CD99E82D7A125D00FDB5CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = shareExtension/shareExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 54B96T6J84;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = shareExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = shareExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.shareExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D1CD9A582D7A2EFE00FDB5CC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 54B96T6J84;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.SharedResources;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D1CD9A592D7A2EFE00FDB5CC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 54B96T6J84;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.SharedResources;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D1CD99A22D7A123E00FDB5CC /* Build configuration list for PBXProject "clipme" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1CD99CB2D7A123F00FDB5CC /* Debug */,
+				D1CD99CC2D7A123F00FDB5CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1CD99CD2D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipme" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1CD99CE2D7A123F00FDB5CC /* Debug */,
+				D1CD99CF2D7A123F00FDB5CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1CD99D02D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipmeTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1CD99D12D7A123F00FDB5CC /* Debug */,
+				D1CD99D22D7A123F00FDB5CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1CD99D32D7A123F00FDB5CC /* Build configuration list for PBXNativeTarget "clipmeUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1CD99D42D7A123F00FDB5CC /* Debug */,
+				D1CD99D52D7A123F00FDB5CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1CD99E62D7A125D00FDB5CC /* Build configuration list for PBXNativeTarget "shareExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1CD99E72D7A125D00FDB5CC /* Debug */,
+				D1CD99E82D7A125D00FDB5CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D1CD9A572D7A2EFE00FDB5CC /* Build configuration list for PBXNativeTarget "SharedResources" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D1CD9A582D7A2EFE00FDB5CC /* Debug */,
+				D1CD9A592D7A2EFE00FDB5CC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D194D9FA2D7C6EAE00AC0B9A /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D194D9FB2D7C6EC700AC0B9A /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D194D9FA2D7C6EAE00AC0B9A /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = D1CD999F2D7A123E00FDB5CC /* Project object */;
+}
