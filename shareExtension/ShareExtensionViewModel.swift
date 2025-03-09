@@ -14,6 +14,7 @@ class ShareExtensionViewModel: ObservableObject {
     @Published var errorMessage: String?       // Mensaje de error en caso de fallo
     @Published var sharedMetadata: WebMetadata? // Metadatos obtenidos desde la URL
     
+    
     // Almacenamos el URL original extraído del NSExtensionContext
     var sharedURL: URL?
     
@@ -102,7 +103,8 @@ class ShareExtensionViewModel: ObservableObject {
     /// Crea y guarda un SharedURLItem usando SharedFileManager y SharedDefaultsManager
     func saveSharedURL() {
         guard let url = self.sharedURL,
-              let displayTitle = self.title, let imageData = self.sharedMetadata?.image else {
+              let displayTitle = self.title,
+                let imageData = self.sharedMetadata?.image else {
             self.errorMessage = "URL inválido."
             return
         }

@@ -7,12 +7,17 @@
 
 import SwiftUI
 
-struct AddCategoryPopupView: View {
-    @Binding var isPresented: Bool
-    @State private var categoryName: String = ""
-    var onAddCategory: (String) -> Void
+public struct AddCategoryPopupView: View {
+    @Binding public var isPresented: Bool
+    @State public var categoryName: String = ""
+    public var onAddCategory: (String) -> Void
+    
+    public init(isPresented: Binding<Bool>, onAddCategory: @escaping (String) -> Void) {
+        self._isPresented = isPresented
+        self.onAddCategory = onAddCategory
+    }
 
-    var body: some View {
+    public var body: some View {
         ZStack {
             // Fondo semitransparente
             if isPresented {

@@ -1,4 +1,12 @@
+//
+//  SharedURLsViewModel.swift
+//  reelKeeper
+//
+//  Created by AlexDelgado on 6/3/25.
+//
+
 import SwiftUI
+import SharedResources
 
 struct MainView: View {
     @ObservedObject var viewModel: MainViewViewModel

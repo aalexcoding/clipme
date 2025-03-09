@@ -12,6 +12,8 @@ struct ShareExtensionView: View {
     var extensionContext: NSExtensionContext?
     
     @ObservedObject var viewModel = ShareExtensionViewModel()
+    @State private var isAddCategoryPresented: Bool = false
+
     
     var body: some View {
         VStack(spacing: 20) {
@@ -56,13 +58,33 @@ struct ShareExtensionView: View {
                     .truncationMode(.middle)
                     .padding()
                 
-                Picker("Categoría", selection: $viewModel.category) {
-                    ForEach(viewModel.categories, id: \.self) { category in
-                        Text(category).tag(category)
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 12) {
+                        ForEach(viewModel.categories, id: \.self) { category in
+                            Button(action: {
+                                viewModel.category = category
+                            }) {
+                                Text(category)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 16)
+                                    .background(viewModel.category == category ? Color.blue.opacity(0.2) : Color.clear)
+                                    .cornerRadius(20)
+                            }
+                        }
+                        Button(action: {
+                            isAddCategoryPresented = true
+                        }) {
+                            Image(systemName: "plus")
+                                .padding(10)
+                                .background(Color.blue.opacity(0.2))
+                                .clipShape(Circle())
+                        }
                     }
+                    .padding(.horizontal)
+                    .padding(.vertical, 0)
                 }
-                .pickerStyle(MenuPickerStyle())
-                .padding()
+                .listRowSeparator(.hidden) // 🔥 Oculta las líneas arriba y abajo
+                
                 
                 //TagsInputView(tags: $viewModel.tags) // Componente para añadir tags
                 
@@ -81,10 +103,22 @@ struct ShareExtensionView: View {
                 Text("Procesando link...")
             }
         }
+        .overlay(
+            Group {
+                if isAddCategoryPresented {
+                    AddCategoryPopupView(isPresented: $isAddCategoryPresented) { newCategory in
+                        viewModel.addNewCategory(newCategory)
+                    }
+//                        .transition(.move(edge: .leading).combined(with: .opacity))
+                }
+            }
+        )
+        .animation(.easeInOut(duration: 0.2), value: isAddCategoryPresented)
         .padding()
         .onAppear {
             print("ShareExtensionView aparece en pantalla")
             viewModel.loadURL(extensionContext)
+            viewModel.loadCategories()
         }
     }
 }
