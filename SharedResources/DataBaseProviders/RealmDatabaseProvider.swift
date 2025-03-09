@@ -8,7 +8,7 @@
 
 internal import RealmSwift
 
-class RealmDatabaseProvider: DatabaseProvider {
+internal class RealmDatabaseProvider: DatabaseProvider {
     private let realm: Realm
     private let appGroup = "group.com.add.clipme.shared"
 
@@ -97,7 +97,7 @@ class RealmDatabaseProvider: DatabaseProvider {
         }
     }
 
-    func updateCategorySetting(for category: String, isFavorite: Bool?, color: String?) {
+    func updateCategorySetting(for category: String, color: String?) {
         if let existingSetting = realm.objects(CategorySettingsItemRealm.self).filter("name == %@", category).first {
             try? realm.write {
                 if let color = color {

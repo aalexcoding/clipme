@@ -5,27 +5,32 @@
 //  Created by AlexDelgado on 6/3/25.
 //
 
-
 import SwiftUI
 import SwiftData
 import SharedResources
+
 
 
 final class MainViewViewModel: ObservableObject {
     @Published var sharedURLs: [SharedURLItem] = []
     @Published var selectedCategory: String = "Todas"
     @Published var searchQuery: String = ""
+    
+    var fileManager: SharedFileManager
 
+    init(fileManager: SharedFileManager = SharedFileManager.shared) {
+        self.fileManager = fileManager
+    }
     /// Carga los URLs guardados, ordenándolos por fecha descendente y actualizando categorías.
     func fetchSharedURLs() {
-        let items = SharedFileManager.shared.getURLItems()
+        let items = fileManager.getURLItems()
         let sortedItems = items.sorted { $0.date > $1.date }
         self.sharedURLs = sortedItems
     }
 
     /// Devuelve la lista de categorías únicas extraídas de los elementos guardados.
     var categories: [String] {
-        let storedCategories = SharedFileManager.shared.fetchCategorySettings().map { $0.name }
+        let storedCategories = fileManager.fetchCategorySettings().map { $0.name }
         let uniqueCategories = Set(sharedURLs.map { $0.category.isEmpty ? "Sin Categoría" : $0.category }).union(storedCategories)
         return ["Todas"] + uniqueCategories.sorted()
     }
@@ -59,13 +64,13 @@ final class MainViewViewModel: ObservableObject {
         guard !categoryName.isEmpty, !categories.contains(categoryName) else { return }
         
         let newCategory = CategorySettingsItem(name: categoryName)
-        SharedFileManager.shared.saveCategorySettings([newCategory])
+        fileManager.saveCategorySettings([newCategory])
         
         fetchCategories() // Recargar categorías después de agregar una nueva
     }
     
     func fetchCategories() {
-        var storedCategories = SharedFileManager.shared.fetchCategorySettings().map { $0.name }
+        var storedCategories = fileManager.fetchCategorySettings().map { $0.name }
         self.sharedURLs.forEach { item in
             if !storedCategories.contains(item.category) {
                 storedCategories.append(item.category)

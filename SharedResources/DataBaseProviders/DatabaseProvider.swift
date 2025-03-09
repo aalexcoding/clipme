@@ -6,7 +6,7 @@
 //
 
 
-public protocol DatabaseProvider {
+internal protocol DatabaseProvider {
     func fetchItems() -> [SharedURLItem]
     func deleteItem(by id: UUID)
     func saveItems(_ items: [SharedURLItem], append: Bool)
@@ -25,7 +25,7 @@ public protocol DatabaseProvider {
     // Funciones para gestionar configuraciones de categorías
     func fetchCategorySettings() -> [CategorySettingsItem]
     func saveCategorySettings(_ settings: [CategorySettingsItem])
-    func updateCategorySetting(for category: String, isFavorite: Bool?, color: String?)
+    func updateCategorySetting(for category: String, color: String?)
     
     // Nueva función para eliminar una categoría
     func removeCategory(_ category: String)
