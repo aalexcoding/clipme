@@ -7,19 +7,18 @@
 
 import Foundation
 
-public final class SharedDefaultsManager {
+
+
+public final class SharedDefaultsManager: SharedDefaultsManagerProtocol {
     public static let shared = SharedDefaultsManager()
     
-    // Nombre del App Group. Debe coincidir en ambos targets.
     private let suiteName = "group.com.add.clipme.shared"
-    
-    // Clave donde se almacenará la información (ahora un array de diccionarios)
     private let sharedURLItemListKey = "sharedURLItemList"
+    private var userDefaults: UserDefaults
 
-    private var userDefaults: UserDefaults? {
-        return UserDefaults(suiteName: suiteName)
+    public init(userDefaults: UserDefaults = UserDefaults(suiteName: "group.com.add.clipme.shared")!) {
+        self.userDefaults = userDefaults
     }
-    
 
     public func saveURL(_ url: URL,
                         origin: String,
@@ -31,7 +30,7 @@ public final class SharedDefaultsManager {
                         tags: [String] = [],
                         isFavorite: Bool = false,
                         imageData: Data? = nil,
-                        imageURL: String = "" ) {
+                        imageURL: String = "") {
         var currentItems = retrieveURLItems() ?? []
         let newItem = SharedURLItem(url: url,
                                     origin: origin,
@@ -48,14 +47,14 @@ public final class SharedDefaultsManager {
         
         do {
             let data = try JSONEncoder().encode(currentItems)
-            userDefaults?.set(data, forKey: sharedURLItemListKey)
+            userDefaults.set(data, forKey: sharedURLItemListKey)
         } catch {
             print("Error al codificar los SharedURLItem: \(error)")
         }
     }
     
     public func retrieveURLItems() -> [SharedURLItem]? {
-        guard let data = userDefaults?.data(forKey: sharedURLItemListKey) else {
+        guard let data = userDefaults.data(forKey: sharedURLItemListKey) else {
             return nil
         }
         do {
@@ -67,9 +66,8 @@ public final class SharedDefaultsManager {
         }
     }
     
-    /// Limpia la información almacenada.
     public func clearURLInfo() {
-        userDefaults?.removeObject(forKey: sharedURLItemListKey)
-        userDefaults?.synchronize()
+        userDefaults.removeObject(forKey: sharedURLItemListKey)
+        userDefaults.synchronize()
     }
 }

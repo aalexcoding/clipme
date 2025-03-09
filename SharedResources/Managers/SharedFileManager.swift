@@ -7,7 +7,8 @@
 
 import Foundation
 
-public class SharedFileManager {
+public class SharedFileManager: SharedFileManagerProtocol {
+    
     private let database: DatabaseProvider
     
     public static let shared = SharedFileManager(database: RealmDatabaseProvider())
@@ -64,8 +65,8 @@ public class SharedFileManager {
         database.saveCategorySettings(settings)
     }
 
-    public func updateCategorySetting(for category: String, isFavorite: Bool?, color: String?) {
-        database.updateCategorySetting(for: category, isFavorite: isFavorite, color: color)
+    public func updateCategorySetting(for category: String, color: String?) {
+        database.updateCategorySetting(for: category, color: color)
     }
 
     public func removeCategory(_ category: String) {

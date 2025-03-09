@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D18AF1912D7E16E900CA40D0 /* SharedResources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; };
+		D18AF1922D7E16E900CA40D0 /* SharedResources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D18AF1962D7E16ED00CA40D0 /* SharedResources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; };
+		D18AF1972D7E16ED00CA40D0 /* SharedResources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D194D9FC2D7C6EC700AC0B9A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D194D9FB2D7C6EC700AC0B9A /* RealmSwift */; };
 		D194D9FD2D7C6EC700AC0B9A /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = D194D9FB2D7C6EC700AC0B9A /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		D1CD99E42D7A125D00FDB5CC /* shareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = D1CD99DA2D7A125D00FDB5CC /* shareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -17,6 +21,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D18AF1932D7E16E900CA40D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1CD9A4B2D7A2EFE00FDB5CC;
+			remoteInfo = SharedResources;
+		};
+		D18AF1982D7E16ED00CA40D0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D1CD9A4B2D7A2EFE00FDB5CC;
+			remoteInfo = SharedResources;
+		};
 		D1CD99BA2D7A123F00FDB5CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D1CD999F2D7A123E00FDB5CC /* Project object */;
@@ -55,6 +73,28 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		D18AF1952D7E16E900CA40D0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D18AF1922D7E16E900CA40D0 /* SharedResources.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D18AF19A2D7E16ED00CA40D0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D18AF1972D7E16ED00CA40D0 /* SharedResources.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D194D9FE2D7C6EC700AC0B9A /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -110,6 +150,22 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D18AF1A22D7E20A700CA40D0 /* Exceptions for "clipmeTests" folder in "clipme" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Mocks/MockSharedDefaultsManager.swift,
+				Mocks/MockSharedFileManager.swift,
+			);
+			target = D1CD99A62D7A123E00FDB5CC /* clipme */;
+		};
+		D18AF1A32D7E20A700CA40D0 /* Exceptions for "clipmeTests" folder in "clipmeTests" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Mocks/MockSharedDefaultsManager.swift,
+				Mocks/MockSharedFileManager.swift,
+			);
+			target = D1CD99B82D7A123F00FDB5CC /* clipmeTests */;
+		};
 		D1CD99E52D7A125D00FDB5CC /* Exceptions for "shareExtension" folder in "shareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -135,14 +191,18 @@
 			path = clipme;
 			sourceTree = "<group>";
 		};
-		D1CD99BC2D7A123F00FDB5CC /* reelKeeperTests */ = {
+		D1CD99BC2D7A123F00FDB5CC /* clipmeTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = reelKeeperTests;
+			exceptions = (
+				D18AF1A22D7E20A700CA40D0 /* Exceptions for "clipmeTests" folder in "clipme" target */,
+				D18AF1A32D7E20A700CA40D0 /* Exceptions for "clipmeTests" folder in "clipmeTests" target */,
+			);
+			path = clipmeTests;
 			sourceTree = "<group>";
 		};
-		D1CD99C62D7A123F00FDB5CC /* reelKeeperUITests */ = {
+		D1CD99C62D7A123F00FDB5CC /* clipmeUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = reelKeeperUITests;
+			path = clipmeUITests;
 			sourceTree = "<group>";
 		};
 		D1CD99DB2D7A125D00FDB5CC /* shareExtension */ = {
@@ -176,6 +236,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D18AF1912D7E16E900CA40D0 /* SharedResources.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +244,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D18AF1962D7E16ED00CA40D0 /* SharedResources.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -209,8 +271,8 @@
 			isa = PBXGroup;
 			children = (
 				D1CD99A92D7A123E00FDB5CC /* clipme */,
-				D1CD99BC2D7A123F00FDB5CC /* reelKeeperTests */,
-				D1CD99C62D7A123F00FDB5CC /* reelKeeperUITests */,
+				D1CD99BC2D7A123F00FDB5CC /* clipmeTests */,
+				D1CD99C62D7A123F00FDB5CC /* clipmeUITests */,
 				D1CD99DB2D7A125D00FDB5CC /* shareExtension */,
 				D1CD9A4D2D7A2EFE00FDB5CC /* SharedResources */,
 				D1CD9A5D2D7A2F3A00FDB5CC /* Frameworks */,
@@ -283,14 +345,16 @@
 				D1CD99B52D7A123F00FDB5CC /* Sources */,
 				D1CD99B62D7A123F00FDB5CC /* Frameworks */,
 				D1CD99B72D7A123F00FDB5CC /* Resources */,
+				D18AF1952D7E16E900CA40D0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				D1CD99BB2D7A123F00FDB5CC /* PBXTargetDependency */,
+				D18AF1942D7E16E900CA40D0 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				D1CD99BC2D7A123F00FDB5CC /* reelKeeperTests */,
+				D1CD99BC2D7A123F00FDB5CC /* clipmeTests */,
 			);
 			name = clipmeTests;
 			packageProductDependencies = (
@@ -306,14 +370,16 @@
 				D1CD99BF2D7A123F00FDB5CC /* Sources */,
 				D1CD99C02D7A123F00FDB5CC /* Frameworks */,
 				D1CD99C12D7A123F00FDB5CC /* Resources */,
+				D18AF19A2D7E16ED00CA40D0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				D1CD99C52D7A123F00FDB5CC /* PBXTargetDependency */,
+				D18AF1992D7E16ED00CA40D0 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				D1CD99C62D7A123F00FDB5CC /* reelKeeperUITests */,
+				D1CD99C62D7A123F00FDB5CC /* clipmeUITests */,
 			);
 			name = clipmeUITests;
 			packageProductDependencies = (
@@ -503,6 +569,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D18AF1942D7E16E900CA40D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */;
+			targetProxy = D18AF1932D7E16E900CA40D0 /* PBXContainerItemProxy */;
+		};
+		D18AF1992D7E16ED00CA40D0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */;
+			targetProxy = D18AF1982D7E16ED00CA40D0 /* PBXContainerItemProxy */;
+		};
 		D1CD99BB2D7A123F00FDB5CC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D1CD99A62D7A123E00FDB5CC /* clipme */;
@@ -730,14 +806,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 54B96T6J84;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipme.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/clipme";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClipMe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ClipMe";
 			};
 			name = Debug;
 		};
@@ -749,14 +825,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 54B96T6J84;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipme.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/clipme";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ClipMe.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ClipMe";
 			};
 			name = Release;
 		};
@@ -767,6 +843,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 54B96T6J84;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -784,6 +861,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 54B96T6J84;
 				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.add.clipme.clipmeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -805,6 +883,7 @@
 				INFOPLIST_FILE = shareExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = shareExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -834,6 +913,7 @@
 				INFOPLIST_FILE = shareExtension/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = shareExtension;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -855,7 +935,7 @@
 		D1CD9A582D7A2EFE00FDB5CC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -867,6 +947,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -890,7 +971,7 @@
 		D1CD9A592D7A2EFE00FDB5CC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -902,6 +983,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

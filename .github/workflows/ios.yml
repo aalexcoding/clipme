@@ -1,0 +1,40 @@
+name: iOS Tests with Fastlane
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+  workflow_dispatch: 
+
+
+jobs:
+  test:
+    name: Run Tests using Fastlane
+    runs-on: macos-15
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 16.2
+        run: |
+          sudo xcode-select -switch /Applications/Xcode_16.2.app
+          
+      - name: Verify Xcode Version After Switch
+        run: |
+          xcodebuild -version
+
+      - name: List Available Simulators
+        run: |
+          xcrun simctl list devices
+          
+      - name: Install Bundler and Fastlane
+        run: |
+          gem install bundler
+          bundle install
+          gem install fastlane
+
+      - name: Run Tests with Fastlane
+        run: fastlane tests
