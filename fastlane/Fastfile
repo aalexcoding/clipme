@@ -20,7 +20,7 @@ platform :ios do
   lane :tests do
     scan(
     project: "clipme.xcodeproj",
-    scheme: "clipmeTests",
+    scheme: "clipme",
     clean: false,
     device: "iPhone 16", 
     fail_build: true,
