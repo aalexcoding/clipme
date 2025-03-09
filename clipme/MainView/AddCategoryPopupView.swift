@@ -5,7 +5,6 @@
 //  Created by AlexDelgado on 8/3/25.
 //
 
-
 import SwiftUI
 
 struct AddCategoryPopupView: View {
@@ -15,47 +14,55 @@ struct AddCategoryPopupView: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.4) // Fondo semitransparente
-                .edgesIgnoringSafeArea(.all)
-                .onTapGesture {
-                    isPresented = false
-                }
-
-            VStack(spacing: 20) {
-                Text("Nueva Categoría")
-                    .font(.headline)
-
-                TextField("Nombre de la categoría", text: $categoryName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding()
-
-                HStack {
-                    Button("Cancelar") {
+            // Fondo semitransparente
+            if isPresented {
+                Color.black.opacity(0.4)
+                    .edgesIgnoringSafeArea(.all)
+                    .onTapGesture {
                         isPresented = false
                     }
-                    .padding()
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(8)
+            }
 
-                    Button("Aceptar") {
-                        if !categoryName.isEmpty {
-                            onAddCategory(categoryName)
+            // Popup centrado
+            if isPresented {
+                VStack(spacing: 15) {
+                    Text("Nueva Categoría")
+                        .font(.headline)
+                        .foregroundColor(.primary)
+
+                    TextField("Nombre de la categoría", text: $categoryName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding()
+
+                    HStack {
+                        Button("Cancelar") {
                             isPresented = false
                         }
+                        .padding()
+                        .background(Color(.tertiarySystemBackground))
+                        .cornerRadius(8)
+
+                        Button("Aceptar") {
+                            if !categoryName.isEmpty {
+                                onAddCategory(categoryName)
+                                isPresented = false
+                            }
+                        }
+                        .padding()
+                        .background(Color.accentColor)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
                     }
-                    .padding()
-                    .background(Color.blue.opacity(0.8))
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
                 }
+                .padding()
+                .frame(width: UIScreen.main.bounds.width * 0.85)
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(12)
+                .shadow(radius: 10)
+                .transition(.scale.combined(with: .opacity)) // Animación de escala y opacidad
+                .zIndex(1) // Asegura que el popup esté encima del fondo
             }
-            .padding()
-            .frame(width: 300)
-            .background(Color.white)
-            .cornerRadius(12)
-            .shadow(radius: 10)
         }
-        .transition(.opacity)
         .animation(.easeInOut, value: isPresented)
     }
 }
