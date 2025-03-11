@@ -11,7 +11,7 @@ import SharedResources
 struct ShareExtensionView: View {
     var extensionContext: NSExtensionContext?
     
-    @ObservedObject var viewModel = ShareExtensionViewModel()
+    @ObservedObject var viewModel = ShareExtensionViewModel(apiKey: "AIzaSyAERVpetNGIkIMz36W7_scy8OzU8y2Kch0")
     @State private var isAddCategoryPresented: Bool = false
 
     
@@ -117,7 +117,18 @@ struct ShareExtensionView: View {
         .padding()
         .onAppear {
             print("ShareExtensionView aparece en pantalla")
-            viewModel.loadURL(extensionContext)
+            
+            // Extraer la información del extensionContext en el hilo principal
+            guard let extensionContext = extensionContext else { return }
+            
+            // Extraer los datos necesarios del extensionContext
+            let inputItems = extensionContext.inputItems
+            
+            // Pasar los datos extraídos a la función asíncrona
+            Task {
+                await viewModel.loadURL(inputItems)
+                //await viewModel.loadCategories()
+            }
             viewModel.loadCategories()
         }
     }
