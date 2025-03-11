@@ -89,8 +89,9 @@ struct MainView: View {
             }) {
                 Image(systemName: viewType == .grid ? "square.grid.2x2" : viewType == .list ? "list.bullet" : "rectangle.split.2x1")
                     .padding(10)
-                    .background(Color.blue.opacity(0.2))
-                    .clipShape(Circle())
+                    
+                   //.background(Color.blue.opacity(0.2))
+                    //.clipShape(Circle())
             }
             //.padding(.trailing)
             )
@@ -159,7 +160,7 @@ struct ListView: View {
                                 }
                                 .frame(minHeight: 80) // Prevents the GeometryReader from collapsing
                                 .frame(maxWidth: 80)
-                                .background(Color.gray.opacity(0.2))
+                               // .background(Color.gray.opacity(0.2))
                             } else {
                                 Circle()
                                     .fill(Color.gray.opacity(0.3))
@@ -212,7 +213,7 @@ struct LandscapeView: View {
                                 }
                                 .frame(minHeight: 200) // Prevents the GeometryReader from collapsing
                                 .frame(maxWidth: 150)
-                                .background(Color.gray.opacity(0.2))
+                                //.background(Color.gray.opacity(0.2))
                             } else {
                                 RoundedRectangle(cornerRadius: 10)
                                     .fill(Color.gray.opacity(0.3))
