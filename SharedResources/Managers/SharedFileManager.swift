@@ -22,7 +22,7 @@ public class SharedFileManager: SharedFileManagerProtocol {
         return database.fetchItems()
     }
 
-    public func deleteURL(by id: UUID) {
+    public func deleteURL(by id: String) {
         database.deleteItem(by: id)
     }
 
@@ -70,6 +70,10 @@ public class SharedFileManager: SharedFileManagerProtocol {
     }
 
     public func removeCategory(_ category: String) {
+        let itemsToRemove = database.getURLItemsByCategory(category)
+        for item in itemsToRemove {
+            database.deleteItem(by: item.idString)
+        }
         database.removeCategory(category)
     }
 }

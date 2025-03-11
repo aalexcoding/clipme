@@ -30,11 +30,18 @@ internal class RealmDatabaseProvider: DatabaseProvider {
         return realm.objects(SharedURLItemRealm.self).map { $0.toSharedURLItem() }
     }
 
-    func deleteItem(by id: UUID) {
-        if let item = realm.objects(SharedURLItemRealm.self).filter("id == %@", id).first {
-            try? realm.write {
-                realm.delete(item)
+    func deleteItem(by id: String) {
+        if let objectToDelete = realm.objects(SharedURLItemRealm.self).filter("id == %@", id).first {
+            do {
+                try realm.write {
+                    realm.delete(objectToDelete)
+                    print("🔹 Elemento eliminado correctamente: \(id)")
+                }
+            } catch {
+                print("❌ Error al eliminar elemento: \(error.localizedDescription)")
             }
+        } else {
+            print("⚠️ No se encontró el elemento a eliminar: \(id)")
         }
     }
 
