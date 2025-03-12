@@ -77,7 +77,7 @@ final class SharedFileManagerTests: XCTestCase {
 
         mockManager.mockURLs = [item]
         
-        mockManager.deleteURL(by: item.id)
+        mockManager.deleteURL(by: item.idString)
         XCTAssertEqual(mockManager.mockURLs.count, 0)
     }
 

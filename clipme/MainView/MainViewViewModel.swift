@@ -21,6 +21,17 @@ final class MainViewViewModel: ObservableObject {
     init(fileManager: SharedFileManager = SharedFileManager.shared) {
         self.fileManager = fileManager
     }
+    func getTouchPosition() -> CGPoint {
+        var position = CGPoint.zero
+        DispatchQueue.main.async {
+            if let keyWindow = UIApplication.shared.connectedScenes
+                .compactMap({ ($0 as? UIWindowScene)?.keyWindow })
+                .first {
+                position = keyWindow.rootViewController?.view.bounds.origin ?? CGPoint.zero
+            }
+        }
+        return position
+    }
     /// Carga los URLs guardados, ordenándolos por fecha descendente y actualizando categorías.
     func fetchSharedURLs() {
         let items = fileManager.getURLItems()
@@ -53,6 +64,8 @@ final class MainViewViewModel: ObservableObject {
 
         return filtered
     }
+    
+    
 
     /// Abre el URL utilizando el sistema (si el enlace es un universal link, se lanzará la app de origen).
     func openURL(_ urlString: String) {
@@ -77,6 +90,25 @@ final class MainViewViewModel: ObservableObject {
             }
         }
         self.selectedCategory = "Todas"
+    }
+    
+    func removeCategory(_ categoryName: String) {
+        guard categoryName != "Todas" else { return }
+        
+        fileManager.removeCategory(categoryName)
+        
+        // Filtrar los elementos eliminados de la lista local
+        sharedURLs.removeAll { $0.category == categoryName }
+        
+        // Recargar categorías
+        fetchCategories()
+    }
+    
+    func removeElement(_ item: SharedURLItem) {
+        fileManager.deleteURL(by: item.idString)
+        sharedURLs.removeAll { $0.id == item.id }
+//        fetchCategories()
+        
     }
 }
 

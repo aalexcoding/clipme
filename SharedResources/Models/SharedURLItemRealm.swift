@@ -36,6 +36,7 @@ class SharedURLItemRealm: Object {
 
     func toSharedURLItem() -> SharedURLItem {
         return SharedURLItem(
+            idString: self.id,
             url: URL(string: self.url)!,
             origin: self.origin,
             title: self.title,

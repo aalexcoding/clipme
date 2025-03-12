@@ -8,7 +8,7 @@
 
 internal protocol DatabaseProvider {
     func fetchItems() -> [SharedURLItem]
-    func deleteItem(by id: UUID)
+    func deleteItem(by id: String)
     func saveItems(_ items: [SharedURLItem], append: Bool)
     func clearAllItems()
     

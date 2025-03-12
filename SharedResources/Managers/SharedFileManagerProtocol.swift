@@ -7,7 +7,7 @@
 
 public protocol SharedFileManagerProtocol {
     func getURLItems() -> [SharedURLItem]
-    func deleteURL(by id: UUID)
+    func deleteURL(by id: String)
     func saveURL(_ items: [SharedURLItem], append: Bool)
     func clearURLInfo()
     

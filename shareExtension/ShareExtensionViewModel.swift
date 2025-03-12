@@ -14,11 +14,13 @@ class ShareExtensionViewModel: ObservableObject {
     @Published var errorMessage: String?       // Mensaje de error en caso de fallo
     @Published var sharedMetadata: WebMetadata? // Metadatos obtenidos desde la URL
     
-    
     // Almacenamos el URL original extraído del NSExtensionContext
     var sharedURL: URL?
     
-    init() {
+    private var webMetadataFetcher: WebMetadataFetcher
+    
+    init(apiKey: String) {
+        self.webMetadataFetcher = WebMetadataFetcher(apiKey: apiKey)
         loadCategories()
     }
     
@@ -55,46 +57,83 @@ class ShareExtensionViewModel: ObservableObject {
     
     // MARK: - Gestión del URL Compartido y Metadatos
     
-    /// Extrae el URL del NSExtensionContext y obtiene los metadatos web
-    func loadURL(_ extensionContext: NSExtensionContext?) {
-        guard let context = extensionContext else {
-            self.errorMessage = "No se proporcionó un contexto."
+    func loadURL(_ inputItems: [Any]) async {
+        guard let inputItem = inputItems.first as? NSExtensionItem,
+              let attachments = inputItem.attachments,
+              let itemProvider = attachments.first else {
+            await MainActor.run {
+                self.errorMessage = "No se encontraron input items."
+            }
             return
         }
-        
-        if let inputItem = context.inputItems.first as? NSExtensionItem,
-           let attachments = inputItem.attachments,
-           let itemProvider = attachments.first {
-            
-            let urlType = "public.url"
-            if itemProvider.hasItemConformingToTypeIdentifier(urlType) {
-                itemProvider.loadItem(forTypeIdentifier: urlType, options: nil) { (item, error) in
-                    DispatchQueue.main.async {
-                        if let url = item as? URL {
-                            self.sharedURL = url
-                            // Inicialmente usamos la URL como título
-                            self.title = url.absoluteString
-                            
-                            // Obtenemos metadatos web para mostrar un título más amigable y otros datos
-                            WebMetadataFetcher.fetch(url: url) { metadata in
-                                DispatchQueue.main.async {
-                                    self.sharedMetadata = metadata
-                                    self.title = metadata.title
-                                    self.imageURL = metadata.imageURL
-                                }
-                            }
-                        } else if let error = error {
-                            self.errorMessage = error.localizedDescription
-                        } else {
-                            self.errorMessage = "No se encontró una URL válida."
-                        }
-                    }
+
+        var item: Any?
+
+        if itemProvider.hasItemConformingToTypeIdentifier("public.url") {
+            do {
+                item = try await itemProvider.loadItem(forTypeIdentifier: "public.url")
+            } catch {
+                await MainActor.run {
+                    self.errorMessage = "Error al cargar la URL: \(error.localizedDescription)"
                 }
-            } else {
-                self.errorMessage = "No se encontró un URL válido en los attachments."
+                return
             }
+        } else if itemProvider.hasItemConformingToTypeIdentifier("public.plain-text") {
+            do {
+                item = try await itemProvider.loadItem(forTypeIdentifier: "public.plain-text")
+            } catch {
+                await MainActor.run {
+                    self.errorMessage = "Error al cargar el texto plano: \(error.localizedDescription)"
+                }
+                return
+            }
+        }
+
+        guard let urlItem = item else {
+            await MainActor.run {
+                self.errorMessage = "No se encontró una URL válida."
+            }
+            return
+        }
+
+        let url: URL?
+        if let validURL = urlItem as? URL {
+            url = validURL
+        } else if let text = urlItem as? String, let extractedURL = URL(string: text) {
+            url = extractedURL
         } else {
-            self.errorMessage = "No se encontraron input items."
+            url = nil
+        }
+
+        guard let finalURL = url else {
+            await MainActor.run {
+                self.errorMessage = "No se encontró una URL válida."
+            }
+            return
+        }
+
+        await MainActor.run {
+            self.sharedURL = finalURL
+            self.title = finalURL.absoluteString
+        }
+
+        do {
+            guard let validURL = url else {
+                await MainActor.run {
+                    self.errorMessage = "No se encontró una URL válida."
+                }
+                return
+            }
+            let metadata = try await self.webMetadataFetcher.fetch(url: validURL)
+            await MainActor.run {
+                self.sharedMetadata = metadata
+                self.title = metadata.title
+                self.imageURL = metadata.imageURL
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+            }
         }
     }
     

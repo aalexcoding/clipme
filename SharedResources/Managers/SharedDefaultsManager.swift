@@ -32,7 +32,9 @@ public final class SharedDefaultsManager: SharedDefaultsManagerProtocol {
                         imageData: Data? = nil,
                         imageURL: String = "") {
         var currentItems = retrieveURLItems() ?? []
-        let newItem = SharedURLItem(url: url,
+        
+        let newItem = SharedURLItem(idString: "",
+                                    url: url,
                                     origin: origin,
                                     title: title,
                                     itemDescription: itemDescription,
