@@ -20,6 +20,7 @@ struct MainView: View {
     @State private var isAddCategoryPresented: Bool = false
     @State private var viewType: ViewType = .grid // Estado para controlar el tipo de vista
     @State private var showSheet: Bool = false // Corregido de @ObservedObject a @State
+    @State private var showSheetCategory: Bool = false // Corregido de @ObservedObject a @State
     @State private var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
 
 
@@ -36,6 +37,9 @@ struct MainView: View {
                             },
                             actionOnLongPress: {
                                 print("Categoría seleccionada con toque largo: \(category)")
+                                viewModel.selectedCategory = category
+                                showSheetCategory = true
+
                             }
                         ) {
                             Text(category)
@@ -58,7 +62,7 @@ struct MainView: View {
                     .padding(.vertical, 0)
                 }
                 .listRowSeparator(.hidden) // 🔥 Oculta las líneas arriba y abajo
-                
+
                 // Fila para cada item (similares a chats)
                 switch viewType {
                     case .grid:
@@ -72,6 +76,7 @@ struct MainView: View {
                         .listRowSeparator(.hidden)
                 }
             }
+
             .listStyle(PlainListStyle())
             .navigationTitle("ClipMe")
             .navigationBarTitleDisplayMode(.inline)
@@ -96,6 +101,12 @@ struct MainView: View {
                 Image(systemName: viewType == .grid ? "square.grid.2x2" : viewType == .list ? "list.bullet" : "rectangle.split.2x1")
                     .padding(10)
             })
+            .sheet(isPresented: $showSheetCategory) {
+                ActionSheetCategoryView(viewModel: viewModel, showSheetCategory: $showSheetCategory) {
+                    showSheetCategory = false
+                }
+            }
+
         }
     }
 }
@@ -298,6 +309,35 @@ struct ActionSheetView: View {
                     print("Eliminar \(item.id.uuidString)")
                     viewModel.removeElement(item)
                 }
+                onDismiss()
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+    }
+}
+
+// Nueva vista reutilizable para el sheet
+struct ActionSheetCategoryView: View {
+    @ObservedObject var viewModel: MainViewViewModel
+    @Binding var showSheetCategory: Bool // Corregido de @ObservedObject a @State
+
+    let onDismiss: () -> Void
+
+    var body: some View {
+        VStack {
+            Button("Opción 1") {
+                print("Opcion 1")
+                onDismiss()
+            }
+//            Button("Opción 2") {
+//                if let item = selectedItem {
+//                   // viewModel.performAction2(for: item.id)
+//                }
+//                onDismiss()
+//            }
+            Button("Eliminar", role: .destructive) {
+                viewModel.removeCategory(viewModel.selectedCategory)
                 onDismiss()
             }
         }
