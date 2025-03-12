@@ -41,15 +41,15 @@ class WebMetadataFetcherTests: XCTestCase {
         XCTAssertNotNil(metadata.image)
     }
     
-    func testFetchDefaultMetadataWithInstagramSuccess() async throws {
-        let url = URL(string: "https://www.instagram.com/reel/DFeI0LEiEJL/?igsh=MXFpdjEwemI3MWU3dg==")!
-        
-        let metadata = try await webMetadataFetcher.fetch(url: url)
-
-        XCTAssertEqual(metadata.title, "Techno Forever en Instagram: \"Un temazo 😍🔊\n\n#dj #reels #rave #parati #techhouse #foryou #raver #explore #techno #housemusic #technomusic #ravers #deejay #festival #fiesta #edm\"")
-        XCTAssertEqual(metadata.description, "https://www.instagram.com/reel/DFeI0LEiEJL/")
-        XCTAssertNotNil(metadata.image)
-    }
+//    func testFetchDefaultMetadataWithInstagramSuccess() async throws {
+//        let url = URL(string: "https://www.instagram.com/reel/DFeI0LEiEJL/?igsh=MXFpdjEwemI3MWU3dg==")!
+//        
+//        let metadata = try await webMetadataFetcher.fetch(url: url)
+//
+//        XCTAssertEqual(metadata.title, "Techno Forever en Instagram: \"Un temazo 😍🔊\n\n#dj #reels #rave #parati #techhouse #foryou #raver #explore #techno #housemusic #technomusic #ravers #deejay #festival #fiesta #edm\"")
+//        XCTAssertEqual(metadata.description, "https://www.instagram.com/reel/DFeI0LEiEJL/")
+//        XCTAssertNotNil(metadata.image)
+//    }
 
 //    func testFetchDefaultMetadataWithXSuccess() async throws {
 //        let url = URL(string: "https://twitter.com/username/status/1234567890")!

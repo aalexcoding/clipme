@@ -30,15 +30,20 @@ struct MainView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(viewModel.categories, id: \.self) { category in
-                            Button(action: {
+                        DualActionButton(
+                            actionOnTap: {
                                 viewModel.selectedCategory = category
-                            }) {
-                                Text(category)
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal, 16)
-                                    .background(viewModel.selectedCategory == category ? Color.blue.opacity(0.2) : Color.clear)
-                                    .cornerRadius(20)
+                            },
+                            actionOnLongPress: {
+                                print("Categoría seleccionada con toque largo: \(category)")
                             }
+                        ) {
+                            Text(category)
+                                .padding(.vertical, 8)
+                                .padding(.horizontal, 16)
+                                .background(viewModel.selectedCategory == category ? Color.blue.opacity(0.2) : Color.clear)
+                                .cornerRadius(20)
+                        }
                         }
                         Button(action: {
                             isAddCategoryPresented = true
