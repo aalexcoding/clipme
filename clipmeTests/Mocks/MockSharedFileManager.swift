@@ -9,6 +9,8 @@ import SharedResources
 
 
 class MockSharedFileManager: SharedFileManagerProtocol {
+
+    
     
     
     var mockURLs: [SharedURLItem] = []
@@ -17,10 +19,13 @@ class MockSharedFileManager: SharedFileManagerProtocol {
     func getURLItems() -> [SharedURLItem] {
         return mockURLs
     }
+    
+    
+    func deleteURL(by id: String) {
+        mockURLs.removeAll { $0.idString == id }
 
-    func deleteURL(by id: UUID) {
-        mockURLs.removeAll { $0.id == id }
     }
+
 
     func saveURL(_ items: [SharedURLItem], append: Bool) {
         if append {
