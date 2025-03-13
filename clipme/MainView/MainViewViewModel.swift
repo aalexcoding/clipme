@@ -60,6 +60,20 @@ final class MainViewViewModel: ObservableObject {
         // Incluir "Todas" y "Favorites" como categorías adicionales
         return ["Todas", "Favorites"] + finalCategories
     }
+    
+    var categoriesWithOutTodasFavorites: [String] {
+        // Obtener categorías desde la configuración
+        fetchedCategories = fileManager.fetchCategorySettings()
+        
+        // Ordenar las categorías por el campo 'order'
+        let orderedCategories = fetchedCategories.sorted { $0.order < $1.order }
+        
+        // Obtener los nombres de las categorías ordenadas
+        let storedCategories = orderedCategories.map { $0.name }
+        
+        // Incluir "Todas" y "Favorites" como categorías adicionales
+        return storedCategories
+    }
 
     /// Filtra los elementos según la categoría seleccionada y el término de búsqueda.
     func filteredItems() -> [SharedURLItem] {

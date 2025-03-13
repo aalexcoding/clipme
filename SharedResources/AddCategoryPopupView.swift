@@ -16,7 +16,7 @@ public struct AddCategoryPopupView: View {
         self._isPresented = isPresented
         self.onAddCategory = onAddCategory
     }
-
+    
     public var body: some View {
         ZStack {
             // Fondo semitransparente
@@ -27,18 +27,21 @@ public struct AddCategoryPopupView: View {
                         isPresented = false
                     }
             }
-
+            
             // Popup centrado
             if isPresented {
                 VStack(spacing: 15) {
                     Text("Nueva Categoría")
                         .font(.headline)
                         .foregroundColor(.primary)
-
+                    
                     TextField("Nombre de la categoría", text: $categoryName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
-
+                        .onChange(of: categoryName) { _, newValue in
+                            categoryName = String(newValue.prefix(25)) // Límite de 20 caracteres
+                        }
+                    
                     HStack {
                         Button("Cancelar") {
                             isPresented = false
@@ -46,7 +49,7 @@ public struct AddCategoryPopupView: View {
                         .padding()
                         .background(Color(.tertiarySystemBackground))
                         .cornerRadius(8)
-
+                        
                         Button("Aceptar") {
                             if !categoryName.isEmpty {
                                 onAddCategory(categoryName)
