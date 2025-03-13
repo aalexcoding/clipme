@@ -15,6 +15,7 @@ public protocol SharedFileManagerProtocol {
     
     func getURLItemsByTag(_ tag: String) -> [SharedURLItem]
     func getFavoriteURLItems() -> [SharedURLItem]
+    func toggleFavoriteStatus(for item: SharedURLItem)
     func getURLItemsByCategory(_ category: String) -> [SharedURLItem]
     func searchURLItemsByTitle(_ query: String) -> [SharedURLItem]
     

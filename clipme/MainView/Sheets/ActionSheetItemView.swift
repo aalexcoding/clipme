@@ -24,6 +24,7 @@ struct ActionSheetItemView: View {
                 Button(action: {
                     if let item = selectedItem {
                         isFavorite.toggle()
+                        //item.isFavorite.toggle()
                         viewModel.toggleFavoriteStatus(of: item) // Método en el ViewModel
                     }
                 }) {
@@ -55,7 +56,7 @@ struct ActionSheetItemView: View {
         .padding()
         .onAppear {
             if let item = selectedItem {
-                isFavorite = viewModel.isFavorite(item)
+                isFavorite = item.isFavorite
             }
         }
         .sheet(isPresented: $showCategorySelection) {

@@ -74,6 +74,15 @@ internal class RealmDatabaseProvider: DatabaseProvider {
             .filter("isFavorite == true")
             .map { $0.toSharedURLItem() }
     }
+    
+    
+    func toggleFavoriteStatus(for item: SharedURLItem) {
+        if let realmItem = realm.objects(SharedURLItemRealm.self).filter("id == %@", item.idString).first {
+            try? realm.write {
+                realmItem.isFavorite.toggle()
+            }
+        }
+    }
 
     func getURLItemsByCategory(_ category: String) -> [SharedURLItem] {
         return realm.objects(SharedURLItemRealm.self)

@@ -79,8 +79,12 @@ final class MainViewViewModel: ObservableObject {
     func filteredItems() -> [SharedURLItem] {
         var filtered = sharedURLs
 
-        if selectedCategory != "Todas" {
+        if selectedCategory != "Todas" && selectedCategory != "Favorites" {
             filtered = filtered.filter { $0.category == selectedCategory }
+        }
+        
+        if selectedCategory == "Favorites" {
+            filtered = filtered.filter { $0.isFavorite == true }
         }
 
         if !searchQuery.isEmpty {
@@ -112,12 +116,7 @@ final class MainViewViewModel: ObservableObject {
     }
     
     func fetchCategories() {
-        var storedCategories = fileManager.fetchCategorySettings().map { $0.name }
-        self.sharedURLs.forEach { item in
-            if !storedCategories.contains(item.category) {
-                storedCategories.append(item.category)
-            }
-        }
+        fetchedCategories = fileManager.fetchCategorySettings()
         self.selectedCategory = "Todas"
     }
     
@@ -193,6 +192,24 @@ extension MainViewViewModel {
             fileManager.updateSharedURLItemTitle(item, newTitle: title)
             objectWillChange.send()
         }
+    }
+    
+    func isFavorite(_ item: SharedURLItem) -> Bool {
+        return fileManager.getFavoriteURLItems().contains { $0.id == item.id }
+    }
+
+    func getFavoriteURLItems() -> [SharedURLItem] {
+        return fileManager.getFavoriteURLItems()
+    }
+
+
+    func toggleFavoriteStatus(of item: SharedURLItem) {
+        if let index = sharedURLs.firstIndex(where: { $0.id == item.id }) {
+            sharedURLs[index].isFavorite.toggle()
+            fileManager.toggleFavoriteStatus(for: item)
+            objectWillChange.send()
+        }
+
     }
     
     func getCategory(of item: SharedURLItem?) -> String? {

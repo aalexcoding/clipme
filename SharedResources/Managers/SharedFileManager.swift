@@ -50,6 +50,10 @@ public class SharedFileManager: SharedFileManagerProtocol {
     public func getFavoriteURLItems() -> [SharedURLItem] {
         return database.getFavoriteURLItems()
     }
+    
+    public func toggleFavoriteStatus(for item: SharedURLItem) {
+        database.toggleFavoriteStatus(for: item)
+    }
 
     public func getURLItemsByCategory(_ category: String) -> [SharedURLItem] {
         return database.getURLItemsByCategory(category)
@@ -68,6 +72,8 @@ public class SharedFileManager: SharedFileManagerProtocol {
     public func fetchCategorySettings() -> [CategorySettingsItem] {
         return database.fetchCategorySettings()
     }
+    
+
 
     public func saveCategorySettings(_ settings: [CategorySettingsItem]) {
         database.saveCategorySettings(settings)
