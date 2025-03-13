@@ -385,30 +385,91 @@ struct CategorySelectionView: View {
 
 // Nueva vista reutilizable para el sheet
 struct ActionSheetCategoryView: View {
-    @ObservedObject var viewModel: MainViewViewModel
-    @Binding var showSheetCategory: Bool // Corregido de @ObservedObject a @State
-    
+    @ObservedObject var viewModel: MainViewViewModel // Usamos @Bindable en lugar de @ObservedObject
+    @Binding var showSheetCategory: Bool
+    @State private var isEditing: Bool = false
+    @State private var reorderedCategories: [CategorySettingsItem] = []
+
     let onDismiss: () -> Void
-    
+
     var body: some View {
         VStack {
+            if isEditing {
+                editModeView
+            } else {
+                normalModeView
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+    }
+
+    // MARK: - Edit Mode View
+    private var editModeView: some View {
+        VStack {
+            List {
+                ForEach(reorderedCategories, id: \.name) { category in
+                    Text(category.name)
+                        .padding()
+                }
+                .onMove(perform: moveCategory)
+            }
+            .toolbar { EditButton() }
+            .navigationTitle("Reordenar Categorías")
+
+            HStack {
+                Button("Cancelar") {
+                    withAnimation {
+                        isEditing = false
+                    }
+                }
+                .padding()
+
+                Spacer()
+
+                Button("Guardar") {
+                    saveNewOrder()
+                    withAnimation {
+                        isEditing = false
+                    }
+                }
+                .padding()
+            }
+        }
+    }
+
+    // MARK: - Normal Mode View
+    private var normalModeView: some View {
+        VStack {
+            Button("Reordenar Categorías") {
+                reorderedCategories = viewModel.fetchedCategories.sorted { $0.order < $1.order }
+                withAnimation {
+                    isEditing = true
+                }
+            }
+
             Button("Opción 1") {
-                print("Opcion 1")
+                print("Opción 1")
                 onDismiss()
             }
-            //            Button("Opción 2") {
-            //                if let item = selectedItem {
-            //                   // viewModel.performAction2(for: item.id)
-            //                }
-            //                onDismiss()
-            //            }
+
             Button("Eliminar", role: .destructive) {
                 viewModel.removeCategory(viewModel.selectedCategory)
                 onDismiss()
             }
         }
-        .frame(maxWidth: .infinity)
-        .padding()
+    }
+
+    // MARK: - Private Methods
+    private func moveCategory(from source: IndexSet, to destination: Int) {
+        reorderedCategories.move(fromOffsets: source, toOffset: destination)
+    }
+
+    private func saveNewOrder() {
+        for (index, category) in reorderedCategories.enumerated() {
+            category.order = index
+        }
+        viewModel.reorderCategories(newOrder: reorderedCategories.map { $0.name })
     }
 }
 

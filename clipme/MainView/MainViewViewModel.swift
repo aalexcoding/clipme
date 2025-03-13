@@ -42,14 +42,23 @@ final class MainViewViewModel: ObservableObject {
 
     /// Devuelve la lista de categorías únicas extraídas de los elementos guardados.
     var categories: [String] {
+        // Obtener categorías desde la configuración
         fetchedCategories = fileManager.fetchCategorySettings()
-        for each in fetchedCategories {
-            print("\(each.name)")
-            print("\(each.order)")
-        }
-        let storedCategories = fetchedCategories.map { $0.name }
-        let uniqueCategories = Set(sharedURLs.map { $0.category.isEmpty ? "Sin Categoría" : $0.category }).union(storedCategories)
-        return ["Todas"] + uniqueCategories.sorted()
+        
+        // Ordenar las categorías por el campo 'order'
+        let orderedCategories = fetchedCategories.sorted { $0.order < $1.order }
+        
+        // Obtener los nombres de las categorías ordenadas
+        let storedCategories = orderedCategories.map { $0.name }
+        
+        // Extraer categorías únicas de los elementos compartidos
+        let dynamicCategories = Set(sharedURLs.map { $0.category.isEmpty ? "Sin Categoría" : $0.category })
+        
+        // Mantener el orden de storedCategories y añadir los dinámicos que no están en storedCategories
+        let finalCategories = storedCategories + dynamicCategories.subtracting(storedCategories).sorted()
+        
+        // Incluir "Todas" y "Favorites" como categorías adicionales
+        return ["Todas", "Favorites"] + finalCategories
     }
 
     /// Filtra los elementos según la categoría seleccionada y el término de búsqueda.
@@ -115,6 +124,24 @@ final class MainViewViewModel: ObservableObject {
         sharedURLs.removeAll { $0.id == item.id }
 //        fetchCategories()
         
+    }
+
+    func reorderCategories(newOrder: [String]) {
+        // Crear un diccionario para acceder rápidamente a las categorías existentes
+        var categoryMap = Dictionary(uniqueKeysWithValues: fetchedCategories.map { ($0.name, $0) })
+
+        // Reasignar los valores de `order` según el nuevo orden proporcionado
+        for (index, categoryName) in newOrder.enumerated() {
+            if let category = categoryMap[categoryName] {
+                category.order = index // Asignamos un nuevo order según la posición en newOrder
+            }
+        }
+
+        // Actualizar `fetchedCategories` con los nuevos valores de `order`
+        fetchedCategories = newOrder.compactMap { categoryMap[$0] }
+
+        // Guardar los cambios en el almacenamiento persistente
+        fileManager.saveCategorySettings(fetchedCategories)
     }
 }
 
