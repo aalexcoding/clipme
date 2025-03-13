@@ -22,8 +22,8 @@ struct MainView: View {
     @State private var showSheet: Bool = false // Corregido de @ObservedObject a @State
     @State private var showSheetCategory: Bool = false // Corregido de @ObservedObject a @State
     @State private var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
-
-
+    
+    
     var body: some View {
         NavigationView {
             List {
@@ -31,23 +31,23 @@ struct MainView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 12) {
                         ForEach(viewModel.categories, id: \.self) { category in
-                        DualActionButton(
-                            actionOnTap: {
-                                viewModel.selectedCategory = category
-                            },
-                            actionOnLongPress: {
-                                print("Categoría seleccionada con toque largo: \(category)")
-                                viewModel.selectedCategory = category
-                                showSheetCategory = true
-
+                            DualActionButton(
+                                actionOnTap: {
+                                    viewModel.selectedCategory = category
+                                },
+                                actionOnLongPress: {
+                                    print("Categoría seleccionada con toque largo: \(category)")
+                                    viewModel.selectedCategory = category
+                                    showSheetCategory = true
+                                    
+                                }
+                            ) {
+                                Text(category)
+                                    .padding(.vertical, 8)
+                                    .padding(.horizontal, 16)
+                                    .background(viewModel.selectedCategory == category ? Color.blue.opacity(0.2) : Color.clear)
+                                    .cornerRadius(20)
                             }
-                        ) {
-                            Text(category)
-                                .padding(.vertical, 8)
-                                .padding(.horizontal, 16)
-                                .background(viewModel.selectedCategory == category ? Color.blue.opacity(0.2) : Color.clear)
-                                .cornerRadius(20)
-                        }
                         }
                         Button(action: {
                             isAddCategoryPresented = true
@@ -62,21 +62,21 @@ struct MainView: View {
                     .padding(.vertical, 0)
                 }
                 .listRowSeparator(.hidden) // 🔥 Oculta las líneas arriba y abajo
-
+                
                 // Fila para cada item (similares a chats)
                 switch viewType {
-                    case .grid:
+                case .grid:
                     GridView(viewModel: viewModel, selectedItem: $selectedItem, showSheet: $showSheet)
                         .listRowSeparator(.hidden)
-                    case .list:
+                case .list:
                     ListView(viewModel: viewModel, selectedItem: $selectedItem, showSheet: $showSheet)
                         .listRowSeparator(.hidden)
-                    case .landscape:
-                        LandscapeView(viewModel: viewModel, showSheet: $showSheet, selectedItem: $selectedItem)
+                case .landscape:
+                    LandscapeView(viewModel: viewModel, showSheet: $showSheet, selectedItem: $selectedItem)
                         .listRowSeparator(.hidden)
                 }
             }
-
+            
             .listStyle(PlainListStyle())
             .navigationTitle("ClipMe")
             .navigationBarTitleDisplayMode(.inline)
@@ -106,7 +106,7 @@ struct MainView: View {
                     showSheetCategory = false
                 }
             }
-
+            
         }
     }
 }
@@ -116,8 +116,8 @@ struct GridView: View {
     @ObservedObject var viewModel: MainViewViewModel
     @Binding var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
     @Binding var showSheet: Bool // Corregido de @ObservedObject a @State
-
-
+    
+    
     var body: some View {
         ScrollView {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
@@ -165,9 +165,9 @@ struct ListView: View {
     @ObservedObject var viewModel: MainViewViewModel
     @Binding var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
     @Binding var showSheet: Bool  // Corregido de @ObservedObject a @State
-
+    
     let columns = [GridItem(.flexible())] // Single column grid
-
+    
     var body: some View {
         ScrollView {
             LazyVGrid(columns: columns, spacing: 8) {
@@ -190,7 +190,7 @@ struct ListView: View {
                                         .frame(width: geometry.size.width * 1, height: geometry.size.width * 1) // Ensure a reasonable height
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
                                         .frame(maxWidth: .infinity, alignment: .center) // Center the image
-
+                                    
                                 }
                                 .frame(minHeight: 80) // Prevents the GeometryReader from collapsing
                                 .frame(maxWidth: 80)
@@ -204,7 +204,7 @@ struct ListView: View {
                                 .lineLimit(2)
                                 .foregroundColor(.primary)
                                 .frame(maxWidth: .infinity, alignment: .leading) // Aligns text to the left
-
+                            
                             Spacer()
                         }
                         .padding(.horizontal)
@@ -229,8 +229,8 @@ struct LandscapeView: View {
     @ObservedObject var viewModel: MainViewViewModel
     @Binding var showSheet: Bool // Corregido de @ObservedObject a @State
     @Binding var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
-
-
+    
+    
     var body: some View {
         ScrollView {
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 50), count: 2), spacing: 50) {
@@ -253,7 +253,7 @@ struct LandscapeView: View {
                                         .frame(width: geometry.size.width * 0.9, height: max(geometry.size.height * 0.5, 200)) // Ensure a reasonable height
                                         .clipShape(RoundedRectangle(cornerRadius: 10))
                                         .frame(maxWidth: .infinity, alignment: .center) // Center the image
-
+                                    
                                 }
                                 .frame(minHeight: 200) // Prevents the GeometryReader from collapsing
                                 .frame(maxWidth: 150)
@@ -267,7 +267,7 @@ struct LandscapeView: View {
                                 .lineLimit(2)
                                 .padding(.top, 4)
                                 .foregroundColor(.primary)
-
+                            
                         }
                     }
                 }
@@ -286,24 +286,22 @@ struct LandscapeView: View {
 struct ActionSheetView: View {
     @ObservedObject var viewModel: MainViewViewModel
     @Binding var selectedItem: SharedURLItem?
-    @Binding var showSheet: Bool // Corregido de @ObservedObject a @State
+    @Binding var showSheet: Bool
+    @State private var showCategorySelection: Bool = false // Nuevo estado para mostrar la selección de categoría
+    @State private var showItemTitleSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
 
     let onDismiss: () -> Void
-
+    
     var body: some View {
         VStack {
-//            Button("Opción 1") {
-//                if let item = selectedItem {
-//                   // viewModel.performAction1(for: item.id)
-//                }
-//                onDismiss()
-//            }
-//            Button("Opción 2") {
-//                if let item = selectedItem {
-//                   // viewModel.performAction2(for: item.id)
-//                }
-//                onDismiss()
-//            }
+            // Nuevo botón para cambiar la categoría
+            Button("Cambiar Categoría") {
+                showCategorySelection = true
+            }
+            Button("Cambiar title") {
+                showItemTitleSelection = true
+            }
+            
             Button("Eliminar", role: .destructive) {
                 if let item = selectedItem {
                     print("Eliminar \(item.id.uuidString)")
@@ -314,6 +312,74 @@ struct ActionSheetView: View {
         }
         .frame(maxWidth: .infinity)
         .padding()
+        .sheet(isPresented: $showCategorySelection) {
+            CategorySelectionView(viewModel: viewModel, selectedItem: $selectedItem, isPresented: $showCategorySelection)
+        }
+        .sheet(isPresented: $showItemTitleSelection) {
+            ItemTitleView(viewModel: viewModel, selectedItem: $selectedItem, isPresented: $showCategorySelection)
+        }
+    }
+}
+
+
+struct ItemTitleView: View {
+    @ObservedObject var viewModel: MainViewViewModel
+    @Binding var selectedItem: SharedURLItem?
+    @Binding var isPresented: Bool
+    @State private var newTitle: String = ""
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                // TextField to edit the title
+                TextField("Nuevo título", text: $newTitle, onCommit: {
+                    if let item = selectedItem {
+                        viewModel.changeItemTitle(of: item, to: newTitle) // Update title in ViewModel
+                    }
+                })
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+                .onAppear {
+                    newTitle = selectedItem?.title ?? ""
+                }
+            }
+            .navigationTitle("Editar Item")
+            .navigationBarItems(trailing: Button("Cerrar") {
+                isPresented = false
+            })
+        }
+    }
+}
+
+
+struct CategorySelectionView: View {
+    @ObservedObject var viewModel: MainViewViewModel
+    @Binding var selectedItem: SharedURLItem?
+    @Binding var isPresented: Bool
+    
+    var body: some View {
+        NavigationView {
+            List(viewModel.categories, id: \.self) { category in
+                Button(action: {
+                    if let item = selectedItem {
+                        viewModel.changeItemCategory(of: item, to: category) // Método en el ViewModel
+                    }
+                    isPresented = false
+                }) {
+                    HStack {
+                        Text(category)
+                        Spacer()
+                        if viewModel.getCategory(of: selectedItem) == category {
+                            Image(systemName: "checkmark")
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Seleccionar Categoría")
+            .navigationBarItems(trailing: Button("Cerrar") {
+                isPresented = false
+            })
+        }
     }
 }
 
@@ -321,21 +387,21 @@ struct ActionSheetView: View {
 struct ActionSheetCategoryView: View {
     @ObservedObject var viewModel: MainViewViewModel
     @Binding var showSheetCategory: Bool // Corregido de @ObservedObject a @State
-
+    
     let onDismiss: () -> Void
-
+    
     var body: some View {
         VStack {
             Button("Opción 1") {
                 print("Opcion 1")
                 onDismiss()
             }
-//            Button("Opción 2") {
-//                if let item = selectedItem {
-//                   // viewModel.performAction2(for: item.id)
-//                }
-//                onDismiss()
-//            }
+            //            Button("Opción 2") {
+            //                if let item = selectedItem {
+            //                   // viewModel.performAction2(for: item.id)
+            //                }
+            //                onDismiss()
+            //            }
             Button("Eliminar", role: .destructive) {
                 viewModel.removeCategory(viewModel.selectedCategory)
                 onDismiss()
@@ -350,7 +416,7 @@ struct DualActionButton<Content: View>: View {
     var actionOnTap: () -> Void
     var actionOnLongPress: () -> Void
     @ViewBuilder var content: () -> Content // Usamos @ViewBuilder para permitir múltiples vistas
-
+    
     var body: some View {
         ZStack {
             content()

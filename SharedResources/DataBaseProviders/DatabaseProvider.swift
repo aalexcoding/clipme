@@ -12,6 +12,9 @@ internal protocol DatabaseProvider {
     func saveItems(_ items: [SharedURLItem], append: Bool)
     func clearAllItems()
     
+    func updateSharedURLItemCategory(_ item: SharedURLItem, newCategory: String)
+    func updateSharedURLItemTitle(_ item: SharedURLItem, newTitle: String)
+
     
     // Funciones de búsqueda
     func getURLItemsByTag(_ tag: String) -> [SharedURLItem]
@@ -25,8 +28,9 @@ internal protocol DatabaseProvider {
     // Funciones para gestionar configuraciones de categorías
     func fetchCategorySettings() -> [CategorySettingsItem]
     func saveCategorySettings(_ settings: [CategorySettingsItem])
-    func updateCategorySetting(for category: String, color: String?)
+    //func updateCategorySetting(for category: String, color: String?, order: Int?)
     
     // Nueva función para eliminar una categoría
     func removeCategory(_ category: String)
+    func saveCategoryOrder(_ categories: [String])
 }

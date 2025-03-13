@@ -10,17 +10,23 @@ internal import RealmSwift
 class CategorySettingsItemRealm: Object {
     @Persisted(primaryKey: true) var name: String
     @Persisted var color: String
+    @Persisted var order: Int // Nuevo campo para almacenar el orden
+
     
-    convenience init(name: String, color: String = "#FFFFFF") {
+    convenience init(name: String, color: String = "#FFFFFF", order: Int) {
         self.init()
         self.name = name
         self.color = color
+        self.order = order
+
     }
     
     func toCategorySettings() -> CategorySettingsItem {
         return CategorySettingsItem(
             name: self.name,
-            color: self.color
+            color: self.color,
+            order: self.order
+
         )
     }
 }

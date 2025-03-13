@@ -33,6 +33,14 @@ public class SharedFileManager: SharedFileManagerProtocol {
     public func clearURLInfo() {
         database.clearAllItems()
     }
+    
+    public func updateSharedURLItemCategory(_ item: SharedURLItem, newCategory: String) {
+        database.updateSharedURLItemCategory(item, newCategory: newCategory)
+    }
+    
+    public func updateSharedURLItemTitle(_ item: SharedURLItem, newTitle: String) {
+        database.updateSharedURLItemTitle(item, newTitle: newTitle)
+    }
 
     // Búsquedas
     public func getURLItemsByTag(_ tag: String) -> [SharedURLItem] {
@@ -65,9 +73,9 @@ public class SharedFileManager: SharedFileManagerProtocol {
         database.saveCategorySettings(settings)
     }
 
-    public func updateCategorySetting(for category: String, color: String?) {
-        database.updateCategorySetting(for: category, color: color)
-    }
+//    public func updateCategorySetting(for category: String, color: String?, order: Int) {
+//        database.saveCategorySettings(for: category, color: color, order: order)
+//    }
 
     public func removeCategory(_ category: String) {
         let itemsToRemove = database.getURLItemsByCategory(category)
@@ -75,5 +83,8 @@ public class SharedFileManager: SharedFileManagerProtocol {
             database.deleteItem(by: item.idString)
         }
         database.removeCategory(category)
+    }
+    public func saveCategoryOrder(_ categories: [String]) {
+        database.saveCategoryOrder(categories)
     }
 }

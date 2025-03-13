@@ -15,6 +15,7 @@ final class MainViewViewModel: ObservableObject {
     @Published var sharedURLs: [SharedURLItem] = []
     @Published var selectedCategory: String = "Todas"
     @Published var searchQuery: String = ""
+    var fetchedCategories: [CategorySettingsItem] = []
     
     var fileManager: SharedFileManager
 
@@ -41,7 +42,12 @@ final class MainViewViewModel: ObservableObject {
 
     /// Devuelve la lista de categorías únicas extraídas de los elementos guardados.
     var categories: [String] {
-        let storedCategories = fileManager.fetchCategorySettings().map { $0.name }
+        fetchedCategories = fileManager.fetchCategorySettings()
+        for each in fetchedCategories {
+            print("\(each.name)")
+            print("\(each.order)")
+        }
+        let storedCategories = fetchedCategories.map { $0.name }
         let uniqueCategories = Set(sharedURLs.map { $0.category.isEmpty ? "Sin Categoría" : $0.category }).union(storedCategories)
         return ["Todas"] + uniqueCategories.sorted()
     }
@@ -76,7 +82,7 @@ final class MainViewViewModel: ObservableObject {
     func addNewCategory(_ categoryName: String) {
         guard !categoryName.isEmpty, !categories.contains(categoryName) else { return }
         
-        let newCategory = CategorySettingsItem(name: categoryName)
+        let newCategory = CategorySettingsItem(name: categoryName, order: 9)
         fileManager.saveCategorySettings([newCategory])
         
         fetchCategories() // Recargar categorías después de agregar una nueva
@@ -129,5 +135,26 @@ extension MainViewViewModel {
                 item.title.lowercased().contains(query.lowercased())
             }
         }
+    }
+}
+
+extension MainViewViewModel {
+    func changeItemCategory(of item: SharedURLItem, to newCategory: String) {
+        if let index = sharedURLs.firstIndex(where: { $0.id == item.id }) {
+            sharedURLs[index].category = newCategory
+            fileManager.updateSharedURLItemCategory(item, newCategory: newCategory)
+            objectWillChange.send()
+        }
+    }
+    func changeItemTitle(of item: SharedURLItem, to title: String) {
+        if let index = sharedURLs.firstIndex(where: { $0.id == item.id }) {
+            sharedURLs[index].title = title
+            fileManager.updateSharedURLItemTitle(item, newTitle: title)
+            objectWillChange.send()
+        }
+    }
+    
+    func getCategory(of item: SharedURLItem?) -> String? {
+        return item?.category
     }
 }

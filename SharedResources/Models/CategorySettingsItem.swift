@@ -13,19 +13,23 @@ public final class CategorySettingsItem: Codable, Equatable, Hashable, Identifia
     public var id: UUID
     public var name: String
     public var color: String?
+    public var order: Int
 
     public init(id: UUID = UUID(),
                 name: String,
-                color: String? = nil) {
+                color: String? = nil,
+                order: Int) {
         self.id = id
         self.name = name
         self.color = color
+        self.order = order
+
     }
 
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {
-        case id, name, color
+        case id, name, color, order
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -33,6 +37,7 @@ public final class CategorySettingsItem: Codable, Equatable, Hashable, Identifia
         try container.encode(id, forKey: .id)
         try container.encode(name, forKey: .name)
         try container.encode(color, forKey: .color)
+        try container.encode(order, forKey: .order)
     }
 
     public convenience init(from decoder: Decoder) throws {
@@ -40,7 +45,8 @@ public final class CategorySettingsItem: Codable, Equatable, Hashable, Identifia
         let id = try container.decode(UUID.self, forKey: .id)
         let name = try container.decode(String.self, forKey: .name)
         let color = try container.decode(String.self, forKey: .color)
-        self.init(id: id, name: name, color: color)
+        let order = try container.decode(Int.self, forKey: .order)
+        self.init(id: id, name: name, color: color, order: order)
     }
 
     // MARK: - Equatable

@@ -9,6 +9,8 @@
 internal import RealmSwift
 
 internal class RealmDatabaseProvider: DatabaseProvider {
+
+    
     private let realm: Realm
     private let appGroup = "group.com.add.clipme.shared"
 
@@ -78,6 +80,33 @@ internal class RealmDatabaseProvider: DatabaseProvider {
             .filter("category == %@", category)
             .map { $0.toSharedURLItem() }
     }
+    
+    func updateSharedURLItemCategory(_ item: SharedURLItem, newCategory: String) {
+        if let realmItem = realm.objects(SharedURLItemRealm.self).filter("id == %@", item.idString).first {
+            try? realm.write {
+                realmItem.category = newCategory
+            }
+        }
+    }
+    
+    func updateSharedURLItemTitle(_ item: SharedURLItem, newTitle: String) {
+        if let realmItem = realm.objects(SharedURLItemRealm.self).filter("id == %@", item.idString).first {
+            try? realm.write {
+                realmItem.title = newTitle
+            }
+        }
+    }
+
+    func saveCategoryOrder(_ categories: [String]) {
+        try? realm.write {
+            let existingCategories = realm.objects(CategorySettingsItemRealm.self)
+            for (index, category) in categories.enumerated() {
+                if let categoryItem = existingCategories.filter("name == %@", category).first {
+                    categoryItem.order = index
+                }
+            }
+        }
+    }
 
     func searchURLItemsByTitle(_ query: String) -> [SharedURLItem] {
         return realm.objects(SharedURLItemRealm.self)
@@ -99,25 +128,45 @@ internal class RealmDatabaseProvider: DatabaseProvider {
 
     func saveCategorySettings(_ settings: [CategorySettingsItem]) {
         try? realm.write {
-            let realmSettings = settings.map { CategorySettingsItemRealm(name: $0.name, color: $0.color ?? "FFFFFFF") }
-            realm.add(realmSettings, update: .all)
+            // Obtener el máximo 'order' antes de procesar los nuevos elementos
+            var maxOrder = (realm.objects(CategorySettingsItemRealm.self).max(ofProperty: "order") as Int?) ?? -1
+
+            for setting in settings {
+                if let existingCategory = realm.objects(CategorySettingsItemRealm.self).filter("name == %@", setting.name).first {
+                    // Si la categoría ya existe, actualizamos su color y orden (si se proporciona)
+                    existingCategory.color = setting.color ?? "#FFFFFF"
+                    existingCategory.order = setting.order
+                } else {
+                    // Si no existe, se agrega con el siguiente valor de 'order'
+                    maxOrder += 1
+                    let newCategory = CategorySettingsItemRealm(
+                        name: setting.name,
+                        color: setting.color ?? "#FFFFFF",
+                        order: maxOrder
+                    )
+                    realm.add(newCategory)
+                }
+            }
         }
     }
 
-    func updateCategorySetting(for category: String, color: String?) {
-        if let existingSetting = realm.objects(CategorySettingsItemRealm.self).filter("name == %@", category).first {
-            try? realm.write {
-                if let color = color {
-                    existingSetting.color = color
-                }
-            }
-        } else {
-            let newSetting = CategorySettingsItemRealm(name: category, color: color ?? "#FFFFFF")
-            try? realm.write {
-                realm.add(newSetting)
-            }
-        }
-    }
+//    func updateCategorySetting(for category: String, color: String?, order: Int?) {
+//        if let existingSetting = realm.objects(CategorySettingsItemRealm.self).filter("name == %@", category).first {
+//            try? realm.write {
+//                if let color = color {
+//                    existingSetting.color = color
+//                }
+//                if let order = order {
+//                    existingSetting.order = order
+//                }
+//            }
+//        } else {
+//            let newSetting = CategorySettingsItemRealm(name: category, color: color ?? "#FFFFFF", order: order ?? 0)
+//            try? realm.write {
+//                realm.add(newSetting)
+//            }
+//        }
+//    }
 
     func removeCategory(_ category: String) {
         if let categorySetting = realm.objects(CategorySettingsItemRealm.self).filter("name == %@", category).first {

@@ -48,7 +48,7 @@ class ShareExtensionViewModel: ObservableObject {
     func addNewCategory(_ categoryName: String) {
         guard !categoryName.isEmpty, !categories.contains(categoryName) else { return }
         
-        let newCategory = CategorySettingsItem(name: categoryName, color: "#FFFFFF")
+        let newCategory = CategorySettingsItem(name: categoryName, color: "#FFFFFF", order: 99)
         var currentSettings = SharedFileManager.shared.fetchCategorySettings()
         currentSettings.append(newCategory)
         SharedFileManager.shared.saveCategorySettings(currentSettings)
