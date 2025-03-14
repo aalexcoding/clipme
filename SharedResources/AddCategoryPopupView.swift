@@ -39,7 +39,7 @@ public struct AddCategoryPopupView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .onChange(of: categoryName) { _, newValue in
-                            categoryName = String(newValue.prefix(25)) // Límite de 20 caracteres
+                            categoryName = String(newValue.prefix(18)) // Límite de 20 caracteres
                         }
                     
                     HStack {

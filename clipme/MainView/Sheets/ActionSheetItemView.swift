@@ -11,7 +11,6 @@ import SharedResources
 struct ActionSheetItemView: View {
     @ObservedObject var viewModel: MainViewViewModel
     @Binding var selectedItem: SharedURLItem?
-    @Binding var showSheet: Bool
     @State private var showCategorySelection: Bool = false // Nuevo estado para mostrar la selección de categoría
     @State private var showItemTitleSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
     @State private var isFavorite: Bool = false // Nuevo estado para manejar favoritos
@@ -24,36 +23,84 @@ struct ActionSheetItemView: View {
                 Button(action: {
                     if let item = selectedItem {
                         isFavorite.toggle()
-                        //item.isFavorite.toggle()
-                        viewModel.toggleFavoriteStatus(of: item) // Método en el ViewModel
+                        viewModel.toggleFavoriteStatus(of: item)
                     }
                 }) {
                     Image(systemName: isFavorite ? "star.fill" : "star")
-                        .foregroundColor(isFavorite ? .yellow : .gray)
-                        .font(.title)
+                        .foregroundColor(Color.primary)
+                        .font(.title2)
                 }
-                .padding()
-                
+                .padding(.leading)
+
                 Spacer()
-            }
-            
-            Button("Cambiar Categoría") {
-                showCategorySelection = true
-            }
-            Button("Cambiar title") {
-                showItemTitleSelection = true
-            }
-            
-            Button("Eliminar", role: .destructive) {
-                if let item = selectedItem {
-                    print("Eliminar \(item.id.uuidString)")
-                    viewModel.removeElement(item)
+
+                Button(action: onDismiss) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(Color.secondary)
+                        .font(.title2)
                 }
-                onDismiss()
+                .padding(.trailing)
             }
+            .padding(.vertical)
+
+            Divider()
+
+            VStack(spacing: 12) {
+                Button(action: {
+                    showCategorySelection = true
+                }) {
+                    HStack {
+                        Image(systemName: "folder")
+                        Text("Cambiar Categoría")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(Color.secondary)
+                    }
+                    .padding()
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(8)
+                }
+
+                Button(action: {
+                    showItemTitleSelection = true
+                }) {
+                    HStack {
+                        Image(systemName: "textformat")
+                        Text("Editar Título")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(Color.secondary)
+                    }
+                    .padding()
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(8)
+                }
+
+                Button(role: .destructive, action: {
+                    if let item = selectedItem {
+                        viewModel.removeElement(item)
+                    }
+                    onDismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "trash")
+                        Text("Eliminar")
+                        Spacer()
+                    }
+                    .padding()
+                    .background(Color.red.opacity(UIScreen.main.traitCollection.userInterfaceStyle == .dark ? 0.4 : 0.2))
+                    .cornerRadius(8)
+                }
+            }
+            .padding()
+
+            Spacer()
         }
         .frame(maxWidth: .infinity)
         .padding()
+        .background(Color(UIColor.systemBackground))
+        .cornerRadius(16)
+        .shadow(radius: 5)
         .onAppear {
             if let item = selectedItem {
                 isFavorite = item.isFavorite
@@ -63,7 +110,7 @@ struct ActionSheetItemView: View {
             CategorySelectionView(viewModel: viewModel, selectedItem: $selectedItem, isPresented: $showCategorySelection)
         }
         .sheet(isPresented: $showItemTitleSelection) {
-            ItemTitleView(viewModel: viewModel, selectedItem: $selectedItem, isPresented: $showCategorySelection)
+            ItemTitleView(viewModel: viewModel, selectedItem: $selectedItem, isPresented: $showItemTitleSelection)
         }
     }
 }
@@ -79,24 +126,34 @@ struct CategorySelectionView: View {
             List(viewModel.categoriesWithOutTodasFavorites, id: \.self) { category in
                 Button(action: {
                     if let item = selectedItem {
-                        viewModel.changeItemCategory(of: item, to: category) // Método en el ViewModel
+                        viewModel.changeItemCategory(of: item, to: category)
                     }
-                    //isPresented = false
                 }) {
                     HStack {
                         Text(category)
                         Spacer()
                         if viewModel.getCategory(of: selectedItem) == category {
-                            Image(systemName: "checkmark")
+                            Image(systemName: "checkmark.circle.fill")
+                                .foregroundColor(Color.primary)
                         }
+                    }
+                    //.padding()
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(8)
+                }
+              //  .listRowBackground(Color.clear)
+            }
+            .navigationTitle("Seleccionar Categoría")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Cerrar") {
+                        isPresented = false
                     }
                 }
             }
-            .navigationTitle("Seleccionar Categoría")
-            .navigationBarItems(trailing: Button("Cerrar") {
-                isPresented = false
-            })
         }
+        .listRowSeparator(.hidden)
+
     }
 }
 
@@ -108,23 +165,32 @@ struct ItemTitleView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                // TextField to edit the title
-                TextField("Nuevo título", text: $newTitle, onCommit: {
-                    if let item = selectedItem {
-                        viewModel.changeItemTitle(of: item, to: newTitle) // Update title in ViewModel
-                    }
-                })
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-                .onAppear {
-                    newTitle = selectedItem?.title ?? ""
+            Form {
+                Section(header: Text("Editar título")) {
+                    TextField("Nuevo título", text: $newTitle)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .onAppear {
+                            newTitle = selectedItem?.title ?? ""
+                        }
                 }
             }
             .navigationTitle("Editar Item")
-            .navigationBarItems(trailing: Button("Cerrar") {
-                isPresented = false
-            })
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancelar") {
+                        isPresented = false
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Guardar") {
+                        if let item = selectedItem {
+                            viewModel.changeItemTitle(of: item, to: newTitle)
+                        }
+                        isPresented = false
+                    }
+                    .bold()
+                }
+            }
         }
     }
 }

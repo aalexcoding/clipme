@@ -10,9 +10,9 @@ import SharedResources
 
 struct LandscapeView: View {
     @ObservedObject var viewModel: MainViewViewModel
-    @Binding var showSheet: Bool // Corregido de @ObservedObject a @State
-    @Binding var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
-    
+    @State private var showSheet: Bool = false // Corregido de @ObservedObject a @State
+    @State private var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
+
     
     var body: some View {
         ScrollView {
@@ -58,7 +58,7 @@ struct LandscapeView: View {
             .padding()
         }
         .sheet(isPresented: $showSheet) {
-            ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem, showSheet: $showSheet) {
+            ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem) {
                 showSheet = false
             }
         }

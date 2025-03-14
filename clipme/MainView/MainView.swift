@@ -9,17 +9,12 @@ import SwiftUI
 import SharedResources
 
 struct MainView: View {
-    
-
-    
+        
     @ObservedObject var viewModel: MainViewViewModel
     @State private var isAddCategoryPresented: Bool = false
     @State private var viewType: ViewType = .grid // Estado para controlar el tipo de vista
-    @State private var showSheet: Bool = false // Corregido de @ObservedObject a @State
     @State private var showSheetCategory: Bool = false // Corregido de @ObservedObject a @State
-    @State private var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
-    
-    
+
     var body: some View {
         NavigationView {
             List {
@@ -39,7 +34,10 @@ struct MainView: View {
                                 Text(category)
                                     .padding(.vertical, 8)
                                     .padding(.horizontal, 16)
-                                    .background(viewModel.selectedCategory == category ? Color.blue.opacity(0.2) : Color.clear)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(viewModel.selectedCategory == category ? Color.blue : Color.clear, lineWidth: 2)
+                                    )
                                     .cornerRadius(20)
                             }
                         }
@@ -60,13 +58,13 @@ struct MainView: View {
                 // Fila para cada item (similares a chats)
                 switch viewType {
                 case .grid:
-                    GridView(viewModel: viewModel, selectedItem: $selectedItem, showSheet: $showSheet)
+                    GridView(viewModel: viewModel)
                         .listRowSeparator(.hidden)
                 case .list:
-                    ListView(viewModel: viewModel, selectedItem: $selectedItem, showSheet: $showSheet)
+                    ListView(viewModel: viewModel)
                         .listRowSeparator(.hidden)
                 case .landscape:
-                    LandscapeView(viewModel: viewModel, showSheet: $showSheet, selectedItem: $selectedItem)
+                    LandscapeView(viewModel: viewModel)
                         .listRowSeparator(.hidden)
                 }
             }
@@ -93,6 +91,9 @@ struct MainView: View {
                 viewType = allTypes[nextIndex]
             }) {
                 Image(systemName: viewType == .grid ? "square.grid.2x2" : viewType == .list ? "list.bullet" : "rectangle.split.2x1")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 24, height: 24) // Tamaño uniforme para todos los iconos
                     .padding(10)
             })
             .sheet(isPresented: $showSheetCategory) {
@@ -100,9 +101,6 @@ struct MainView: View {
                     showSheetCategory = false
                 }
             }
-            
         }
     }
 }
-
-

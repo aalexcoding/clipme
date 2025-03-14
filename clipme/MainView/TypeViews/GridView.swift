@@ -10,9 +10,9 @@ import SharedResources
 
 struct GridView: View {
     @ObservedObject var viewModel: MainViewViewModel
-    @Binding var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
-    @Binding var showSheet: Bool // Corregido de @ObservedObject a @State
-    
+    @State private var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
+    @State private var showSheet: Bool = false // Corregido de @ObservedObject a @State
+
     
     var body: some View {
         ScrollView {
@@ -42,13 +42,13 @@ struct GridView: View {
                             }
                         }
                     }
-                    .padding(.top, 4)
+                   // .padding(.top, 4)
                 }
             }
-            .padding()
+            //.padding()
         }
         .sheet(isPresented: $showSheet) {
-            ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem, showSheet: $showSheet) {
+            ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem) {
                 showSheet = false
             }
         }

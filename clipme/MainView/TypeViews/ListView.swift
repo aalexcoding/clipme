@@ -10,9 +10,10 @@ import SharedResources
 
 struct ListView: View {
     @ObservedObject var viewModel: MainViewViewModel
-    @Binding var selectedItem: SharedURLItem? 
-    @Binding var showSheet: Bool
-    
+    @State private var showSheet: Bool = false // Corregido de @ObservedObject a @State
+    @State private var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
+
+
     let columns = [GridItem(.flexible())] // Single column grid
     
     var body: some View {
@@ -54,7 +55,7 @@ struct ListView: View {
                             
                             Spacer()
                         }
-                        .padding(.horizontal)
+                        //.padding(.horizontal)
                         .background(Color(UIColor.systemBackground))
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                         .shadow(radius: 2)
@@ -64,7 +65,7 @@ struct ListView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity) // Full screen usage
         .sheet(isPresented: $showSheet) {
-            ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem, showSheet: $showSheet) {
+            ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem) {
                 showSheet = false
             }
         }

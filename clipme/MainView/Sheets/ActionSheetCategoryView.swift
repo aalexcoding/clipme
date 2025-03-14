@@ -9,35 +9,89 @@ import SwiftUI
 import SharedResources
 
 struct ActionSheetCategoryView: View {
-    @ObservedObject var viewModel: MainViewViewModel // Usamos @Bindable en lugar de @ObservedObject
+    @ObservedObject var viewModel: MainViewViewModel
     @Binding var showSheetCategory: Bool
     @State private var reorderedCategories: [CategorySettingsItem] = []
-    @State var showCategorySelection: Bool = false // Nuevo estado para mostrar la selección de categoría
+    @State var showCategorySelection: Bool = false
 
     let onDismiss: () -> Void
 
     var body: some View {
         VStack {
-            Button("Reordenar Categorías") {
-                reorderedCategories = viewModel.fetchedCategories.sorted { $0.order < $1.order }
-                showCategorySelection = true
-            }
+            HStack {
 
-            Button("Opción 1") {
-                print("Opción 1")
-                onDismiss()
-            }
+                Spacer()
 
-            Button("Eliminar", role: .destructive) {
-                viewModel.removeCategory(viewModel.selectedCategory)
-                onDismiss()
+                Button(action: onDismiss) {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(Color.secondary)
+                        .font(.title2)
+                }
+                .padding(.trailing)
             }
-        }
-        .sheet(isPresented: $showCategorySelection) {
-            CategorySelectionOrderView(viewModel: viewModel, isPresented: $showCategorySelection, reorderedCategories: $reorderedCategories)
+            .padding(.vertical)
+
+            Divider()
+
+            VStack(spacing: 12) {
+                
+                Button(action: {
+                    reorderedCategories = viewModel.fetchedCategories.sorted { $0.order < $1.order }
+                    showCategorySelection = true
+                }) {
+                    HStack {
+                        Image(systemName: "list.bullet")
+                        Text("Reordenar Categorías")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(Color.secondary)
+                    }
+                    .padding()
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(8)
+                }
+                
+                Button(action: {
+                    print("Opción 1")
+                    onDismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "gear")
+                        Text("Opción 1")
+                        Spacer()
+                    }
+                    .padding()
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(8)
+                }
+                
+                if viewModel.selectedCategory != "Todas" && viewModel.selectedCategory != "Favorites" {
+                    Button(role: .destructive, action: {
+                        viewModel.removeCategory(viewModel.selectedCategory)
+                        onDismiss()
+                    }) {
+                        HStack {
+                            Image(systemName: "trash")
+                            Text("Eliminar")
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color.red.opacity(UIScreen.main.traitCollection.userInterfaceStyle == .dark ? 0.4 : 0.2))
+                        .cornerRadius(8)
+                    }
+                }
+            }
+            .padding()
+            Spacer()
         }
         .frame(maxWidth: .infinity)
         .padding()
+        .background(Color(UIColor.systemBackground))
+        .cornerRadius(16)
+        .shadow(radius: 5)
+        .sheet(isPresented: $showCategorySelection) {
+            CategorySelectionOrderView(viewModel: viewModel, isPresented: $showCategorySelection, reorderedCategories: $reorderedCategories)
+        }
     }
 
 }
@@ -51,18 +105,31 @@ struct CategorySelectionOrderView: View {
         NavigationView {
             List {
                 ForEach(reorderedCategories, id: \.self) { category in
-                    Text(category.name) // Assuming CategorySettingsItem has a `name` property
-                        .padding()
+                    HStack {
+                        Text(category.name)
+                            .foregroundColor(Color.primary)
+                        Spacer()
+                        Image(systemName: "line.horizontal.3")
+                            .foregroundColor(Color.secondary)
+                    }
+                    //.padding()
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(8)
                 }
-                .onMove(perform: moveCategory) // Move categories correctly
+                .onMove(perform: moveCategory)
+               // .listRowBackground(Color.clear)
             }
+            .listRowSeparator(.hidden)
+
+            //.environment(\.editMode, .constant(.active))
             .navigationTitle("Reordena las Categorías")
-            .navigationBarItems(
-                leading: EditButton(), // Enables moving functionality
-                trailing: Button("Cerrar") {
-                    isPresented = false
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Cerrar") {
+                        isPresented = false
+                    }
                 }
-            )
+            }
         }
     }
 
