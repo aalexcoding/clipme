@@ -33,6 +33,35 @@ struct ActionSheetItemView: View {
                 .padding(.leading)
 
                 Spacer()
+                
+                if let item = selectedItem, let imageData = item.imageData, let uiImage = UIImage(data: imageData) {
+                    GeometryReader { geometry in
+                        Image(uiImage: uiImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: geometry.size.width * 1, height: geometry.size.width * 1) // Ensure a reasonable height
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .frame(maxWidth: .infinity, alignment: .center) // Center the image
+                        
+                    }
+                    .frame(minHeight: 50) // Prevents the GeometryReader from collapsing
+                    .frame(maxWidth: 50)
+                } else {
+                    Circle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(width: 50, height: 50)
+                }
+                if let item = selectedItem {
+                    Text(item.title.isEmpty ? item.url.absoluteString : item.title)
+                        .font(.headline)
+                        .lineLimit(2)
+                        .foregroundColor(.primary)
+                        .frame(maxWidth: .infinity, alignment: .leading) // Aligns text to the left
+                }
+
+                Spacer()
+
+                
 
                 Button(action: onDismiss) {
                     Image(systemName: "xmark.circle.fill")
@@ -42,6 +71,7 @@ struct ActionSheetItemView: View {
                 .padding(.trailing)
             }
             .padding(.vertical)
+            .frame(maxWidth: .infinity, maxHeight: 80) // Full screen usage
 
             Divider()
 

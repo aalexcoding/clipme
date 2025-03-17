@@ -23,6 +23,18 @@ struct ActionSheetCategoryView: View {
             HStack {
 
                 Spacer()
+                
+                if let item = viewModel.selectedObjectCategory {
+                    Text(item.name)
+                        .font(.headline)
+                        .lineLimit(2)
+                        .foregroundColor(.primary)
+                        .frame(maxWidth: .infinity, alignment: .leading) // Aligns text to the left
+                    //Spacer()
+
+                }
+
+
 
                 Button(action: onDismiss) {
                     Image(systemName: "xmark.circle.fill")
