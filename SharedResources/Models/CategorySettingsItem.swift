@@ -10,16 +10,18 @@ import Foundation
 
 @Model
 public final class CategorySettingsItem: Codable, Equatable, Hashable, Identifiable {
-    public var id: UUID
+    public var id: UUID = UUID()
+    public var idString: String // Nuevo campo
     public var name: String
     public var color: String?
     public var order: Int
 
-    public init(id: UUID = UUID(),
+    public init(
+                idString: String = "",
                 name: String,
                 color: String? = nil,
                 order: Int) {
-        self.id = id
+        self.idString = idString
         self.name = name
         self.color = color
         self.order = order
@@ -29,7 +31,7 @@ public final class CategorySettingsItem: Codable, Equatable, Hashable, Identifia
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {
-        case id, name, color, order
+        case id, name, color, order, idString
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -38,6 +40,8 @@ public final class CategorySettingsItem: Codable, Equatable, Hashable, Identifia
         try container.encode(name, forKey: .name)
         try container.encode(color, forKey: .color)
         try container.encode(order, forKey: .order)
+        try container.encode(idString, forKey: .idString)
+
     }
 
     public convenience init(from decoder: Decoder) throws {
@@ -46,7 +50,9 @@ public final class CategorySettingsItem: Codable, Equatable, Hashable, Identifia
         let name = try container.decode(String.self, forKey: .name)
         let color = try container.decode(String.self, forKey: .color)
         let order = try container.decode(Int.self, forKey: .order)
-        self.init(id: id, name: name, color: color, order: order)
+        let idString = try container.decode(String.self, forKey: .idString)
+
+        self.init(idString: idString, name: name, color: color, order: order)
     }
 
     // MARK: - Equatable

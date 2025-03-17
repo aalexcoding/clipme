@@ -106,11 +106,11 @@ internal class RealmDatabaseProvider: DatabaseProvider {
         }
     }
 
-    func saveCategoryOrder(_ categories: [String]) {
+    func saveCategoryOrder(_ categories: [CategorySettingsItem]) {
         try? realm.write {
             let existingCategories = realm.objects(CategorySettingsItemRealm.self)
             for (index, category) in categories.enumerated() {
-                if let categoryItem = existingCategories.filter("name == %@", category).first {
+                if let categoryItem = existingCategories.filter("id == %@", category.id).first {
                     categoryItem.order = index
                 }
             }
@@ -141,7 +141,7 @@ internal class RealmDatabaseProvider: DatabaseProvider {
             var maxOrder = (realm.objects(CategorySettingsItemRealm.self).max(ofProperty: "order") as Int?) ?? -1
 
             for setting in settings {
-                if let existingCategory = realm.objects(CategorySettingsItemRealm.self).filter("name == %@", setting.name).first {
+                if let existingCategory = realm.objects(CategorySettingsItemRealm.self).filter("id == %@", setting.idString).first {
                     // Si la categoría ya existe, actualizamos su color y orden (si se proporciona)
                     existingCategory.color = setting.color ?? "#FFFFFF"
                     existingCategory.order = setting.order
@@ -159,28 +159,25 @@ internal class RealmDatabaseProvider: DatabaseProvider {
         }
     }
 
-//    func updateCategorySetting(for category: String, color: String?, order: Int?) {
-//        if let existingSetting = realm.objects(CategorySettingsItemRealm.self).filter("name == %@", category).first {
-//            try? realm.write {
-//                if let color = color {
-//                    existingSetting.color = color
-//                }
-//                if let order = order {
-//                    existingSetting.order = order
-//                }
-//            }
-//        } else {
-//            let newSetting = CategorySettingsItemRealm(name: category, color: color ?? "#FFFFFF", order: order ?? 0)
-//            try? realm.write {
-//                realm.add(newSetting)
-//            }
-//        }
-//    }
-
-    func removeCategory(_ category: String) {
-        if let categorySetting = realm.objects(CategorySettingsItemRealm.self).filter("name == %@", category).first {
+    func removeCategory(_ category: CategorySettingsItem) {
+        if let categorySetting = realm.objects(CategorySettingsItemRealm.self).filter("id == %@", category.idString).first {
             try? realm.write {
                 realm.delete(categorySetting)
+            }
+        }
+    }
+
+    func updateCategoryName(_ category: CategorySettingsItem, newName: String) {
+        if let realmCategory = realm.objects(CategorySettingsItemRealm.self).filter("id == %@", category.idString).first {
+            try? realm.write {
+                let oldName = realmCategory.name
+                realmCategory.name = newName
+
+                // Actualizar la categoría en todos los SharedURLItemRealm que usaban el nombre antiguo
+                let itemsToUpdate = realm.objects(SharedURLItemRealm.self).filter("category == %@", oldName)
+                for item in itemsToUpdate {
+                    item.category = newName
+                }
             }
         }
     }

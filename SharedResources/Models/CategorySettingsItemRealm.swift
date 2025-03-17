@@ -8,7 +8,8 @@
 internal import RealmSwift
 
 class CategorySettingsItemRealm: Object {
-    @Persisted(primaryKey: true) var name: String
+    @Persisted(primaryKey: true) var id: String = UUID().uuidString
+    @Persisted var name: String
     @Persisted var color: String
     @Persisted var order: Int // Nuevo campo para almacenar el orden
 
@@ -23,6 +24,7 @@ class CategorySettingsItemRealm: Object {
     
     func toCategorySettings() -> CategorySettingsItem {
         return CategorySettingsItem(
+            idString: self.id,
             name: self.name,
             color: self.color,
             order: self.order
@@ -30,4 +32,3 @@ class CategorySettingsItemRealm: Object {
         )
     }
 }
-

@@ -13,7 +13,12 @@ import SharedResources
 
 final class MainViewViewModel: ObservableObject {
     @Published var sharedURLs: [SharedURLItem] = []
-    @Published var selectedCategory: String = "Todas"
+    @Published var selectedCategory: String = "Todas" {
+        didSet {
+            selectedObjectCategory = fetchedCategories.first(where: { $0.name == selectedCategory })
+        }
+    }
+    @Published var selectedObjectCategory: CategorySettingsItem?
     @Published var searchQuery: String = ""
     
     @Published var hasHiddenLeftCategories: Bool = false
@@ -140,13 +145,13 @@ final class MainViewViewModel: ObservableObject {
         self.selectedCategory = "Todas"
     }
     
-    func removeCategory(_ categoryName: String) {
-        guard categoryName != "Todas" else { return }
+    func removeCategory(_ setCategory: CategorySettingsItem) {
+        guard setCategory.name != "Todas" && setCategory.name != "Favorites" else { return }
         
-        fileManager.removeCategory(categoryName)
+        fileManager.removeCategory(setCategory)
         
         // Filtrar los elementos eliminados de la lista local
-        sharedURLs.removeAll { $0.category == categoryName }
+        sharedURLs.removeAll { $0.category == setCategory.name }
         
         // Recargar categorías
         fetchCategories()
@@ -156,7 +161,19 @@ final class MainViewViewModel: ObservableObject {
         fileManager.deleteURL(by: item.idString)
         sharedURLs.removeAll { $0.id == item.id }
 //        fetchCategories()
+    }
+    
+    func changeCategoryName(_ oldName: String, _ newName: String) {
+        guard oldName != newName else { return }
+        guard let category = selectedObjectCategory else { return }
         
+        fileManager.updateCategoryName(category, newName: newName)
+        
+        sharedURLs.forEach {
+            if $0.category == oldName {
+                $0.category = newName
+            }
+        }
     }
 
     func reorderCategories(newOrder: [String]) {

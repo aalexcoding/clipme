@@ -13,6 +13,8 @@ struct ActionSheetCategoryView: View {
     @Binding var showSheetCategory: Bool
     @State private var reorderedCategories: [CategorySettingsItem] = []
     @State var showCategorySelection: Bool = false
+    @State private var showCategoryTitleSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
+
 
     let onDismiss: () -> Void
 
@@ -52,13 +54,16 @@ struct ActionSheetCategoryView: View {
                 }
                 
                 Button(action: {
-                    print("Opción 1")
-                    onDismiss()
+                    print("Cambiar titulo categeoria")
+                    showCategoryTitleSelection=true
+                    //onDismiss()
                 }) {
                     HStack {
-                        Image(systemName: "gear")
-                        Text("Opción 1")
+                        Image(systemName: "textformat")
+                        Text("Editar Título")
                         Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(Color.secondary)
                     }
                     .padding()
                     .background(Color(UIColor.secondarySystemBackground))
@@ -67,7 +72,8 @@ struct ActionSheetCategoryView: View {
                 
                 if viewModel.selectedCategory != "Todas" && viewModel.selectedCategory != "Favorites" {
                     Button(role: .destructive, action: {
-                        viewModel.removeCategory(viewModel.selectedCategory)
+                        guard let category = viewModel.selectedObjectCategory else { return }
+                        viewModel.removeCategory(category)
                         onDismiss()
                     }) {
                         HStack {
@@ -91,6 +97,9 @@ struct ActionSheetCategoryView: View {
         .shadow(radius: 5)
         .sheet(isPresented: $showCategorySelection) {
             CategorySelectionOrderView(viewModel: viewModel, isPresented: $showCategorySelection, reorderedCategories: $reorderedCategories)
+        }
+        .sheet(isPresented: $showCategoryTitleSelection) {
+            CategoryTitleView(viewModel: viewModel, isPresented: $showCategoryTitleSelection)
         }
     }
 
@@ -145,3 +154,40 @@ struct CategorySelectionOrderView: View {
         viewModel.reorderCategories(newOrder: reorderedCategories.map { $0.name })
     }
 }
+
+
+struct CategoryTitleView: View {
+    @ObservedObject var viewModel: MainViewViewModel
+    @Binding var isPresented: Bool
+    @State private var newTitle: String = ""
+
+    var body: some View {
+        NavigationView {
+            Form {
+                Section(header: Text("Editar título")) {
+                    TextField("Nuevo título", text: $newTitle)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .onAppear {
+                            newTitle = viewModel.selectedCategory
+                        }
+                }
+            }
+            .navigationTitle("Editar Item")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancelar") {
+                        isPresented = false
+                    }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Guardar") {
+                        viewModel.changeCategoryName(viewModel.selectedCategory, newTitle)
+                        isPresented = false
+                    }
+                    .bold()
+                }
+            }
+        }
+    }
+}
+

@@ -24,6 +24,7 @@ public protocol SharedFileManagerProtocol {
     func fetchCategorySettings() -> [CategorySettingsItem]
     func saveCategorySettings(_ settings: [CategorySettingsItem])
    // func updateCategorySetting(for category: String, color: String?, order: Int)
-    func removeCategory(_ category: String)
-    func saveCategoryOrder(_ categories: [String])
+    func removeCategory(_ category: CategorySettingsItem)
+    func saveCategoryOrder(_ categories: [CategorySettingsItem])
+    func updateCategoryName(_ category: CategorySettingsItem, newName: String)
 }

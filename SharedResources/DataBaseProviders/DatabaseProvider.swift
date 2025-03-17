@@ -1,11 +1,3 @@
-//
-//  DatabaseProvider.swift
-//  clipme
-//
-//  Created by AlexDelgado on 8/3/25.
-//
-
-
 internal protocol DatabaseProvider {
     func fetchItems() -> [SharedURLItem]
     func deleteItem(by id: String)
@@ -15,7 +7,6 @@ internal protocol DatabaseProvider {
     func updateSharedURLItemCategory(_ item: SharedURLItem, newCategory: String)
     func updateSharedURLItemTitle(_ item: SharedURLItem, newTitle: String)
 
-    
     // Funciones de búsqueda
     func getURLItemsByTag(_ tag: String) -> [SharedURLItem]
     func getFavoriteURLItems() -> [SharedURLItem]
@@ -29,9 +20,9 @@ internal protocol DatabaseProvider {
     // Funciones para gestionar configuraciones de categorías
     func fetchCategorySettings() -> [CategorySettingsItem]
     func saveCategorySettings(_ settings: [CategorySettingsItem])
-    //func updateCategorySetting(for category: String, color: String?, order: Int?)
     
-    // Nueva función para eliminar una categoría
-    func removeCategory(_ category: String)
-    func saveCategoryOrder(_ categories: [String])
+    // Nueva función para eliminar una categoría usando ID
+    func removeCategory(_ category: CategorySettingsItem)
+    func saveCategoryOrder(_ categories: [CategorySettingsItem])
+    func updateCategoryName(_ category: CategorySettingsItem, newName: String)
 }

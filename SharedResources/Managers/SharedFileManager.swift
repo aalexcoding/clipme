@@ -8,6 +8,8 @@
 import Foundation
 
 public class SharedFileManager: SharedFileManagerProtocol {
+
+    
     
     private let database: DatabaseProvider
     
@@ -83,14 +85,20 @@ public class SharedFileManager: SharedFileManagerProtocol {
 //        database.saveCategorySettings(for: category, color: color, order: order)
 //    }
 
-    public func removeCategory(_ category: String) {
-        let itemsToRemove = database.getURLItemsByCategory(category)
+    public func removeCategory(_ category: CategorySettingsItem) {
+        let itemsToRemove = database.getURLItemsByCategory(category.name)
         for item in itemsToRemove {
             database.deleteItem(by: item.idString)
         }
         database.removeCategory(category)
     }
-    public func saveCategoryOrder(_ categories: [String]) {
+    
+    public func saveCategoryOrder(_ categories: [CategorySettingsItem]) {
         database.saveCategoryOrder(categories)
     }
+    
+    public func updateCategoryName(_ category: CategorySettingsItem, newName: String) {
+        database.updateCategoryName(category, newName: newName)
+    }
+    
 }
