@@ -15,6 +15,13 @@ final class MainViewViewModel: ObservableObject {
     @Published var sharedURLs: [SharedURLItem] = []
     @Published var selectedCategory: String = "Todas"
     @Published var searchQuery: String = ""
+    
+    @Published var hasHiddenLeftCategories: Bool = false
+    @Published var hasHiddenRightCategories: Bool = false
+    
+    @Published var showLeftChevron : Bool = false
+    @Published var showRightChevron : Bool = false
+    
     var fetchedCategories: [CategorySettingsItem] = []
     
     var fileManager: SharedFileManager
@@ -33,6 +40,19 @@ final class MainViewViewModel: ObservableObject {
         }
         return position
     }
+    
+
+
+    func updateScrollIndicators(proxy: GeometryProxy) {
+        let contentWidth = proxy.size.width
+        let visibleWidth = UIScreen.main.bounds.width - 40 // Ajusta según diseño
+        
+        hasHiddenLeftCategories = contentWidth > visibleWidth
+        hasHiddenRightCategories = contentWidth > visibleWidth
+    }
+    
+    
+    
     /// Carga los URLs guardados, ordenándolos por fecha descendente y actualizando categorías.
     func fetchSharedURLs() {
         let items = fileManager.getURLItems()
