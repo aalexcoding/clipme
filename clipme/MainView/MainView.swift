@@ -14,7 +14,8 @@ struct MainView: View {
     @State private var isAddCategoryPresented: Bool = false
     @State private var viewType: ViewType = ViewType(rawValue: UserDefaults.standard.string(forKey: "preferredViewType") ?? "grid") ?? .landscape
     @State private var showSheetCategory: Bool = false // Corregido de @ObservedObject a @State
-    
+    @State private var selectedObjetctCategory: CategorySettingsItem? = nil
+
     
     private func updateChevronVisibility(proxy: GeometryProxy) {
         let offset = proxy.frame(in: .global).minX
@@ -55,6 +56,7 @@ struct MainView: View {
                                             },
                                             actionOnLongPress: {
                                                 viewModel.selectedCategory = category
+                                                selectedObjetctCategory = viewModel.selectedObjectCategory
                                                 showSheetCategory = true
                                             }
                                         ) {
@@ -155,6 +157,7 @@ struct MainView: View {
                     if isAddCategoryPresented {
                         AddCategoryPopupView(isPresented: $isAddCategoryPresented) { newCategory in
                             viewModel.addNewCategory(newCategory)
+                            
                         }
                     }
                 }
@@ -177,7 +180,7 @@ struct MainView: View {
                     .padding(10)
             })
             .sheet(isPresented: $showSheetCategory) {
-                ActionSheetCategoryView(viewModel: viewModel, showSheetCategory: $showSheetCategory) {
+                ActionSheetCategoryView(viewModel: viewModel, showSheetCategory: $showSheetCategory, selectedObjetctCategory: $selectedObjetctCategory) {
                     showSheetCategory = false
                 }
             }

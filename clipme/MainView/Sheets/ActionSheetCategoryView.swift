@@ -11,11 +11,13 @@ import SharedResources
 struct ActionSheetCategoryView: View {
     @ObservedObject var viewModel: MainViewViewModel
     @Binding var showSheetCategory: Bool
+    @Binding var selectedObjetctCategory: CategorySettingsItem?
+
     @State private var reorderedCategories: [CategorySettingsItem] = []
     @State var showCategorySelection: Bool = false
     @State private var showCategoryTitleSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
 
-
+    
     let onDismiss: () -> Void
 
     var body: some View {
@@ -24,7 +26,7 @@ struct ActionSheetCategoryView: View {
 
                 Spacer()
                 
-                if let item = viewModel.selectedObjectCategory {
+                if let item = selectedObjetctCategory {
                     Text(item.name)
                         .font(.headline)
                         .lineLimit(2)
@@ -33,8 +35,6 @@ struct ActionSheetCategoryView: View {
                     //Spacer()
 
                 }
-
-
 
                 Button(action: onDismiss) {
                     Image(systemName: "xmark.circle.fill")
@@ -111,7 +111,7 @@ struct ActionSheetCategoryView: View {
             CategorySelectionOrderView(viewModel: viewModel, isPresented: $showCategorySelection, reorderedCategories: $reorderedCategories)
         }
         .sheet(isPresented: $showCategoryTitleSelection) {
-            CategoryTitleView(viewModel: viewModel, isPresented: $showCategoryTitleSelection)
+            CategoryTitleView(viewModel: viewModel, isPresented: $showCategoryTitleSelection, selectedCategory: $selectedObjetctCategory)
         }
     }
 
@@ -172,6 +172,8 @@ struct CategoryTitleView: View {
     @ObservedObject var viewModel: MainViewViewModel
     @Binding var isPresented: Bool
     @State private var newTitle: String = ""
+    @Binding var selectedCategory: CategorySettingsItem?
+
 
     var body: some View {
         NavigationView {
@@ -180,7 +182,13 @@ struct CategoryTitleView: View {
                     TextField("Nuevo título", text: $newTitle)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .onAppear {
-                            newTitle = viewModel.selectedCategory
+                            guard let selectedCategoryName = selectedCategory?.name else {
+                                newTitle = ""
+                                return
+                            }
+                            
+                            newTitle = selectedCategoryName
+
                         }
                 }
             }

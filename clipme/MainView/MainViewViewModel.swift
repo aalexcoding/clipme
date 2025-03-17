@@ -168,6 +168,8 @@ final class MainViewViewModel: ObservableObject {
         guard let category = selectedObjectCategory else { return }
         
         fileManager.updateCategoryName(category, newName: newName)
+        category.name = newName
+        selectedCategory = newName
         
         sharedURLs.forEach {
             if $0.category == oldName {
@@ -178,7 +180,7 @@ final class MainViewViewModel: ObservableObject {
 
     func reorderCategories(newOrder: [String]) {
         // Crear un diccionario para acceder rápidamente a las categorías existentes
-        var categoryMap = Dictionary(uniqueKeysWithValues: fetchedCategories.map { ($0.name, $0) })
+        let categoryMap = Dictionary(uniqueKeysWithValues: fetchedCategories.map { ($0.name, $0) })
 
         // Reasignar los valores de `order` según el nuevo orden proporcionado
         for (index, categoryName) in newOrder.enumerated() {
