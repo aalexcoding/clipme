@@ -6,7 +6,7 @@
 //
 
 
-enum ViewType: CaseIterable {
+enum ViewType: String, CaseIterable {
     case grid
     case list
     case landscape

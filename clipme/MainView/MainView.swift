@@ -12,8 +12,9 @@ struct MainView: View {
         
     @ObservedObject var viewModel: MainViewViewModel
     @State private var isAddCategoryPresented: Bool = false
-    @State private var viewType: ViewType = .grid // Estado para controlar el tipo de vista
+    @State private var viewType: ViewType = ViewType(rawValue: UserDefaults.standard.string(forKey: "preferredViewType") ?? "grid") ?? .landscape
     @State private var showSheetCategory: Bool = false // Corregido de @ObservedObject a @State
+    
     
     private func updateChevronVisibility(proxy: GeometryProxy) {
         let offset = proxy.frame(in: .global).minX
@@ -165,6 +166,9 @@ struct MainView: View {
                 guard let currentIndex = allTypes.firstIndex(of: viewType) else { return }
                 let nextIndex = (currentIndex + 1) % allTypes.count
                 viewType = allTypes[nextIndex]
+                
+                UserDefaults.standard.setValue(viewType.rawValue, forKey: "preferredViewType")
+
             }) {
                 Image(systemName: viewType == .grid ? "square.grid.2x2" : viewType == .list ? "list.bullet" : "rectangle.split.2x1")
                     .resizable()

@@ -109,7 +109,7 @@ final class MainViewViewModel: ObservableObject {
 
         if !searchQuery.isEmpty {
             filtered = filtered.filter { item in
-                item.category.lowercased().contains(searchQuery.lowercased()) ||
+                //item.category.lowercased().contains(searchQuery.lowercased()) ||
                 item.tags.contains(where: { $0.lowercased().contains(searchQuery.lowercased()) }) ||
                 item.title.lowercased().contains(searchQuery.lowercased())
             }
