@@ -39,7 +39,8 @@ public struct AddCategoryPopupView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .onChange(of: categoryName) { _, newValue in
-                            categoryName = String(newValue.prefix(18)) // Límite de 20 caracteres
+                            let filteredValue = newValue.filter { !$0.isWhitespace }
+                            categoryName = String(filteredValue.prefix(18)) // Límite de 18 caracteres sin espacios
                         }
                     
                     HStack {
@@ -51,7 +52,7 @@ public struct AddCategoryPopupView: View {
                         .cornerRadius(8)
                         
                         Button("Aceptar") {
-                            if !categoryName.isEmpty {
+                            if !categoryName.trimmingCharacters(in: .whitespaces).isEmpty {
                                 onAddCategory(categoryName)
                                 isPresented = false
                             }

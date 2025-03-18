@@ -14,6 +14,9 @@ class ShareExtensionViewModel: ObservableObject {
     @Published var errorMessage: String?       // Mensaje de error en caso de fallo
     @Published var sharedMetadata: WebMetadata? // Metadatos obtenidos desde la URL
     
+    @Published var showLeftChevron : Bool = false
+    @Published var showRightChevron : Bool = false
+    
     // Almacenamos el URL original extraído del NSExtensionContext
     var sharedURL: URL?
     

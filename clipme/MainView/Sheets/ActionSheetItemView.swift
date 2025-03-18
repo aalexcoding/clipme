@@ -151,6 +151,7 @@ struct CategorySelectionView: View {
     @Binding var selectedItem: SharedURLItem?
     @Binding var isPresented: Bool
     
+    
     var body: some View {
         NavigationView {
             List(viewModel.categoriesWithOutTodasFavorites, id: \.self) { category in

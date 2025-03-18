@@ -8,18 +8,21 @@
 import SwiftUI
 import SharedResources
 
+
 struct ShareExtensionView: View {
     var extensionContext: NSExtensionContext?
     
     @ObservedObject var viewModel = ShareExtensionViewModel(apiKey: "AIzaSyAERVpetNGIkIMz36W7_scy8OzU8y2Kch0")
     @State private var isAddCategoryPresented: Bool = false
     @State private var isLoading: Bool = true
+    @State private var scrollProxy: ScrollViewProxy?
 
     
     var body: some View {
-        VStack(spacing: 20) {
+        List {
             if isLoading {
-                ProgressView() // Loader cuando isLoading es true
+                ProgressView()
+                    .frame(maxWidth: .infinity, alignment: .center)
             } else {
                 if let title = viewModel.title {
                     
@@ -31,12 +34,13 @@ struct ShareExtensionView: View {
                             .cornerRadius(10)
                             .shadow(radius: 5)
                             .padding()
-                        
-                    } else if !viewModel.imageURL.isEmpty { // Display downloaded image
+                            .listRowSeparator(.hidden)
+
+                    } else if !viewModel.imageURL.isEmpty {
                         AsyncImage(url: URL(string: viewModel.imageURL)) { phase in
                             switch phase {
                             case .empty:
-                                ProgressView() // Show loading indicator
+                                ProgressView()
                             case .success(let image):
                                 image.resizable()
                                     .scaledToFit()
@@ -44,7 +48,7 @@ struct ShareExtensionView: View {
                                     .cornerRadius(10)
                                     .shadow(radius: 5)
                             case .failure:
-                                Image(systemName: "photo") // Fallback image icon
+                                Image(systemName: "photo")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(height: 200)
@@ -54,6 +58,8 @@ struct ShareExtensionView: View {
                             }
                         }
                         .padding()
+                        .listRowSeparator(.hidden)
+
                     }
                     
                     Text(title)
@@ -61,81 +67,197 @@ struct ShareExtensionView: View {
                         .lineLimit(1)
                         .truncationMode(.middle)
                         .padding()
+                        .listRowSeparator(.hidden)
+
                     
-                    ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 12) {
-                            ForEach(viewModel.categories, id: \.self) { category in
-                                Button(action: {
-                                    viewModel.category = category
-                                }) {
-                                    Text(category)
-                                        .padding(.vertical, 8)
-                                        .padding(.horizontal, 16)
-                                        .background(viewModel.category == category ? Color.blue.opacity(0.2) : Color.clear)
-                                        .cornerRadius(20)
-                                }
-                            }
-                            Button(action: {
-                                isAddCategoryPresented = true
-                            }) {
-                                Image(systemName: "plus")
-                                    .padding(10)
-                                    .background(Color.blue.opacity(0.2))
-                                    .clipShape(Circle())
-                            }
+                    Section {
+                        categoryScrollView
+                            .listRowSeparator(.hidden)
+                    }
+                    
+                    // Sección para el botón de guardar
+                    Section {
+                        Button("Guardar") {
+                            viewModel.saveSharedURL()
+                            extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
                         }
-                        .padding(.horizontal)
-                        .padding(.vertical, 0)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.top, 20)
+                        .listRowSeparator(.hidden)
+
                     }
-                    .listRowSeparator(.hidden) // 🔥 Oculta las líneas arriba y abajo
                     
-                    
-                    //TagsInputView(tags: $viewModel.tags) // Componente para añadir tags
-                    
-                    Button("Guardar") {
-                        viewModel.saveSharedURL()
-                        extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
-                    }
-                    .padding(.top, 20)
                 } else if let error = viewModel.errorMessage {
-                    Text("Error:")
-                        .font(.headline)
-                    Text(error)
-                        .multilineTextAlignment(.center)
-                        .padding()
+                    Section {
+                        Text("Error:")
+                            .font(.headline)
+                            .listRowSeparator(.hidden)
+
+                        Text(error)
+                            .multilineTextAlignment(.center)
+                            .padding()
+                            .listRowSeparator(.hidden)
+
+                    }
                 } else {
-                    Text("Procesando link...")
+                    Section {
+                        Text("Procesando link...")
+                            .frame(maxWidth: .infinity, alignment: .center)
+                            .listRowSeparator(.hidden)
+
+                    }
                 }
             }
         }
+        .listStyle(PlainListStyle()) // Evita que la lista tenga un estilo demasiado marcado
         .overlay(
             Group {
                 if isAddCategoryPresented {
                     AddCategoryPopupView(isPresented: $isAddCategoryPresented) { newCategory in
                         viewModel.addNewCategory(newCategory)
+                        viewModel.category = newCategory
+                        Task {
+                            await scrollToEnd()
+                        }
+
+
                     }
-//                        .transition(.move(edge: .leading).combined(with: .opacity))
                 }
             }
         )
         .animation(.easeInOut(duration: 0.2), value: isAddCategoryPresented)
-        .padding()
         .onAppear {
             print("ShareExtensionView aparece en pantalla")
             
-            // Extraer la información del extensionContext en el hilo principal
             guard let extensionContext = extensionContext else { return }
-            
-            // Extraer los datos necesarios del extensionContext
             let inputItems = extensionContext.inputItems
             
-            // Pasar los datos extraídos a la función asíncrona
             Task {
-                isLoading = true // Actualiza isLoading antes de la carga
+                isLoading = true
                 await viewModel.loadURL(inputItems)
-                isLoading = false // Actualiza isLoading después de la carga
+                isLoading = false
             }
             viewModel.loadCategories()
+            
+        }
+    }
+    
+    private var categoryScrollView: some View {
+        ScrollViewReader { proxy in
+            GeometryReader { geometry in
+                ZStack {
+                    ScrollView(.horizontal, showsIndicators: false) {
+                        HStack(spacing: 0) {
+                            categoryButtons
+                            Button(action: {
+                                isAddCategoryPresented = true
+                            }) {
+                                Image(systemName: "plus")
+                                    .padding(10)
+                                    .background(.ultraThinMaterial)
+                                    .clipShape(Circle())
+                            }
+                        }
+                        .background(GeometryReader { proxy in
+                            Color.clear
+                                .onAppear {
+                                    updateChevronVisibility(proxy: proxy)
+                                }
+                                .onChange(of: proxy.frame(in: .global).minX) { _, _ in
+                                    updateChevronVisibility(proxy: proxy)
+                                }
+                        })
+                        .id("lastItem") // Assign an ID to the last item
+
+                    }
+                    ChevronIndicators(viewModel: viewModel)
+                        .ignoresSafeArea()
+                }
+            }
+            .task {
+                await storeScrollProxy(proxy) // Store proxy properly
+            }
+        }
+    }
+    
+    @MainActor
+    private func storeScrollProxy(_ proxy: ScrollViewProxy) async {
+        self.scrollProxy = proxy
+    }
+    
+    @MainActor
+    private func scrollToEnd() async {
+        guard let scrollProxy = scrollProxy else { return }
+        
+        try? await Task.sleep(nanoseconds: 200_000_000) // Delay to ensure SwiftUI loads
+        withAnimation {
+            scrollProxy.scrollTo("lastItem", anchor: .trailing)
+        }
+    }
+    
+    private func scrollToCategory(_ category: String) {
+        guard let scrollProxy = scrollProxy else { return }
+        withAnimation {
+            scrollProxy.scrollTo(category, anchor: .center)
+        }
+    }
+    
+    private var categoryButtons: some View {
+        ForEach(viewModel.categories, id: \.self) { category in
+            Button(action: {
+                viewModel.category = category
+            }) {
+                Text(category)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(viewModel.category == category ? Color.blue : Color.clear, lineWidth: 2)
+                    )
+                    .cornerRadius(20)
+            }
+        }
+    }
+    
+
+    
+    private func updateChevronVisibility(proxy: GeometryProxy) {
+        let offset = proxy.frame(in: .global).minX
+        let contentWidth = proxy.size.width
+        let scrollViewWidth = UIScreen.main.bounds.width
+        
+        // Show left chevron if the content is scrolled to the right
+        viewModel.showLeftChevron = offset < 0
+        
+        // Show right chevron if there is more content to the right
+        viewModel.showRightChevron = contentWidth + offset > scrollViewWidth
+    }
+}
+
+struct ChevronIndicators: View {
+    @ObservedObject var viewModel: ShareExtensionViewModel
+    
+    var body: some View {
+        HStack {
+            if viewModel.showLeftChevron {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(.blue)
+                    .opacity(0.7)
+                    .padding(10)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+                    .transition(.opacity)
+            }
+            Spacer()
+            if viewModel.showRightChevron {
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.blue)
+                    .opacity(0.7)
+                    .padding(10)
+                    .background(.ultraThinMaterial)
+                    .clipShape(Circle())
+                    .transition(.opacity)
+            }
         }
     }
 }
