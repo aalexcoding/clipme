@@ -12,7 +12,6 @@ struct MainView: View {
         
     @ObservedObject var viewModel: MainViewViewModel
     @State private var isAddCategoryPresented: Bool = false
-    @State private var viewType: ViewType = ViewType(rawValue: UserDefaults.standard.string(forKey: "preferredViewType") ?? "grid") ?? .landscape
     @State private var showSheetCategory: Bool = false // Corregido de @ObservedObject a @State
     @State private var selectedObjetctCategory: CategorySettingsItem? = nil
     @State private var scrollProxy: ScrollViewProxy?
@@ -45,7 +44,7 @@ struct MainView: View {
                 }
             )
             .animation(.easeInOut(duration: 0.2), value: isAddCategoryPresented)
-            .navigationBarItems(trailing: navigationButton)
+            .navigationBarItems(trailing: navigationElementViewSwitcher)
             .sheet(isPresented: $showSheetCategory) {
                 ActionSheetCategoryView(viewModel: viewModel, showSheetCategory: $showSheetCategory, selectedObjetctCategory: $selectedObjetctCategory) {
                     showSheetCategory = false
@@ -92,20 +91,20 @@ struct MainView: View {
         }
     }
     
-    @MainActor
-    private func storeScrollProxy(_ proxy: ScrollViewProxy) async {
-        self.scrollProxy = proxy
-    }
-    
-    @MainActor
-    private func scrollToEnd() async {
-        guard let scrollProxy = scrollProxy else { return }
-        
-        try? await Task.sleep(nanoseconds: 200_000_000) // Delay to ensure SwiftUI loads
-        withAnimation {
-            scrollProxy.scrollTo("lastItem", anchor: .trailing)
+    private var currentView: some View {
+        Group {
+            switch viewModel.viewType {
+            case .grid:
+                GridView(viewModel: viewModel)
+            case .list:
+                ListView(viewModel: viewModel)
+            case .landscape:
+                LandscapeView(viewModel: viewModel)
+            }
         }
     }
+    
+
     
     private var categoryButtons: some View {
         ForEach(viewModel.categories, id: \.self) { category in
@@ -131,51 +130,49 @@ struct MainView: View {
         }
     }
     
-    private func updateChevronVisibility(proxy: GeometryProxy) {
-        let offset = proxy.frame(in: .global).minX
-        let contentWidth = proxy.size.width
-        let scrollViewWidth = UIScreen.main.bounds.width
-
-        // Show left chevron if the content is scrolled to the right
-        viewModel.showLeftChevron = offset < 0
-
-        // Show right chevron if there is more content to the right
-        viewModel.showRightChevron = contentWidth + offset > scrollViewWidth
-    }
-
-
-    private var currentView: some View {
-        Group {
-            switch viewType {
-            case .grid:
-                GridView(viewModel: viewModel)
-            case .list:
-                ListView(viewModel: viewModel)
-            case .landscape:
-                LandscapeView(viewModel: viewModel)
-            }
-        }
-    }
-
-    private var navigationButton: some View {
+    private var navigationElementViewSwitcher: some View {
         Button(action: {
             let allTypes = ViewType.allCases
-            guard let currentIndex = allTypes.firstIndex(of: viewType) else { return }
+            guard let currentIndex = allTypes.firstIndex(of: viewModel.viewType) else { return }
             let nextIndex = (currentIndex + 1) % allTypes.count
-            viewType = allTypes[nextIndex]
+            viewModel.viewType = allTypes[nextIndex]
             
-            UserDefaults.standard.setValue(viewType.rawValue, forKey: "preferredViewType")
+            viewModel.storeElementView()
+            
         }) {
-            Image(systemName: viewType == .grid ? "square.grid.2x2" : viewType == .list ? "list.bullet" : "rectangle.split.2x1")
+            Image(systemName: viewModel.viewType == .grid ? "square.grid.2x2" : viewModel.viewType == .list ? "list.bullet" : "rectangle.split.2x1")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 24, height: 24)
                 .padding(10)
         }
     }
-
-
+    
+    private func updateChevronVisibility(proxy: GeometryProxy) {
+        let offset = proxy.frame(in: .global).minX
+        let contentWidth = proxy.size.width
+        let scrollViewWidth = UIScreen.main.bounds.width
+        viewModel.showLeftChevron = offset < 0
+        viewModel.showRightChevron = contentWidth + offset > scrollViewWidth
+    }
+    
+    @MainActor
+    private func storeScrollProxy(_ proxy: ScrollViewProxy) async {
+        self.scrollProxy = proxy
+    }
+    
+    @MainActor
+    private func scrollToEnd() async {
+        guard let scrollProxy = scrollProxy else { return }
+        
+        try? await Task.sleep(nanoseconds: 200_000_000) // Delay to ensure SwiftUI loads
+        withAnimation {
+            scrollProxy.scrollTo("lastItem", anchor: .trailing)
+        }
+    }
 }
+
+
 
 struct ChevronIndicators: View {
     @ObservedObject var viewModel: MainViewViewModel

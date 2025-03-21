@@ -15,7 +15,8 @@ struct ActionSheetCategoryView: View {
 
     @State private var reorderedCategories: [CategorySettingsItem] = []
     @State var showCategorySelection: Bool = false
-    @State private var showCategoryTitleSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
+    @State var showCategoryTitleSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
+    @State var showElementsOrderSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
 
     
     let onDismiss: () -> Void
@@ -49,6 +50,26 @@ struct ActionSheetCategoryView: View {
 
             VStack(spacing: 12) {
                 
+                if viewModel.selectedCategory != "Todas" && viewModel.selectedCategory != "Favorites" {
+                    
+                    Button(action: {
+                        print("Cambiar titulo categeoria")
+                        showCategoryTitleSelection=true
+                        //onDismiss()
+                    }) {
+                        HStack {
+                            Image(systemName: "textformat")
+                            Text("Editar Título")
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color.secondary)
+                        }
+                        .padding()
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .cornerRadius(8)
+                    }
+                }
+                
                 Button(action: {
                     reorderedCategories = viewModel.fetchedCategories.sorted { $0.order < $1.order }
                     showCategorySelection = true
@@ -64,15 +85,16 @@ struct ActionSheetCategoryView: View {
                     .background(Color(UIColor.secondarySystemBackground))
                     .cornerRadius(8)
                 }
+
                 
                 Button(action: {
-                    print("Cambiar titulo categeoria")
-                    showCategoryTitleSelection=true
+                    print("Ordenar elementos")
+                    showElementsOrderSelection=true
                     //onDismiss()
                 }) {
                     HStack {
-                        Image(systemName: "textformat")
-                        Text("Editar Título")
+                        Image(systemName: "arrow.up.arrow.down")
+                        Text("Ordenar elementos")
                         Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundColor(Color.secondary)
@@ -113,101 +135,16 @@ struct ActionSheetCategoryView: View {
         .sheet(isPresented: $showCategoryTitleSelection) {
             CategoryTitleView(viewModel: viewModel, isPresented: $showCategoryTitleSelection, selectedCategory: $selectedObjetctCategory)
         }
+        .sheet(isPresented: $showElementsOrderSelection) {
+            ItemOrderSelectorView(viewModel: viewModel, isPresented: $showElementsOrderSelection)
+        }
     }
 
 }
 
-struct CategorySelectionOrderView: View {
-    @ObservedObject var viewModel: MainViewViewModel
-    @Binding var isPresented: Bool
-    @Binding var reorderedCategories: [CategorySettingsItem]
-
-    var body: some View {
-        NavigationView {
-            List {
-                ForEach(reorderedCategories, id: \.self) { category in
-                    HStack {
-                        Text(category.name)
-                            .foregroundColor(Color.primary)
-                        Spacer()
-                        Image(systemName: "line.horizontal.3")
-                            .foregroundColor(Color.secondary)
-                    }
-                    //.padding()
-                    .background(Color(UIColor.secondarySystemBackground))
-                    .cornerRadius(8)
-                }
-                .onMove(perform: moveCategory)
-               // .listRowBackground(Color.clear)
-            }
-            .listRowSeparator(.hidden)
-
-            //.environment(\.editMode, .constant(.active))
-            .navigationTitle("Reordena las Categorías")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cerrar") {
-                        isPresented = false
-                    }
-                }
-            }
-        }
-    }
-
-    private func moveCategory(from source: IndexSet, to destination: Int) {
-        reorderedCategories.move(fromOffsets: source, toOffset: destination)
-        saveNewOrder()
-    }
-
-    private func saveNewOrder() {
-        for (index, category) in reorderedCategories.enumerated() {
-            category.order = index
-        }
-        viewModel.reorderCategories(newOrder: reorderedCategories.map { $0.name })
-    }
-}
 
 
-struct CategoryTitleView: View {
-    @ObservedObject var viewModel: MainViewViewModel
-    @Binding var isPresented: Bool
-    @State private var newTitle: String = ""
-    @Binding var selectedCategory: CategorySettingsItem?
 
 
-    var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Editar título")) {
-                    TextField("Nuevo título", text: $newTitle)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .onAppear {
-                            guard let selectedCategoryName = selectedCategory?.name else {
-                                newTitle = ""
-                                return
-                            }
-                            
-                            newTitle = selectedCategoryName
 
-                        }
-                }
-            }
-            .navigationTitle("Editar Item")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancelar") {
-                        isPresented = false
-                    }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Guardar") {
-                        viewModel.changeCategoryName(viewModel.selectedCategory, newTitle)
-                        isPresented = false
-                    }
-                    .bold()
-                }
-            }
-        }
-    }
-}
 

@@ -13,6 +13,7 @@ struct ActionSheetItemView: View {
     @Binding var selectedItem: SharedURLItem?
     @State private var showCategorySelection: Bool = false // Nuevo estado para mostrar la selección de categoría
     @State private var showItemTitleSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
+    @State private var showElementsOrderSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
     @State private var isFavorite: Bool = false // Nuevo estado para manejar favoritos
 
     let onDismiss: () -> Void
@@ -76,21 +77,7 @@ struct ActionSheetItemView: View {
             Divider()
 
             VStack(spacing: 12) {
-                Button(action: {
-                    showCategorySelection = true
-                }) {
-                    HStack {
-                        Image(systemName: "folder")
-                        Text("Cambiar Categoría")
-                        Spacer()
-                        Image(systemName: "chevron.right")
-                            .foregroundColor(Color.secondary)
-                    }
-                    .padding()
-                    .background(Color(UIColor.secondarySystemBackground))
-                    .cornerRadius(8)
-                }
-
+                
                 Button(action: {
                     showItemTitleSelection = true
                 }) {
@@ -105,6 +92,40 @@ struct ActionSheetItemView: View {
                     .background(Color(UIColor.secondarySystemBackground))
                     .cornerRadius(8)
                 }
+                
+                Button(action: {
+                    showCategorySelection = true
+                }) {
+                    HStack {
+                        Image(systemName: "folder")
+                        Text("Cambiar Categoría")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(Color.secondary)
+                    }
+                    .padding()
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(8)
+                }
+                
+                Button(action: {
+                    print("Ordenar elementos")
+                    showElementsOrderSelection=true
+                    //onDismiss()
+                }) {
+                    HStack {
+                        Image(systemName: "arrow.up.arrow.down")
+                        Text("Ordenar elementos")
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .foregroundColor(Color.secondary)
+                    }
+                    .padding()
+                    .background(Color(UIColor.secondarySystemBackground))
+                    .cornerRadius(8)
+                }
+
+
 
                 Button(role: .destructive, action: {
                     if let item = selectedItem {
@@ -142,86 +163,12 @@ struct ActionSheetItemView: View {
         .sheet(isPresented: $showItemTitleSelection) {
             ItemTitleView(viewModel: viewModel, selectedItem: $selectedItem, isPresented: $showItemTitleSelection)
         }
-    }
-}
-
-/** Selector de categoria para el item **/
-struct CategorySelectionView: View {
-    @ObservedObject var viewModel: MainViewViewModel
-    @Binding var selectedItem: SharedURLItem?
-    @Binding var isPresented: Bool
-    
-    
-    var body: some View {
-        NavigationView {
-            List(viewModel.categoriesWithOutTodasFavorites, id: \.self) { category in
-                Button(action: {
-                    if let item = selectedItem {
-                        viewModel.changeItemCategory(of: item, to: category)
-                    }
-                }) {
-                    HStack {
-                        Text(category)
-                        Spacer()
-                        if viewModel.getCategory(of: selectedItem) == category {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundColor(Color.primary)
-                        }
-                    }
-                    //.padding()
-                    .background(Color(UIColor.secondarySystemBackground))
-                    .cornerRadius(8)
-                }
-              //  .listRowBackground(Color.clear)
-            }
-            .navigationTitle("Seleccionar Categoría")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cerrar") {
-                        isPresented = false
-                    }
-                }
-            }
-        }
-        .listRowSeparator(.hidden)
-
-    }
-}
-
-struct ItemTitleView: View {
-    @ObservedObject var viewModel: MainViewViewModel
-    @Binding var selectedItem: SharedURLItem?
-    @Binding var isPresented: Bool
-    @State private var newTitle: String = ""
-
-    var body: some View {
-        NavigationView {
-            Form {
-                Section(header: Text("Editar título")) {
-                    TextField("Nuevo título", text: $newTitle)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .onAppear {
-                            newTitle = selectedItem?.title ?? ""
-                        }
-                }
-            }
-            .navigationTitle("Editar Item")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancelar") {
-                        isPresented = false
-                    }
-                }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Guardar") {
-                        if let item = selectedItem {
-                            viewModel.changeItemTitle(of: item, to: newTitle)
-                        }
-                        isPresented = false
-                    }
-                    .bold()
-                }
-            }
+        .sheet(isPresented: $showElementsOrderSelection) {
+            ElementOrderSelectorView(viewModel: viewModel, isPresented: $showElementsOrderSelection)
         }
     }
 }
+
+
+
+
