@@ -11,27 +11,30 @@ import Foundation
 @Model
 public final class CategorySettingsItem: Codable, Equatable, Hashable, Identifiable {
     public var id: UUID = UUID()
-    public var idString: String // Nuevo campo
+    public var idString: String // id del elemento en la base de datos. 
     public var name: String
     public var color: String?
     public var order: Int
+    public var isHidden: Bool
 
     public init(
                 idString: String = "",
                 name: String,
                 color: String? = nil,
-                order: Int) {
-        self.idString = idString
-        self.name = name
-        self.color = color
-        self.order = order
+                order: Int,
+                isHidden: Bool) {
+                    self.idString = idString
+                    self.name = name
+                    self.color = color
+                    self.order = order
+                    self.isHidden = isHidden
 
     }
 
     // MARK: - Codable
 
     enum CodingKeys: String, CodingKey {
-        case id, name, color, order, idString
+        case id, name, color, order, idString, isHidden
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -41,6 +44,7 @@ public final class CategorySettingsItem: Codable, Equatable, Hashable, Identifia
         try container.encode(color, forKey: .color)
         try container.encode(order, forKey: .order)
         try container.encode(idString, forKey: .idString)
+        try container.encode(isHidden, forKey: .isHidden)
 
     }
 
@@ -51,8 +55,9 @@ public final class CategorySettingsItem: Codable, Equatable, Hashable, Identifia
         let color = try container.decode(String.self, forKey: .color)
         let order = try container.decode(Int.self, forKey: .order)
         let idString = try container.decode(String.self, forKey: .idString)
+        let isHidden = try container.decode(Bool.self, forKey: .isHidden)
 
-        self.init(idString: idString, name: name, color: color, order: order)
+        self.init(idString: idString, name: name, color: color, order: order, isHidden: isHidden)
     }
 
     // MARK: - Equatable

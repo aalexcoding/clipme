@@ -4,7 +4,7 @@ internal protocol DatabaseProvider {
     func saveItems(_ items: [SharedURLItem], append: Bool)
     func clearAllItems()
     
-    func updateSharedURLItemCategory(_ item: SharedURLItem, newCategory: String)
+    func updateSharedURLItemCategory(_ item: SharedURLItem, newCategoryID: String)
     func updateSharedURLItemTitle(_ item: SharedURLItem, newTitle: String)
 
     // Funciones de búsqueda
@@ -25,4 +25,5 @@ internal protocol DatabaseProvider {
     func removeCategory(_ category: CategorySettingsItem)
     func saveCategoryOrder(_ categories: [CategorySettingsItem])
     func updateCategoryName(_ category: CategorySettingsItem, newName: String)
+    func toggleHiddenStatusCategory(for category: CategorySettingsItem)
 }

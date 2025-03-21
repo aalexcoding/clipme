@@ -8,8 +8,6 @@
 import Foundation
 
 public class SharedFileManager: SharedFileManagerProtocol {
-
-    
     
     private let database: DatabaseProvider
     
@@ -36,8 +34,8 @@ public class SharedFileManager: SharedFileManagerProtocol {
         database.clearAllItems()
     }
     
-    public func updateSharedURLItemCategory(_ item: SharedURLItem, newCategory: String) {
-        database.updateSharedURLItemCategory(item, newCategory: newCategory)
+    public func updateSharedURLItemCategory(_ item: SharedURLItem, newCategoryID: String) {
+        database.updateSharedURLItemCategory(item, newCategoryID: newCategoryID)
     }
     
     public func updateSharedURLItemTitle(_ item: SharedURLItem, newTitle: String) {
@@ -99,6 +97,10 @@ public class SharedFileManager: SharedFileManagerProtocol {
     
     public func updateCategoryName(_ category: CategorySettingsItem, newName: String) {
         database.updateCategoryName(category, newName: newName)
+    }
+    
+    public func toggleHiddenStatusCategory(for category: CategorySettingsItem) {
+        database.toggleHiddenStatusCategory(for: category)
     }
     
 }

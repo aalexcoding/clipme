@@ -10,7 +10,7 @@ public protocol SharedFileManagerProtocol {
     func deleteURL(by id: String)
     func saveURL(_ items: [SharedURLItem], append: Bool)
     func clearURLInfo()
-    func updateSharedURLItemCategory(_ item: SharedURLItem, newCategory: String)
+    func updateSharedURLItemCategory(_ item: SharedURLItem, newCategoryID: String)
     func updateSharedURLItemTitle(_ item: SharedURLItem, newTitle: String)
     
     func getURLItemsByTag(_ tag: String) -> [SharedURLItem]
@@ -27,4 +27,5 @@ public protocol SharedFileManagerProtocol {
     func removeCategory(_ category: CategorySettingsItem)
     func saveCategoryOrder(_ categories: [CategorySettingsItem])
     func updateCategoryName(_ category: CategorySettingsItem, newName: String)
+    func toggleHiddenStatusCategory(for category: CategorySettingsItem)
 }

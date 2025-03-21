@@ -20,13 +20,14 @@ struct CategorySelectionView: View {
             List(viewModel.categoriesWithOutTodasFavorites, id: \.self) { category in
                 Button(action: {
                     if let item = selectedItem {
-                        viewModel.changeItemCategory(of: item, to: category)
+                        //let newCategoryID = viewModel.fetchedCategories.filter { $0.name == category }
+                        viewModel.changeItemCategory(of: item, to: category.idString)
                     }
                 }) {
                     HStack {
-                        Text(category)
+                        Text(category.name)
                         Spacer()
-                        if viewModel.getCategory(of: selectedItem) == category {
+                        if viewModel.getCategory(of: selectedItem) == category.idString {
                             Image(systemName: "checkmark.circle.fill")
                                 .foregroundColor(Color.primary)
                         }

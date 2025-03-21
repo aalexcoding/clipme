@@ -12,13 +12,15 @@ class CategorySettingsItemRealm: Object {
     @Persisted var name: String
     @Persisted var color: String
     @Persisted var order: Int // Nuevo campo para almacenar el orden
+    @Persisted var isHidden: Bool // Nuevo campo para almacenar el orden
 
     
-    convenience init(name: String, color: String = "#FFFFFF", order: Int) {
+    convenience init(name: String, color: String = "#FFFFFF", order: Int, isHidden: Bool) {
         self.init()
         self.name = name
         self.color = color
         self.order = order
+        self.isHidden = isHidden
 
     }
     
@@ -27,7 +29,8 @@ class CategorySettingsItemRealm: Object {
             idString: self.id,
             name: self.name,
             color: self.color,
-            order: self.order
+            order: self.order,
+            isHidden: self.isHidden
 
         )
     }

@@ -11,7 +11,7 @@ public protocol SharedDefaultsManagerProtocol {
                  origin: String,
                  title: String,
                  itemDescription: String,
-                 category: String,
+                 idCategory: String,
                  userNotes: String,
                  date: Date,
                  tags: [String],

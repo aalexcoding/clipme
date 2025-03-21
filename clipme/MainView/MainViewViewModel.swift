@@ -40,16 +40,16 @@ final class MainViewViewModel: ObservableObject {
         fetchedCategories = fileManager.fetchCategorySettings()
         let orderedCategories = fetchedCategories.sorted { $0.order < $1.order }
         let storedCategories = orderedCategories.map { $0.name }
-        let dynamicCategories = Set(sharedURLs.map { $0.category.isEmpty ? "Sin Categoría" : $0.category })
-        let finalCategories = storedCategories + dynamicCategories.subtracting(storedCategories).sorted()
-        return ["Todas", "Favorites"] + finalCategories
+        //let dynamicCategories = Set(sharedURLs.map { $0.category.isEmpty ? "Sin Categoría" : $0.category })
+        //let finalCategories = storedCategories + dynamicCategories.subtracting(storedCategories).sorted()
+        return ["Todas", "Favorites"] + storedCategories
     }
     
-    var categoriesWithOutTodasFavorites: [String] {
+    var categoriesWithOutTodasFavorites: [CategorySettingsItem] {
         fetchedCategories = fileManager.fetchCategorySettings()
         let orderedCategories = fetchedCategories.sorted { $0.order < $1.order }
-        let storedCategories = orderedCategories.map { $0.name }
-        return storedCategories
+        //let storedCategories = orderedCategories.map { $0.name }
+        return orderedCategories
     }
 
     init(fileManager: SharedFileManager = SharedFileManager.shared) {
@@ -87,13 +87,22 @@ final class MainViewViewModel: ObservableObject {
     /// Filtra los elementos según la categoría seleccionada y el término de búsqueda.
     func filteredItems() -> [SharedURLItem] {
         var filtered = sharedURLs
+        
+        let hiddenCategoryIDs = fetchedCategories
+            .filter { $0.isHidden }
+            .map { $0.idString }
 
         if selectedCategory != "Todas" && selectedCategory != "Favorites" {
-            filtered = filtered.filter { $0.category == selectedCategory }
+            filtered = filtered.filter { $0.idCategory == selectedObjectCategory?.idString }
         }
         if selectedCategory == "Favorites" {
             filtered = filtered.filter { $0.isFavorite == true }
+            filtered = filtered.filter { !hiddenCategoryIDs.contains($0.idCategory)}
         }
+        if selectedCategory == "Todas" {
+            filtered = filtered.filter { !hiddenCategoryIDs.contains($0.idCategory)}
+        }
+        
         if !searchQuery.isEmpty {
             filtered = filtered.filter { item in
                 //item.category.lowercased().contains(searchQuery.lowercased()) ||
@@ -111,28 +120,29 @@ final class MainViewViewModel: ObservableObject {
 //        fetchCategories()
     }
     
-    func groupedItems(for query: String) -> [(key: String, value: [SharedURLItem])] {
-        let items = filteredItems()
-        let grouped = Dictionary(grouping: items, by: { $0.category.isEmpty ? "Sin Categoría" : $0.category })
-        return grouped.sorted { $0.key < $1.key }
-    }
+//    func groupedItems(for query: String) -> [(key: String, value: [SharedURLItem])] {
+//        let items = filteredItems()
+//        let grouped = Dictionary(grouping: items, by: { $0.category.isEmpty ? "Sin Categoría" : $0.category })
+//        return grouped.sorted { $0.key < $1.key }
+//    }
     
     func searchItems(_ query: String) -> [SharedURLItem] {
         if query.isEmpty {
             return filteredItems()
         } else {
             return filteredItems().filter { item in
-                item.category.lowercased().contains(query.lowercased()) ||
+                //item.category.lowercased().contains(query.lowercased()) ||
                 item.tags.contains(where: { $0.lowercased().contains(query.lowercased()) }) ||
                 item.title.lowercased().contains(query.lowercased())
             }
         }
     }
     
-    func changeItemCategory(of item: SharedURLItem, to newCategory: String) {
+    func changeItemCategory(of item: SharedURLItem, to newCategoryID: String) {
+        let filtered = filteredItems()
         if let index = sharedURLs.firstIndex(where: { $0.id == item.id }) {
-            sharedURLs[index].category = newCategory
-            fileManager.updateSharedURLItemCategory(item, newCategory: newCategory)
+            sharedURLs[index].idCategory = newCategoryID
+            fileManager.updateSharedURLItemCategory(item, newCategoryID: newCategoryID)
             objectWillChange.send()
         }
     }
@@ -165,7 +175,7 @@ final class MainViewViewModel: ObservableObject {
     // MARK: - Categories
     
     func getCategory(of item: SharedURLItem?) -> String? {
-        return item?.category
+        return item?.idCategory
     }
     
     func fetchCategories() {
@@ -175,7 +185,7 @@ final class MainViewViewModel: ObservableObject {
 
     func addNewCategory(_ categoryName: String) {
         guard !categoryName.isEmpty, !categories.contains(categoryName) else { return }
-        let newCategory = CategorySettingsItem(name: categoryName, order: 9)
+        let newCategory = CategorySettingsItem(name: categoryName, order: 99999, isHidden: false)
         fileManager.saveCategorySettings([newCategory])
         fetchCategories() // Recargar categorías después de agregar una nueva
     }
@@ -183,7 +193,7 @@ final class MainViewViewModel: ObservableObject {
     func removeCategory(_ setCategory: CategorySettingsItem) {
         guard setCategory.name != "Todas" && setCategory.name != "Favorites" else { return }
         fileManager.removeCategory(setCategory)
-        sharedURLs.removeAll { $0.category == setCategory.name }
+        sharedURLs.removeAll { $0.idCategory == setCategory.idString }
         fetchCategories()
     }
         
@@ -195,11 +205,11 @@ final class MainViewViewModel: ObservableObject {
         category.name = newName
         selectedCategory = newName
         
-        sharedURLs.forEach {
-            if $0.category == oldName {
-                $0.category = newName
-            }
-        }
+//        sharedURLs.forEach {
+//            if $0.idCategory == oldName {
+//                $0.idCategory = newName
+//            }
+//        }
     }
 
     func reorderCategories(newOrder: [String]) {
@@ -216,6 +226,12 @@ final class MainViewViewModel: ObservableObject {
         fetchedCategories = newOrder.compactMap { categoryMap[$0] }
         // Guardar los cambios en el almacenamiento persistente
         fileManager.saveCategorySettings(fetchedCategories)
+    }
+    
+    func toggleCategoryHidden(_ setCategory: CategorySettingsItem) {
+        guard setCategory.name != "Todas" && setCategory.name != "Favorites" else { return }
+        fileManager.toggleHiddenStatusCategory(for: setCategory)
+        setCategory.isHidden.toggle()
     }
         
     // MARK: - System

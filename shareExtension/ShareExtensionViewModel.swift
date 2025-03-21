@@ -9,7 +9,13 @@ class ShareExtensionViewModel: ObservableObject {
     // Propiedades para la interfaz
     @Published var title: String?            // Título a mostrar (del metadata)
     @Published var imageURL: String = ""       // URL de la imagen (si la hay)
-    @Published var category: String = ""       // Categoría seleccionada
+    @Published var category: String = "" {
+        didSet {
+            selectedObjectCategory = fetchedCategories.first(where: { $0.name == category })
+        }
+    }
+    
+    @Published var selectedObjectCategory: CategorySettingsItem?       // Categoría seleccionada
     @Published var categories: [String] = []   // Lista de categorías disponibles
     @Published var errorMessage: String?       // Mensaje de error en caso de fallo
     @Published var sharedMetadata: WebMetadata? // Metadatos obtenidos desde la URL
@@ -19,6 +25,9 @@ class ShareExtensionViewModel: ObservableObject {
     
     // Almacenamos el URL original extraído del NSExtensionContext
     var sharedURL: URL?
+    
+    var fetchedCategories: [CategorySettingsItem] = []
+
     
     private var webMetadataFetcher: WebMetadataFetcher
     
@@ -31,8 +40,8 @@ class ShareExtensionViewModel: ObservableObject {
     
     /// Carga las categorías usando SharedFileManager
     func loadCategories() {
-        let categoryItems = SharedFileManager.shared.fetchCategorySettings()
-        let fetchedCategories = categoryItems.map { $0.name }
+        fetchedCategories = SharedFileManager.shared.fetchCategorySettings()
+        let fetchedCategories = fetchedCategories.map { $0.name }
         
         DispatchQueue.main.async {
             if fetchedCategories.isEmpty {
@@ -51,7 +60,7 @@ class ShareExtensionViewModel: ObservableObject {
     func addNewCategory(_ categoryName: String) {
         guard !categoryName.isEmpty, !categories.contains(categoryName) else { return }
         
-        let newCategory = CategorySettingsItem(name: categoryName, color: "#FFFFFF", order: 99)
+        let newCategory = CategorySettingsItem(name: categoryName, color: "#FFFFFF", order: 999999, isHidden: false)
         var currentSettings = SharedFileManager.shared.fetchCategorySettings()
         currentSettings.append(newCategory)
         SharedFileManager.shared.saveCategorySettings(currentSettings)
@@ -158,7 +167,7 @@ class ShareExtensionViewModel: ObservableObject {
         SharedDefaultsManager.shared.saveURL(url,
                                             origin: origin,
                                             title: displayTitle,
-                                            category: category,
+                                            idCategory: selectedObjectCategory!.idString,
                                             imageData: imageData,
                                             imageURL: self.imageURL )
     }

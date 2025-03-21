@@ -9,6 +9,34 @@ import SharedResources
 
 
 class MockSharedFileManager: SharedFileManagerProtocol {
+    func updateSharedURLItemCategory(_ item: SharedResources.SharedURLItem, newCategoryID: String) {
+        
+    }
+    
+    func updateSharedURLItemTitle(_ item: SharedResources.SharedURLItem, newTitle: String) {
+        
+    }
+    
+    func toggleFavoriteStatus(for item: SharedResources.SharedURLItem) {
+        
+    }
+    
+    func removeCategory(_ category: SharedResources.CategorySettingsItem) {
+        
+    }
+    
+    func saveCategoryOrder(_ categories: [SharedResources.CategorySettingsItem]) {
+        
+    }
+    
+    func updateCategoryName(_ category: SharedResources.CategorySettingsItem, newName: String) {
+        
+    }
+    
+    func toggleHiddenStatusCategory(for category: SharedResources.CategorySettingsItem) {
+        
+    }
+    
 
     
     
@@ -47,8 +75,8 @@ class MockSharedFileManager: SharedFileManagerProtocol {
         return mockURLs.filter { $0.isFavorite }
     }
 
-    func getURLItemsByCategory(_ category: String) -> [SharedURLItem] {
-        return mockURLs.filter { $0.category == category }
+    func getURLItemsByCategory(_ idCategory: String) -> [SharedURLItem] {
+        return mockURLs.filter { $0.idCategory == idCategory }
     }
 
     func searchURLItemsByTitle(_ query: String) -> [SharedURLItem] {

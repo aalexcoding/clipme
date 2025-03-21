@@ -13,7 +13,7 @@ class SharedURLItemRealm: Object {
     @Persisted var url: String = ""
     @Persisted var tags: List<String>
     @Persisted var isFavorite: Bool = false
-    @Persisted var category: String = ""
+    @Persisted var idCategory: String = ""
     @Persisted var userNotes: String = ""
     @Persisted var date: Date = Date()
     @Persisted var origin: String = ""
@@ -26,7 +26,7 @@ class SharedURLItemRealm: Object {
         self.url = item.url.absoluteString
         self.tags.append(objectsIn: item.tags)
         self.isFavorite = item.isFavorite
-        self.category = item.category
+        self.idCategory = item.idCategory
         self.userNotes = item.userNotes
         self.date = item.date
         self.origin = item.origin
@@ -40,7 +40,7 @@ class SharedURLItemRealm: Object {
             url: URL(string: self.url)!,
             origin: self.origin,
             title: self.title,
-            category: self.category,
+            idCategory: self.idCategory,
             userNotes: self.userNotes,
             date: self.date,
             tags: Array(self.tags),

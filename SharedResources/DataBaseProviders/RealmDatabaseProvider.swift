@@ -90,10 +90,10 @@ internal class RealmDatabaseProvider: DatabaseProvider {
             .map { $0.toSharedURLItem() }
     }
     
-    func updateSharedURLItemCategory(_ item: SharedURLItem, newCategory: String) {
+    func updateSharedURLItemCategory(_ item: SharedURLItem, newCategoryID: String) {
         if let realmItem = realm.objects(SharedURLItemRealm.self).filter("id == %@", item.idString).first {
             try? realm.write {
-                realmItem.category = newCategory
+                realmItem.idCategory = newCategoryID
             }
         }
     }
@@ -151,7 +151,8 @@ internal class RealmDatabaseProvider: DatabaseProvider {
                     let newCategory = CategorySettingsItemRealm(
                         name: setting.name,
                         color: setting.color ?? "#FFFFFF",
-                        order: maxOrder
+                        order: maxOrder,
+                        isHidden: setting.isHidden
                     )
                     realm.add(newCategory)
                 }
@@ -173,11 +174,19 @@ internal class RealmDatabaseProvider: DatabaseProvider {
                 let oldName = realmCategory.name
                 realmCategory.name = newName
 
-                // Actualizar la categoría en todos los SharedURLItemRealm que usaban el nombre antiguo
-                let itemsToUpdate = realm.objects(SharedURLItemRealm.self).filter("category == %@", oldName)
-                for item in itemsToUpdate {
-                    item.category = newName
-                }
+//                // Actualizar la categoría en todos los SharedURLItemRealm que usaban el nombre antiguo
+//                let itemsToUpdate = realm.objects(SharedURLItemRealm.self).filter("category == %@", oldName)
+//                for item in itemsToUpdate {
+//                    item.category = newName
+//                }
+            }
+        }
+    }
+    
+    func toggleHiddenStatusCategory(for category: CategorySettingsItem) {
+        if let realmItem = realm.objects(CategorySettingsItemRealm.self).filter("id == %@", category.idString).first {
+            try? realm.write {
+                realmItem.isHidden.toggle()
             }
         }
     }

@@ -150,6 +150,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D16C84112D8D273200FBD33E /* Exceptions for "clipme" folder in "clipme" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D1CD99A62D7A123E00FDB5CC /* clipme */;
+		};
 		D1CD99E52D7A125D00FDB5CC /* Exceptions for "shareExtension" folder in "shareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -172,6 +179,9 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D1CD99A92D7A123E00FDB5CC /* clipme */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D16C84112D8D273200FBD33E /* Exceptions for "clipme" folder in "clipme" target */,
+			);
 			path = clipme;
 			sourceTree = "<group>";
 		};
@@ -721,6 +731,7 @@
 				ENABLE_ON_DEMAND_RESOURCES = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/ClipMe/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ClipMe;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -759,6 +770,7 @@
 				ENABLE_ON_DEMAND_RESOURCES = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/ClipMe/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ClipMe;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

@@ -20,6 +20,9 @@ struct ActionSheetCategoryView: View {
 
     
     let onDismiss: () -> Void
+    
+    @StateObject private var lockManager = AppLockManager(autoLockSeconds: 60)
+
 
     var body: some View {
         VStack {
@@ -102,6 +105,41 @@ struct ActionSheetCategoryView: View {
                     .padding()
                     .background(Color(UIColor.secondarySystemBackground))
                     .cornerRadius(8)
+                }
+                
+                if viewModel.selectedCategory != "Todas" && viewModel.selectedCategory != "Favorites" {
+                    if let category = viewModel.selectedObjectCategory {
+                        let isHidden = category.isHidden
+                        let lockIcon = isHidden ? "lock" : "lock.open"
+                        let lockText = isHidden ? "Desbloquear" : "Bloquear"
+                        let backgroundColor = Color.red.opacity(UIScreen.main.traitCollection.userInterfaceStyle == .dark ? 0.4 : 0.2)
+
+                        Button(role: .destructive, action: {
+                            if lockManager.isUnlocked {
+                                viewModel.toggleCategoryHidden(category)
+                            }else{
+                                
+                                Task {
+                                    let success = await lockManager.authenticate()
+                                    if success {
+                                        // ✅ Do something right after unlocking
+                                        print("🔓 Authenticated! Now loading secure content...")
+                                        viewModel.toggleCategoryHidden(category)
+                                    }
+                                }
+                                                  }
+                            // onDismiss() // descomenta si lo necesitas
+                        }) {
+                            HStack {
+                                Image(systemName: lockIcon)
+                                Text(lockText)
+                                Spacer()
+                            }
+                            .padding()
+                            .background(backgroundColor)
+                            .cornerRadius(8)
+                        }
+                    }
                 }
                 
                 if viewModel.selectedCategory != "Todas" && viewModel.selectedCategory != "Favorites" {

@@ -15,16 +15,36 @@ struct MainView: View {
     @State private var showSheetCategory: Bool = false // Corregido de @ObservedObject a @State
     @State private var selectedObjetctCategory: CategorySettingsItem? = nil
     @State private var scrollProxy: ScrollViewProxy?
+    
+    @StateObject private var lockManager = AppLockManager(autoLockSeconds: 10)
 
-
+    
     var body: some View {
         NavigationView {
             List {
                 categoryScrollView
                     .listRowSeparator(.hidden)
                 
-                currentView
-                    .listRowSeparator(.hidden)
+                if lockManager.isUnlocked || viewModel.selectedObjectCategory?.isHidden == false || viewModel.selectedCategory == "Todas" || viewModel.selectedCategory == "Favorites" {
+                    currentView
+                        .listRowSeparator(.hidden)
+                  } else {
+                      Button("Autenticarse con \(lockManager.biometricType.rawValue)") {
+                          Task {
+                              _ = await lockManager.authenticate()
+                          }
+                      }
+                      .listRowSeparator(.hidden)
+
+
+                      if let error = lockManager.errorMessage {
+                          Text(error)
+                              .foregroundColor(.red)
+                              .multilineTextAlignment(.center)
+                              .padding(.horizontal)
+                      }
+                  }
+
             }
             .listStyle(PlainListStyle())
             .navigationTitle("ClipMe")

@@ -164,7 +164,7 @@ struct ActionSheetItemView: View {
             ItemTitleView(viewModel: viewModel, selectedItem: $selectedItem, isPresented: $showItemTitleSelection)
         }
         .sheet(isPresented: $showElementsOrderSelection) {
-            ElementOrderSelectorView(viewModel: viewModel, isPresented: $showElementsOrderSelection)
+            ItemOrderSelectorView(viewModel: viewModel, isPresented: $showElementsOrderSelection)
         }
     }
 }

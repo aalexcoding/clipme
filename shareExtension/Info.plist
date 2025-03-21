@@ -14,6 +14,8 @@
 				<false/>
 				<key>NSExtensionActivationSupportsWebURLWithMaxCount</key>
 				<integer>1</integer>
+                <key>NSFaceIDUsageDescription</key>
+                <string>Usamos Face ID para proteger tu información</string>
 			</dict>
 		</dict>
 		<key>NSExtensionPointIdentifier</key>
