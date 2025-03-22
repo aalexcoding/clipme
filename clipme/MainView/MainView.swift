@@ -25,7 +25,14 @@ struct MainView: View {
                 categoryScrollView
                     .listRowSeparator(.hidden)
                 
-                if lockManager.isUnlocked || viewModel.selectedObjectCategory?.isHidden == false || viewModel.selectedCategory == "Todas" || viewModel.selectedCategory == "Favorites" {
+                let isVisible = {
+                    if let category = viewModel.selectedObjectCategory {
+                        return !category.isHidden
+                    }
+                    return false
+                }()
+                
+                if lockManager.isUnlocked || isVisible == true || viewModel.selectedCategory == "Todas" || viewModel.selectedCategory == "Favorites" {
                     currentView
                         .listRowSeparator(.hidden)
                   } else {

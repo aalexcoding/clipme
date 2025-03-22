@@ -197,13 +197,16 @@ final class MainViewViewModel: ObservableObject {
         fetchCategories()
     }
         
-    func changeCategoryName(_ oldName: String, _ newName: String) {
+    func changeCategoryName(_ categoryObjectSelected: CategorySettingsItem,_ oldName: String, _ newName: String) {
         guard oldName != newName else { return }
-        guard let category = selectedObjectCategory else { return }
         
-        fileManager.updateCategoryName(category, newName: newName)
-        category.name = newName
+        selectedObjectCategory = fetchedCategories.first(where: { $0.name == oldName })
+        selectedObjectCategory?.name = newName
         selectedCategory = newName
+
+        fileManager.updateCategoryName(categoryObjectSelected, newName: newName)
+//        categoryObjectSelected.name = newName
+//        selectedCategory = newName
         
 //        sharedURLs.forEach {
 //            if $0.idCategory == oldName {

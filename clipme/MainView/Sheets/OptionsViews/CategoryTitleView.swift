@@ -40,7 +40,10 @@ struct CategoryTitleView: View {
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Guardar") {
-                        viewModel.changeCategoryName(viewModel.selectedCategory, newTitle)
+                        guard let selectedCategory = selectedCategory else {
+                            return
+                        }
+                        viewModel.changeCategoryName(selectedCategory, selectedCategory.name, newTitle)
                         isPresented = false
                     }
                     .bold()

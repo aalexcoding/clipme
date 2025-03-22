@@ -30,15 +30,15 @@ struct ActionSheetCategoryView: View {
 
                 Spacer()
                 
-                if let item = selectedObjetctCategory {
-                    Text(item.name)
+//                if let item = selectedObjetctCategory {
+                    Text(viewModel.selectedCategory)
                         .font(.headline)
                         .lineLimit(2)
                         .foregroundColor(.primary)
                         .frame(maxWidth: .infinity, alignment: .leading) // Aligns text to the left
                     //Spacer()
 
-                }
+//                }
 
                 Button(action: onDismiss) {
                     Image(systemName: "xmark.circle.fill")
