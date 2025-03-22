@@ -84,9 +84,9 @@ internal class RealmDatabaseProvider: DatabaseProvider {
         }
     }
 
-    func getURLItemsByCategory(_ category: String) -> [SharedURLItem] {
+    func getURLItemsByCategory(_ idCategory: String) -> [SharedURLItem] {
         return realm.objects(SharedURLItemRealm.self)
-            .filter("category == %@", category)
+            .filter("idCategory == %@", idCategory)
             .map { $0.toSharedURLItem() }
     }
     

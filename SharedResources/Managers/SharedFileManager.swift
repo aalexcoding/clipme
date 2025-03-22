@@ -84,7 +84,7 @@ public class SharedFileManager: SharedFileManagerProtocol {
 //    }
 
     public func removeCategory(_ category: CategorySettingsItem) {
-        let itemsToRemove = database.getURLItemsByCategory(category.name)
+        let itemsToRemove = database.getURLItemsByCategory(category.idString)
         for item in itemsToRemove {
             database.deleteItem(by: item.idString)
         }
