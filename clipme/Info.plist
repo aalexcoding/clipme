@@ -7,5 +7,14 @@
     <string>ClipMe</string>
     <key>NSFaceIDUsageDescription</key>
     <string>Usamos Face ID para proteger el acceso a información sensible.</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+      <dict>
+        <key>CFBundleURLSchemes</key>
+        <array>
+          <string>clipmeapp</string> 
+        </array>
+      </dict>
+    </array>
 </dict>
 </plist>

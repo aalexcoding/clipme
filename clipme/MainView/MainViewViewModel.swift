@@ -248,6 +248,53 @@ final class MainViewViewModel: ObservableObject {
     func storeElementView(){
         UserDefaults.standard.setValue(viewType.rawValue, forKey: "preferredViewType")
     }
+    
+    func generarURLCompartibleUniversal(para elementos: [SharedURLItem]) -> URL? {
+        let urls = elementos.map { $0.url.absoluteString }
+        let joined = urls.joined(separator: ",")
+        guard let encoded = joined.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            return nil
+        }
+
+        let urlString = "clipmeapp://elementos?data=\(encoded)"
+        return URL(string: urlString)
+    }
+    
+    func compartirElementosUniversal(_ elementos: [SharedURLItem]) {
+        if let url = generarURLCompartibleUniversal(para: elementos) {
+            let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            
+            // Buscar la escena actual (UIHostingController)
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let root = scene.windows.first?.rootViewController {
+                root.present(activityVC, animated: true)
+            }
+        }
+    }
+    
+    func generateURLForSiengleElementOriginalLink(para elementos: [SharedURLItem]) -> URL? {
+        let urls = elementos.map { $0.url.absoluteString }
+        let joined = urls.joined(separator: ",")
+        guard let encoded = joined.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) else {
+            return nil
+        }
+
+        let urlString = "\(encoded)"
+        return URL(string: urlString)
+    }
+    
+    func shareOriginalElement(_ elementos: [SharedURLItem]) {
+        if let url = generateURLForSiengleElementOriginalLink(para: elementos) {
+            let activityVC = UIActivityViewController(activityItems: [url], applicationActivities: nil)
+            
+            // Buscar la escena actual (UIHostingController)
+            if let scene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+               let root = scene.windows.first?.rootViewController {
+                root.present(activityVC, animated: true)
+            }
+        }
+    }
+    
 }
 
 

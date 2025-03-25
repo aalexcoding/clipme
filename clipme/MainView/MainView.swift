@@ -15,6 +15,8 @@ struct MainView: View {
     @State private var showSheetCategory: Bool = false // Corregido de @ObservedObject a @State
     @State private var selectedObjetctCategory: CategorySettingsItem? = nil
     @State private var scrollProxy: ScrollViewProxy?
+    @State private var elementosRecibido: [SharedURLItem]?
+
     
     @StateObject private var lockManager = AppLockManager(autoLockSeconds: 10)
 
@@ -77,7 +79,32 @@ struct MainView: View {
                     showSheetCategory = false
                 }
             }
+            .onOpenURL { url in
+                print("🔗 App abierta con URL: \(url)")
+                manejarURL(url)
+            }
         }
+    }
+    
+
+    func manejarURL(_ url: URL) {
+        guard url.scheme == "clipmeapp",
+              url.host == "elementos",
+              let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
+              let urlString = components.queryItems?.first(where: { $0.name == "data" })?.value,
+              let decoded = urlString.removingPercentEncoding else {
+            return
+        }
+
+        let urlStrings = decoded.components(separatedBy: ",")
+        let urls = urlStrings.compactMap { URL(string: $0) }
+
+        print("✅ URLs recibidas:")
+        urls.forEach { print($0.absoluteString) }
+
+        // Si querés reconstruir SharedURLItem solo con las URLs:
+        //let sharedItems = urls.map { SharedURLItem(id: UUID(), nombre: "Desconocido", url: $0) }
+        // Hacé lo que necesites con los items reconstruidos
     }
     
     private var categoryScrollView: some View {

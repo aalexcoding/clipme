@@ -18,6 +18,11 @@ struct ActionSheetItemView: View {
 
     let onDismiss: () -> Void
     
+    var urlForSharinng: URL? {
+        guard let item = selectedItem else { return nil }
+        return viewModel.generateURLForSiengleElementOriginalLink(para: [item])
+    }
+    
     var body: some View {
         VStack {
             HStack {
@@ -124,8 +129,19 @@ struct ActionSheetItemView: View {
                     .background(Color(UIColor.secondarySystemBackground))
                     .cornerRadius(8)
                 }
-
-
+                
+                if let url = urlForSharinng {
+                    ShareLink(item: url) {
+                        HStack {
+                            Image(systemName: "square.and.arrow.up")
+                            Text("Compartir elemento")
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .cornerRadius(8)
+                    }
+                }
 
                 Button(role: .destructive, action: {
                     if let item = selectedItem {
