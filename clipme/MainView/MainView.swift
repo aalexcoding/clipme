@@ -17,6 +17,8 @@ struct MainView: View {
     @State private var scrollProxy: ScrollViewProxy?
     @State private var elementosRecibido: [SharedURLItem]?
 
+    @State private var lastScrollCheck: Date = .now
+
     
     @StateObject private var lockManager = AppLockManager(autoLockSeconds: 10)
 
@@ -108,11 +110,13 @@ struct MainView: View {
     }
     
     private var categoryScrollView: some View {
+        
+        
         ScrollViewReader { scrollProxy in
             GeometryReader { geometry in
                 ZStack {
                     ScrollView(.horizontal, showsIndicators: false) {
-                        HStack(spacing: 0) {
+                        LazyHStack(spacing: 0) {
                             categoryButtons
                             Button(action: {
                                 isAddCategoryPresented = true
@@ -128,8 +132,15 @@ struct MainView: View {
                                 .onAppear {
                                     updateChevronVisibility(proxy: proxy)
                                 }
-                                .onChange(of: proxy.frame(in: .global).minX) { _, _ in
-                                    updateChevronVisibility(proxy: proxy)
+
+                                .onChange(of: proxy.frame(in: .global).minX) { newValue, _ in
+                                    let now = Date()
+                                    lastScrollCheck = now
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                        if now == lastScrollCheck {
+                                            updateChevronVisibility(proxy: proxy)
+                                        }
+                                    }
                                 }
                         })
                         .id("lastItem") // Assign an ID to the last item
@@ -206,8 +217,17 @@ struct MainView: View {
         let offset = proxy.frame(in: .global).minX
         let contentWidth = proxy.size.width
         let scrollViewWidth = UIScreen.main.bounds.width
-        viewModel.showLeftChevron = offset < 0
-        viewModel.showRightChevron = contentWidth + offset > scrollViewWidth
+        
+        let shouldShowLeft = offset < 0
+        let shouldShowRight = contentWidth + offset > scrollViewWidth
+        
+        if viewModel.showLeftChevron != shouldShowLeft {
+            viewModel.showLeftChevron = shouldShowLeft
+        }
+
+        if viewModel.showRightChevron != shouldShowRight {
+            viewModel.showRightChevron = shouldShowRight
+        }
     }
     
     @MainActor
