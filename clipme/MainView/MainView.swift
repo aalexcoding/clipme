@@ -25,67 +25,81 @@ struct MainView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                categoryScrollView
-                    .listRowSeparator(.hidden)
-                
-                let isVisible = {
-                    if let category = viewModel.selectedObjectCategory {
-                        return !category.isHidden
-                    }
-                    return false
-                }()
-                
-                if lockManager.isUnlocked || isVisible == true || viewModel.selectedCategory == "Todas" || viewModel.selectedCategory == "Favorites" {
-                    currentView
+            
+            ZStack {
+                Image("background") // replace with your asset name
+                    .resizable(resizingMode: .tile)
+                    .ignoresSafeArea()
+                    .opacity(0.08) // optional: make it subtle
+                List {
+                    categoryScrollView
                         .listRowSeparator(.hidden)
-                  } else {
-                      Button("Autenticarse con \(lockManager.biometricType.rawValue)") {
-                          Task {
-                              _ = await lockManager.authenticate()
+                    
+                    let isVisible = {
+                        if let category = viewModel.selectedObjectCategory {
+                            return !category.isHidden
+                        }
+                        return false
+                    }()
+                    
+                    if lockManager.isUnlocked || isVisible == true || viewModel.selectedCategory == "Todas" || viewModel.selectedCategory == "Favorites" {
+                        currentView
+                            .listRowSeparator(.hidden)
+                            .padding(.top, 10)
+                            .background(Color.clear)
+
+                      } else {
+                          Button("Autenticarse con \(lockManager.biometricType.rawValue)") {
+                              Task {
+                                  _ = await lockManager.authenticate()
+                              }
+                          }
+                          .listRowSeparator(.hidden)
+
+
+                          if let error = lockManager.errorMessage {
+                              Text(error)
+                                  .foregroundColor(.red)
+                                  .multilineTextAlignment(.center)
+                                  .padding(.horizontal)
                           }
                       }
-                      .listRowSeparator(.hidden)
 
+                }
+               // .listStyle(PlainListStyle())
+               // .background(Color.clear)
 
-                      if let error = lockManager.errorMessage {
-                          Text(error)
-                              .foregroundColor(.red)
-                              .multilineTextAlignment(.center)
-                              .padding(.horizontal)
-                      }
-                  }
-
-            }
-            .listStyle(PlainListStyle())
-            .navigationTitle("ClipMe")
-            .navigationBarTitleDisplayMode(.inline)
-            .searchable(text: $viewModel.searchQuery)
-            .overlay(
-                Group {
-                    if isAddCategoryPresented {
-                        AddCategoryPopupView(isPresented: $isAddCategoryPresented) { newCategory in
-                            viewModel.addNewCategory(newCategory)
-                            viewModel.selectedCategory = newCategory
-                            Task {
-                                await scrollToEnd()
+                .scrollContentBackground(.hidden)
+                .navigationTitle("ClipMe")
+                .navigationBarTitleDisplayMode(.inline)
+                .searchable(text: $viewModel.searchQuery)
+                .overlay(
+                    Group {
+                        if isAddCategoryPresented {
+                            AddCategoryPopupView(isPresented: $isAddCategoryPresented) { newCategory in
+                                viewModel.addNewCategory(newCategory)
+                                viewModel.selectedCategory = newCategory
+                                Task {
+                                    await scrollToEnd()
+                                }
                             }
                         }
                     }
+                )
+                .animation(.easeInOut(duration: 0.2), value: isAddCategoryPresented)
+                .navigationBarItems(trailing: navigationElementViewSwitcher)
+                .sheet(isPresented: $showSheetCategory) {
+                    ActionSheetCategoryView(viewModel: viewModel, showSheetCategory: $showSheetCategory, selectedObjetctCategory: $selectedObjetctCategory) {
+                        showSheetCategory = false
+                    }
                 }
-            )
-            .animation(.easeInOut(duration: 0.2), value: isAddCategoryPresented)
-            .navigationBarItems(trailing: navigationElementViewSwitcher)
-            .sheet(isPresented: $showSheetCategory) {
-                ActionSheetCategoryView(viewModel: viewModel, showSheetCategory: $showSheetCategory, selectedObjetctCategory: $selectedObjetctCategory) {
-                    showSheetCategory = false
+                .onOpenURL { url in
+                    print("🔗 App abierta con URL: \(url)")
+                    manejarURL(url)
                 }
             }
-            .onOpenURL { url in
-                print("🔗 App abierta con URL: \(url)")
-                manejarURL(url)
             }
-        }
+            
     }
     
 
@@ -217,17 +231,8 @@ struct MainView: View {
         let offset = proxy.frame(in: .global).minX
         let contentWidth = proxy.size.width
         let scrollViewWidth = UIScreen.main.bounds.width
-        
-        let shouldShowLeft = offset < 0
-        let shouldShowRight = contentWidth + offset > scrollViewWidth
-        
-        if viewModel.showLeftChevron != shouldShowLeft {
-            viewModel.showLeftChevron = shouldShowLeft
-        }
-
-        if viewModel.showRightChevron != shouldShowRight {
-            viewModel.showRightChevron = shouldShowRight
-        }
+        viewModel.showLeftChevron = offset < 0
+        viewModel.showRightChevron = contentWidth + offset > scrollViewWidth
     }
     
     @MainActor

@@ -150,6 +150,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D1636DB12D9C6A8500103BB6 /* Exceptions for "clipme" folder in "shareExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Assets.xcassets,
+			);
+			target = D1CD99D92D7A125D00FDB5CC /* shareExtension */;
+		};
 		D16C84112D8D273200FBD33E /* Exceptions for "clipme" folder in "clipme" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -181,6 +188,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				D16C84112D8D273200FBD33E /* Exceptions for "clipme" folder in "clipme" target */,
+				D1636DB12D9C6A8500103BB6 /* Exceptions for "clipme" folder in "shareExtension" target */,
 			);
 			path = clipme;
 			sourceTree = "<group>";

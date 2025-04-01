@@ -41,13 +41,14 @@ class ShareExtensionViewModel: ObservableObject {
     /// Carga las categorías usando SharedFileManager
     func loadCategories() {
         fetchedCategories = SharedFileManager.shared.fetchCategorySettings()
-        let fetchedCategories = fetchedCategories.map { $0.name }
+        let orderedCategories = fetchedCategories.sorted { $0.order < $1.order }
+        let storedCategories = orderedCategories.map { $0.name }
         
         DispatchQueue.main.async {
-            if fetchedCategories.isEmpty {
+            if storedCategories.isEmpty {
                 self.categories = ["Sin Categoría"]
             } else {
-                self.categories = fetchedCategories
+                self.categories = storedCategories
             }
             
             if !self.categories.contains(self.category) || self.category.isEmpty {

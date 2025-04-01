@@ -17,129 +17,127 @@ struct ShareExtensionView: View {
     @State private var isLoading: Bool = true
     @State private var scrollProxy: ScrollViewProxy?
 
+    private var contentHeight: CGFloat {
+        500 // Adjust as needed to reflect approximate total height of content when not loading
+    }
     
     var body: some View {
-        List {
-            if isLoading {
-                ProgressView()
-                    .frame(maxWidth: .infinity, alignment: .center)
-            } else {
-                if let title = viewModel.title {
-                    
-                    if let imageData = viewModel.sharedMetadata?.image, let uiImage = UIImage(data: imageData) {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 200)
-                            .cornerRadius(10)
-                            .shadow(radius: 5)
-                            .padding()
-                            .listRowSeparator(.hidden)
-
-                    } else if !viewModel.imageURL.isEmpty {
-                        AsyncImage(url: URL(string: viewModel.imageURL)) { phase in
-                            switch phase {
-                            case .empty:
-                                ProgressView()
-                            case .success(let image):
-                                image.resizable()
-                                    .scaledToFit()
-                                    .frame(height: 200)
-                                    .cornerRadius(10)
-                                    .shadow(radius: 5)
-                            case .failure:
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 200)
-                                    .foregroundColor(.gray)
-                            @unknown default:
-                                ProgressView()
+        ZStack {
+            Image("background") // replace with your asset name
+                .resizable(resizingMode: .tile)
+                .ignoresSafeArea()
+                .opacity(0.08) // optional: make it subtle
+            
+            GeometryReader { geometry in
+                ScrollView {
+                    VStack(spacing: 16) {
+                        Spacer(minLength: max((geometry.size.height - contentHeight) / 2, 20))
+                        
+                        if isLoading {
+                            ProgressView()
+                                .frame(maxWidth: .infinity, alignment: .center)
+                        } else {
+                            if let title = viewModel.title {
+                                
+                                if let imageData = viewModel.sharedMetadata?.image, let uiImage = UIImage(data: imageData) {
+                                    HStack {
+                                        Spacer()
+                                        Image(uiImage: uiImage)
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(height: 200)
+                                            .cornerRadius(10)
+                                            .shadow(radius: 5)
+                                            .padding()
+                                        Spacer()
+                                    }
+                                } else if !viewModel.imageURL.isEmpty {
+                                    AsyncImage(url: URL(string: viewModel.imageURL)) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            ProgressView()
+                                        case .success(let image):
+                                            image.resizable()
+                                                .scaledToFit()
+                                                .frame(height: 200)
+                                                .cornerRadius(10)
+                                                .shadow(radius: 5)
+                                        case .failure:
+                                            Image(systemName: "photo")
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(height: 200)
+                                                .foregroundColor(.gray)
+                                        @unknown default:
+                                            ProgressView()
+                                        }
+                                    }
+                                    .padding()
+                                }
+                                
+                                Text(title)
+                                    .font(.body)
+                                    .lineLimit(1)
+                                    .truncationMode(.middle)
+                                    .padding()
+                                
+                                categoryScrollView
+                                
+                                Button("Guardar") {
+                                    viewModel.saveSharedURL()
+                                    extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .center)
+                                .padding(.top, 20)
+                            } else if let error = viewModel.errorMessage {
+                                Text("Error:")
+                                    .font(.headline)
+                                
+                                Text(error)
+                                    .multilineTextAlignment(.center)
+                                    .padding()
+                            } else {
+                                Text("Procesando link...")
+                                    .frame(maxWidth: .infinity, alignment: .center)
                             }
                         }
-                        .padding()
-                        .listRowSeparator(.hidden)
-
+                        
+                        Spacer(minLength: 20)
                     }
-                    
-                    Text(title)
-                        .font(.body)
-                        .lineLimit(1)
-                        .truncationMode(.middle)
-                        .padding()
-                        .listRowSeparator(.hidden)
-
-                    
-                    Section {
-                        categoryScrollView
-                            .listRowSeparator(.hidden)
-                    }
-                    
-                    // Sección para el botón de guardar
-                    Section {
-                        Button("Guardar") {
-                            viewModel.saveSharedURL()
-                            extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
+                    .padding()
+                    .frame(maxWidth: .infinity)
+                    .frame(minHeight: geometry.size.height)
+                    .overlay(
+                        Group {
+                            if isAddCategoryPresented {
+                                AddCategoryPopupView(isPresented: $isAddCategoryPresented) { newCategory in
+                                    viewModel.addNewCategory(newCategory)
+                                    viewModel.category = newCategory
+                                    Task {
+                                        await scrollToEnd()
+                                    }
+                                }
+                            }
                         }
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, 20)
-                        .listRowSeparator(.hidden)
-
-                    }
-                    
-                } else if let error = viewModel.errorMessage {
-                    Section {
-                        Text("Error:")
-                            .font(.headline)
-                            .listRowSeparator(.hidden)
-
-                        Text(error)
-                            .multilineTextAlignment(.center)
-                            .padding()
-                            .listRowSeparator(.hidden)
-
-                    }
-                } else {
-                    Section {
-                        Text("Procesando link...")
-                            .frame(maxWidth: .infinity, alignment: .center)
-                            .listRowSeparator(.hidden)
-
-                    }
-                }
-            }
-        }
-        .listStyle(PlainListStyle()) // Evita que la lista tenga un estilo demasiado marcado
-        .overlay(
-            Group {
-                if isAddCategoryPresented {
-                    AddCategoryPopupView(isPresented: $isAddCategoryPresented) { newCategory in
-                        viewModel.addNewCategory(newCategory)
-                        viewModel.category = newCategory
+                    )
+                    .animation(.easeInOut(duration: 0.2), value: isAddCategoryPresented)
+                    .onAppear {
+                        print("ShareExtensionView aparece en pantalla")
+                        
+                        guard let extensionContext = extensionContext else { return }
+                        let inputItems = extensionContext.inputItems
+                        
                         Task {
-                            await scrollToEnd()
+                            isLoading = true
+                            await viewModel.loadURL(inputItems)
+                            isLoading = false
                         }
-
-
+                        viewModel.loadCategories()
                     }
                 }
             }
-        )
-        .animation(.easeInOut(duration: 0.2), value: isAddCategoryPresented)
-        .onAppear {
-            print("ShareExtensionView aparece en pantalla")
-            
-            guard let extensionContext = extensionContext else { return }
-            let inputItems = extensionContext.inputItems
-            
-            Task {
-                isLoading = true
-                await viewModel.loadURL(inputItems)
-                isLoading = false
-            }
-            viewModel.loadCategories()
-            
         }
+
     }
     
     private var categoryScrollView: some View {
@@ -149,6 +147,8 @@ struct ShareExtensionView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(spacing: 0) {
                             categoryButtons
+                                .listRowSeparator(.hidden)
+
                             Button(action: {
                                 isAddCategoryPresented = true
                             }) {
@@ -208,6 +208,7 @@ struct ShareExtensionView: View {
                 viewModel.category = category
             }) {
                 Text(category)
+                    .foregroundColor(viewModel.category == category ? .white : .primary)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .overlay(

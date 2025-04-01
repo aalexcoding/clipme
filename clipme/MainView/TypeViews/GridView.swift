@@ -37,16 +37,22 @@ struct GridView: View {
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                             } else {
                                 RoundedRectangle(cornerRadius: 10)
-                                    .fill(Color.gray.opacity(0.3))
+                                    .fill(Color.clear)
                                     .frame(width: 80, height: 80)
                             }
                         }
                     }
+                    .background(Color.clear)
+
                    // .padding(.top, 4)
                 }
             }
+            .background(Color.clear)
+
             //.padding()
         }
+        .background(Color.clear)
+
         .sheet(isPresented: $showSheet) {
             ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem) {
                 showSheet = false
