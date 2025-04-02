@@ -55,8 +55,12 @@ struct LandscapeView: View {
                     }
                 }
             }
+            .background(Color.clear)
+            .scrollContentBackground(.hidden)
             .padding()
         }
+        .background(Color.clear)
+        .scrollContentBackground(.hidden) 
         .sheet(isPresented: $showSheet) {
             ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem) {
                 showSheet = false

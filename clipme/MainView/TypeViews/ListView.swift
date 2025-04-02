@@ -62,7 +62,11 @@ struct ListView: View {
                     }
                 }
             }
+            .background(Color.clear)
+            .scrollContentBackground(.hidden)
         }
+        .background(Color.clear)
+        .scrollContentBackground(.hidden) 
         .frame(maxWidth: .infinity, maxHeight: .infinity) // Full screen usage
         .sheet(isPresented: $showSheet) {
             ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem) {

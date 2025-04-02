@@ -1,108 +1,101 @@
-//
-//  SharedURLsViewModel.swift
-//  reelKeeper
-//
-//  Created by AlexDelgado on 6/3/25.
-//
-
 import SwiftUI
 import SharedResources
 
 struct MainView: View {
-        
+    
     @ObservedObject var viewModel: MainViewViewModel
     @State private var isAddCategoryPresented: Bool = false
     @State private var showSheetCategory: Bool = false // Corregido de @ObservedObject a @State
     @State private var selectedObjetctCategory: CategorySettingsItem? = nil
     @State private var scrollProxy: ScrollViewProxy?
     @State private var elementosRecibido: [SharedURLItem]?
-
+    
     @State private var lastScrollCheck: Date = .now
-
     
     @StateObject private var lockManager = AppLockManager(autoLockSeconds: 10)
-
     
     var body: some View {
         NavigationView {
-            
             ZStack {
-                Image("background") // replace with your asset name
+                Image("background")
                     .resizable(resizingMode: .tile)
                     .ignoresSafeArea()
-                    .opacity(0.08) // optional: make it subtle
-                List {
-                    categoryScrollView
-                        .listRowSeparator(.hidden)
-                    
-                    let isVisible = {
-                        if let category = viewModel.selectedObjectCategory {
-                            return !category.isHidden
-                        }
-                        return false
-                    }()
-                    
-                    if lockManager.isUnlocked || isVisible == true || viewModel.selectedCategory == "Todas" || viewModel.selectedCategory == "Favorites" {
-                        currentView
-                            .listRowSeparator(.hidden)
-                            .padding(.top, 10)
-                            .background(Color.clear)
+                    .opacity(0.08)
+                ScrollView(.vertical, showsIndicators: false) {
+                    VStack(spacing: 10) {
+                        categoryScrollView
+                            //.padding(.top, 4)
+                            .frame(height: 30)
+                            
+                            Spacer()
+                        
 
-                      } else {
-                          Button("Autenticarse con \(lockManager.biometricType.rawValue)") {
-                              Task {
-                                  _ = await lockManager.authenticate()
-                              }
-                          }
-                          .listRowSeparator(.hidden)
+                        let isVisible = {
+                            if let category = viewModel.selectedObjectCategory {
+                                return !category.isHidden
+                            }
+                            return false
+                        }()
 
+                        if lockManager.isUnlocked || isVisible || viewModel.selectedCategory == "Todas" || viewModel.selectedCategory == "Favorites" {
+                            currentView
+                                //.padding(.top, 10)
+                        } else {
+                            VStack(spacing: 8) {
+                                Button("Autenticarse con \(lockManager.biometricType.rawValue)") {
+                                    Task {
+                                        _ = await lockManager.authenticate()
+                                    }
+                                }
 
-                          if let error = lockManager.errorMessage {
-                              Text(error)
-                                  .foregroundColor(.red)
-                                  .multilineTextAlignment(.center)
-                                  .padding(.horizontal)
-                          }
-                      }
-
-                }
-               // .listStyle(PlainListStyle())
-               // .background(Color.clear)
-
-                .scrollContentBackground(.hidden)
-                .navigationTitle("ClipMe")
-                .navigationBarTitleDisplayMode(.inline)
-                .searchable(text: $viewModel.searchQuery)
-                .overlay(
-                    Group {
-                        if isAddCategoryPresented {
-                            AddCategoryPopupView(isPresented: $isAddCategoryPresented) { newCategory in
-                                viewModel.addNewCategory(newCategory)
-                                viewModel.selectedCategory = newCategory
-                                Task {
-                                    await scrollToEnd()
+                                if let error = lockManager.errorMessage {
+                                    Text(error)
+                                        .foregroundColor(.red)
+                                        .multilineTextAlignment(.center)
+                                        .padding(.horizontal)
                                 }
                             }
                         }
                     }
-                )
-                .animation(.easeInOut(duration: 0.2), value: isAddCategoryPresented)
-                .navigationBarItems(trailing: navigationElementViewSwitcher)
-                .sheet(isPresented: $showSheetCategory) {
-                    ActionSheetCategoryView(viewModel: viewModel, showSheetCategory: $showSheetCategory, selectedObjetctCategory: $selectedObjetctCategory) {
-                        showSheetCategory = false
+                    .padding()
+                    .background(Color.clear)
+                }
+
+            }
+            .navigationTitle("ClipMe")
+            .navigationBarTitleDisplayMode(.inline)
+            .searchable(text: $viewModel.searchQuery)
+            .overlay(
+                Group {
+                    if isAddCategoryPresented {
+                        AddCategoryPopupView(isPresented: $isAddCategoryPresented) { newCategory in
+                            viewModel.addNewCategory(newCategory)
+                            viewModel.selectedCategory = newCategory
+                            Task {
+                                await scrollToEnd()
+                            }
+                        }
                     }
                 }
-                .onOpenURL { url in
-                    print("🔗 App abierta con URL: \(url)")
-                    manejarURL(url)
+            )
+            .animation(.easeInOut(duration: 0.2), value: isAddCategoryPresented)
+            .navigationBarItems(trailing: navigationElementViewSwitcher)
+            .sheet(isPresented: $showSheetCategory) {
+                ActionSheetCategoryView(
+                    viewModel: viewModel,
+                    showSheetCategory: $showSheetCategory,
+                    selectedObjetctCategory: $selectedObjetctCategory
+                ) {
+                    showSheetCategory = false
                 }
             }
+            .onOpenURL { url in
+                print("🔗 App abierta con URL: \(url)")
+                manejarURL(url)
             }
-            
+        }
     }
     
-
     func manejarURL(_ url: URL) {
         guard url.scheme == "clipmeapp",
               url.host == "elementos",
@@ -111,21 +104,15 @@ struct MainView: View {
               let decoded = urlString.removingPercentEncoding else {
             return
         }
-
+        
         let urlStrings = decoded.components(separatedBy: ",")
         let urls = urlStrings.compactMap { URL(string: $0) }
-
+        
         print("✅ URLs recibidas:")
         urls.forEach { print($0.absoluteString) }
-
-        // Si querés reconstruir SharedURLItem solo con las URLs:
-        //let sharedItems = urls.map { SharedURLItem(id: UUID(), nombre: "Desconocido", url: $0) }
-        // Hacé lo que necesites con los items reconstruidos
     }
     
     private var categoryScrollView: some View {
-        
-        
         ScrollViewReader { scrollProxy in
             GeometryReader { geometry in
                 ZStack {
@@ -138,6 +125,7 @@ struct MainView: View {
                                 Image(systemName: "plus")
                                     .padding(10)
                                     .background(.ultraThinMaterial)
+
                                     .clipShape(Circle())
                             }
                         }
@@ -146,7 +134,6 @@ struct MainView: View {
                                 .onAppear {
                                     updateChevronVisibility(proxy: proxy)
                                 }
-
                                 .onChange(of: proxy.frame(in: .global).minX) { newValue, _ in
                                     let now = Date()
                                     lastScrollCheck = now
@@ -157,15 +144,16 @@ struct MainView: View {
                                     }
                                 }
                         })
-                        .id("lastItem") // Assign an ID to the last item
-
+                        .id("lastItem")
                     }
                     ChevronIndicators(viewModel: viewModel)
                         .ignoresSafeArea()
                 }
+                .frame(height: 30)
+
             }
             .task {
-                await storeScrollProxy(scrollProxy) // Store proxy properly
+                await storeScrollProxy(scrollProxy)
             }
         }
     }
@@ -181,9 +169,8 @@ struct MainView: View {
                 LandscapeView(viewModel: viewModel)
             }
         }
+        .background(Color.clear)
     }
-    
-
     
     private var categoryButtons: some View {
         ForEach(viewModel.categories, id: \.self) { category in
@@ -215,9 +202,7 @@ struct MainView: View {
             guard let currentIndex = allTypes.firstIndex(of: viewModel.viewType) else { return }
             let nextIndex = (currentIndex + 1) % allTypes.count
             viewModel.viewType = allTypes[nextIndex]
-            
             viewModel.storeElementView()
-            
         }) {
             Image(systemName: viewModel.viewType == .grid ? "square.grid.2x2" : viewModel.viewType == .list ? "list.bullet" : "rectangle.split.2x1")
                 .resizable()
@@ -244,14 +229,12 @@ struct MainView: View {
     private func scrollToEnd() async {
         guard let scrollProxy = scrollProxy else { return }
         
-        try? await Task.sleep(nanoseconds: 200_000_000) // Delay to ensure SwiftUI loads
+        try? await Task.sleep(nanoseconds: 200_000_000)
         withAnimation {
             scrollProxy.scrollTo("lastItem", anchor: .trailing)
         }
     }
 }
-
-
 
 struct ChevronIndicators: View {
     @ObservedObject var viewModel: MainViewViewModel

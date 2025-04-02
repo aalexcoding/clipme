@@ -10,13 +10,15 @@ import SharedResources
 
 struct GridView: View {
     @ObservedObject var viewModel: MainViewViewModel
-    @State private var selectedItem: SharedURLItem? // Controla qué elemento tiene el menú abierto
-    @State private var showSheet: Bool = false // Corregido de @ObservedObject a @State
+    @State private var selectedItem: SharedURLItem?
+    @State private var showSheet: Bool = false
 
-    
     var body: some View {
-        ScrollView {
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4), spacing: 12) {
+//        ScrollView {
+            LazyVGrid(
+                columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 4),
+                spacing: 12
+            ) {
                 ForEach(viewModel.filteredItems(), id: \.id) { item in
                     VStack {
                         DualActionButton(
@@ -24,7 +26,6 @@ struct GridView: View {
                                 viewModel.openURL(item.url.absoluteString)
                             },
                             actionOnLongPress: {
-                                print("A eliminar \(item.id.uuidString)")
                                 selectedItem = item
                                 showSheet = true
                             }
@@ -42,21 +43,22 @@ struct GridView: View {
                             }
                         }
                     }
-                    .background(Color.clear)
-
-                   // .padding(.top, 4)
+                    .background(Color.clear) // ← transparente
                 }
             }
-            .background(Color.clear)
-
-            //.padding()
-        }
-        .background(Color.clear)
-
-        .sheet(isPresented: $showSheet) {
-            ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem) {
-                showSheet = false
+            .padding(.horizontal)
+            .background(Color.clear) // ← importante
+            .sheet(isPresented: $showSheet) {
+                ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem) {
+                    showSheet = false
+                }
             }
-        }
+//        }
+//        .background(Color.clear) // ← importante
+//        .sheet(isPresented: $showSheet) {
+//            ActionSheetItemView(viewModel: viewModel, selectedItem: $selectedItem) {
+//                showSheet = false
+//            }
+//        }
     }
 }
