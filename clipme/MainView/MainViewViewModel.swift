@@ -17,7 +17,7 @@ final class MainViewViewModel: ObservableObject {
     @Published var elementOrder: ElementOrderBy = ElementOrderBy(rawValue: UserDefaults.standard.string(forKey: "preferredElementOrder") ?? "dateLatestFirst") ?? .dateLatestFirst
 
     @Published var sharedURLs: [SharedURLItem] = []
-    @Published var selectedCategory: String = "Todas" {
+    @Published var selectedCategory: String = String(localized: "horizontal_scroll_all") {
         didSet {
             selectedObjectCategory = fetchedCategories.first(where: { $0.name == selectedCategory })
         }
@@ -42,7 +42,7 @@ final class MainViewViewModel: ObservableObject {
         let storedCategories = orderedCategories.map { $0.name }
         //let dynamicCategories = Set(sharedURLs.map { $0.category.isEmpty ? "Sin Categoría" : $0.category })
         //let finalCategories = storedCategories + dynamicCategories.subtracting(storedCategories).sorted()
-        return ["Todas", "Favorites"] + storedCategories
+        return [String(localized: "horizontal_scroll_all"), String(localized: "horizontal_scroll_fav")] + storedCategories
     }
     
     var categoriesWithOutTodasFavorites: [CategorySettingsItem] {
@@ -92,14 +92,14 @@ final class MainViewViewModel: ObservableObject {
             .filter { $0.isHidden }
             .map { $0.idString }
 
-        if selectedCategory != "Todas" && selectedCategory != "Favorites" {
+        if selectedCategory != String(localized: "horizontal_scroll_all") && selectedCategory != String(localized: "horizontal_scroll_fav") {
             filtered = filtered.filter { $0.idCategory == selectedObjectCategory?.idString }
         }
-        if selectedCategory == "Favorites" {
+        if selectedCategory == String(localized: "horizontal_scroll_fav") {
             filtered = filtered.filter { $0.isFavorite == true }
             filtered = filtered.filter { !hiddenCategoryIDs.contains($0.idCategory)}
         }
-        if selectedCategory == "Todas" {
+        if selectedCategory == String(localized: "horizontal_scroll_all") {
             filtered = filtered.filter { !hiddenCategoryIDs.contains($0.idCategory)}
         }
         
@@ -180,7 +180,7 @@ final class MainViewViewModel: ObservableObject {
     
     func fetchCategories() {
         fetchedCategories = fileManager.fetchCategorySettings()
-        self.selectedCategory = "Todas"
+        self.selectedCategory = String(localized: "horizontal_scroll_all")
     }
 
     func addNewCategory(_ categoryName: String) {
@@ -191,7 +191,7 @@ final class MainViewViewModel: ObservableObject {
     }
         
     func removeCategory(_ setCategory: CategorySettingsItem) {
-        guard setCategory.name != "Todas" && setCategory.name != "Favorites" else { return }
+        guard setCategory.name != String(localized: "horizontal_scroll_all") && setCategory.name != String(localized: "horizontal_scroll_fav") else { return }
         fileManager.removeCategory(setCategory)
         sharedURLs.removeAll { $0.idCategory == setCategory.idString }
         fetchCategories()
@@ -232,7 +232,7 @@ final class MainViewViewModel: ObservableObject {
     }
     
     func toggleCategoryHidden(_ setCategory: CategorySettingsItem) {
-        guard setCategory.name != "Todas" && setCategory.name != "Favorites" else { return }
+        guard setCategory.name != String(localized: "horizontal_scroll_all") && setCategory.name != String(localized: "horizontal_scroll_fav") else { return }
         fileManager.toggleHiddenStatusCategory(for: setCategory)
         setCategory.isHidden.toggle()
     }

@@ -88,7 +88,7 @@ struct ActionSheetItemView: View {
                 }) {
                     HStack {
                         Image(systemName: "textformat")
-                        Text("Editar Título")
+                        Text(String(localized: "edit_title"))
                         Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundColor(Color.secondary)
@@ -103,7 +103,7 @@ struct ActionSheetItemView: View {
                 }) {
                     HStack {
                         Image(systemName: "folder")
-                        Text("Cambiar Categoría")
+                        Text(String(localized: "element_change_cat"))
                         Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundColor(Color.secondary)
@@ -114,13 +114,12 @@ struct ActionSheetItemView: View {
                 }
                 
                 Button(action: {
-                    print("Ordenar elementos")
                     showElementsOrderSelection=true
-                    //onDismiss()
+                    //onDismiss() String(localized: "element_share")
                 }) {
                     HStack {
                         Image(systemName: "arrow.up.arrow.down")
-                        Text("Ordenar elementos")
+                        Text(String(localized: "scroll_options_reorder_elem"))
                         Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundColor(Color.secondary)
@@ -134,7 +133,7 @@ struct ActionSheetItemView: View {
                     ShareLink(item: url) {
                         HStack {
                             Image(systemName: "square.and.arrow.up")
-                            Text("Compartir elemento")
+                            Text(String(localized: "element_share"))
                             Spacer()
                         }
                         .padding()
@@ -151,7 +150,7 @@ struct ActionSheetItemView: View {
                 }) {
                     HStack {
                         Image(systemName: "trash")
-                        Text("Eliminar")
+                        Text(String(localized: "scroll_options_delete"))
                         Spacer()
                     }
                     .padding()

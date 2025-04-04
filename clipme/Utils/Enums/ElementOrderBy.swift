@@ -7,8 +7,12 @@
 
 
 enum ElementOrderBy: String, CaseIterable {
-    case dateLatestFirst = "date-new-first"
-    case dateLatestLast = "date-old-first"
-    case titleAscending = "title-ascending"
-    case titleDescending = "title-descending"
+    case dateLatestFirst = "date_new_first"
+    case dateLatestLast = "date_old_first"
+    case titleAscending = "title_ascending"
+    case titleDescending = "title_descending"
+    
+    var localizedName: String {
+        return String(localized: String.LocalizationValue(self.rawValue))
+    }
 }

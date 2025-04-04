@@ -38,10 +38,10 @@ struct CategorySelectionView: View {
                 }
               //  .listRowBackground(Color.clear)
             }
-            .navigationTitle("Seleccionar Categoría")
+            .navigationTitle(String(localized: "element_change_cat"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cerrar") {
+                    Button(String(localized: "_close")) {
                         isPresented = false
                     }
                 }
@@ -51,3 +51,5 @@ struct CategorySelectionView: View {
 
     }
 }
+
+

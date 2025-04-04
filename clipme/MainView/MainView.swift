@@ -24,8 +24,8 @@ struct MainView: View {
                 ScrollView(.vertical, showsIndicators: false) {
                     VStack(spacing: 10) {
                         categoryScrollView
-                            //.padding(.top, 4)
-                            .frame(height: 30)
+                            .padding(.bottom, 30)
+                            //.frame(height: 30)
                             
                             Spacer()
                         
@@ -37,12 +37,12 @@ struct MainView: View {
                             return false
                         }()
 
-                        if lockManager.isUnlocked || isVisible || viewModel.selectedCategory == "Todas" || viewModel.selectedCategory == "Favorites" {
+                        if lockManager.isUnlocked || isVisible || viewModel.selectedCategory == String(localized: "horizontal_scroll_all") || viewModel.selectedCategory == String(localized: "horizontal_scroll_fav") {
                             currentView
                                 //.padding(.top, 10)
                         } else {
                             VStack(spacing: 8) {
-                                Button("Autenticarse con \(lockManager.biometricType.rawValue)") {
+                                Button(String(localized: "auth_with \(lockManager.biometricType.rawValue)")) {
                                     Task {
                                         _ = await lockManager.authenticate()
                                     }
@@ -149,7 +149,7 @@ struct MainView: View {
                     ChevronIndicators(viewModel: viewModel)
                         .ignoresSafeArea()
                 }
-                .frame(height: 30)
+                .frame(height: 40)
 
             }
             .task {
@@ -186,7 +186,7 @@ struct MainView: View {
             ) {
                 Text(category)
                     .padding(.vertical, 8)
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 12)
                     .overlay(
                         RoundedRectangle(cornerRadius: 20)
                             .stroke(viewModel.selectedCategory == category ? Color.blue : Color.clear, lineWidth: 2)

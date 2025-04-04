@@ -17,8 +17,8 @@ struct CategoryTitleView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Editar título")) {
-                    TextField("Nuevo título", text: $newTitle)
+                Section(header: Text(String(localized: "scroll_options_edit_title"))) {
+                    TextField(String(localized: "scroll_options_edit_title"), text: $newTitle)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .onAppear {
                             guard let selectedCategoryName = selectedCategory?.name else {
@@ -31,15 +31,15 @@ struct CategoryTitleView: View {
                         }
                 }
             }
-            .navigationTitle("Editar Item")
+            .navigationTitle(String(localized: "scroll_options_edit_title"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancelar") {
+                    Button(String(localized: "_cancel")) {
                         isPresented = false
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Guardar") {
+                    Button(String(localized: "_save")) {
                         guard let selectedCategory = selectedCategory else {
                             return
                         }
@@ -52,3 +52,6 @@ struct CategoryTitleView: View {
         }
     }
 }
+
+
+ 

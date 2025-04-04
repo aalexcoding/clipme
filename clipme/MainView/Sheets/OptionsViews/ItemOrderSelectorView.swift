@@ -19,14 +19,14 @@ struct ItemOrderSelectorView: View {
         NavigationView {
             List {
                 // Sorting Options
-                Section(header: Text("Ordenar por")) {
+                Section(header: Text(String(localized: "order_by"))) {
                     ForEach(ElementOrderBy.allCases, id: \.self) { order in
                         Button(action: {
                             newOrder = order
                             viewModel.orderSharedURLs(by: newOrder)
                         }) {
                             HStack {
-                                Text(order.rawValue)
+                                Text(order.localizedName).tag(order)
                                 Spacer()
                                 if newOrder == order {
                                     Image(systemName: "checkmark")
@@ -40,10 +40,10 @@ struct ItemOrderSelectorView: View {
                 }
 
             }
-            .navigationTitle("Ordenar elementos")
+            .navigationTitle(String(localized: "scroll_options_reorder_elem"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cerrar") {
+                    Button(String(localized: "_close")) {
                         isPresented = false
                     }
                 }
@@ -51,3 +51,5 @@ struct ItemOrderSelectorView: View {
         }
     }
 }
+
+

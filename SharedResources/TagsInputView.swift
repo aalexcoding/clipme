@@ -21,7 +21,7 @@ public struct TagsInputView: View {
             Text("Tags")
                 .font(.headline)
             HStack {
-                TextField("Añadir tag...", text: $newTag)
+                TextField(String(localized: "add_tag"), text: $newTag)
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .frame(maxWidth: .infinity)
 

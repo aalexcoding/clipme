@@ -33,10 +33,10 @@ struct CategorySelectionOrderView: View {
             .listRowSeparator(.hidden)
 
             //.environment(\.editMode, .constant(.active))
-            .navigationTitle("Reordena las Categorías")
+            .navigationTitle(String(localized: "scroll_options_reorder_cat"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Cerrar") {
+                    Button(String(localized: "_close")) {
                         isPresented = false
                     }
                 }

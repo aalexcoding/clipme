@@ -154,6 +154,7 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Assets.xcassets,
+				Localizable.xcstrings,
 			);
 			target = D1CD99D92D7A125D00FDB5CC /* shareExtension */;
 		};
@@ -163,6 +164,13 @@
 				Info.plist,
 			);
 			target = D1CD99A62D7A123E00FDB5CC /* clipme */;
+		};
+		D18464762DA063D400C695F0 /* Exceptions for "clipme" folder in "SharedResources" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Localizable.xcstrings,
+			);
+			target = D1CD9A4B2D7A2EFE00FDB5CC /* SharedResources */;
 		};
 		D1CD99E52D7A125D00FDB5CC /* Exceptions for "shareExtension" folder in "shareExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
@@ -189,6 +197,7 @@
 			exceptions = (
 				D16C84112D8D273200FBD33E /* Exceptions for "clipme" folder in "clipme" target */,
 				D1636DB12D9C6A8500103BB6 /* Exceptions for "clipme" folder in "shareExtension" target */,
+				D18464762DA063D400C695F0 /* Exceptions for "clipme" folder in "SharedResources" target */,
 			);
 			path = clipme;
 			sourceTree = "<group>";
@@ -470,6 +479,7 @@
 			knownRegions = (
 				en,
 				Base,
+				es,
 			);
 			mainGroup = D1CD999E2D7A123E00FDB5CC;
 			minimizedProjectReferenceProxies = 1;
@@ -664,6 +674,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipme.app/clipme";
 			};
@@ -721,6 +732,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/clipme.app/clipme";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -742,6 +754,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/ClipMe/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ClipMe;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Usamos Face ID para proteger el acceso a información sensible.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -781,6 +794,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/ClipMe/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = ClipMe;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Usamos Face ID para proteger el acceso a información sensible.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

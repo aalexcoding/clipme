@@ -77,13 +77,13 @@ struct ShareExtensionView: View {
                                 
                                 Text(title)
                                     .font(.body)
-                                    .lineLimit(1)
-                                    .truncationMode(.middle)
+                                    .lineLimit(3)
+                                    .truncationMode(.tail)
                                     .padding()
                                 
                                 categoryScrollView
                                 
-                                Button("Guardar") {
+                                Button(String(localized: "_save")) {
                                     viewModel.saveSharedURL()
                                     extensionContext?.completeRequest(returningItems: nil, completionHandler: nil)
                                 }
@@ -97,7 +97,7 @@ struct ShareExtensionView: View {
                                     .multilineTextAlignment(.center)
                                     .padding()
                             } else {
-                                Text("Procesando link...")
+                                Text(String(localized: "loading"))
                                     .frame(maxWidth: .infinity, alignment: .center)
                             }
                         }
@@ -208,7 +208,7 @@ struct ShareExtensionView: View {
                 viewModel.category = category
             }) {
                 Text(category)
-                    .foregroundColor(viewModel.category == category ? .white : .primary)
+                    .foregroundColor(viewModel.category == category ? .black : .white)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .overlay(

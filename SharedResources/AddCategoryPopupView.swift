@@ -28,14 +28,14 @@ public struct AddCategoryPopupView: View {
                     }
             }
             
-            // Popup centrado
+            // Popup centrado  String(localized: "name_of_the_new_category"))
             if isPresented {
                 VStack(spacing: 15) {
-                    Text("Nueva Categoría")
+                    Text(String(localized: "new_category"))
                         .font(.headline)
                         .foregroundColor(.primary)
                     
-                    TextField("Nombre de la categoría", text: $categoryName)
+                    TextField(String(localized: "name_of_the_new_category"), text: $categoryName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .onChange(of: categoryName) { _, newValue in
@@ -44,14 +44,14 @@ public struct AddCategoryPopupView: View {
                         }
                     
                     HStack {
-                        Button("Cancelar") {
+                        Button(String(localized: "_cancel")) {
                             isPresented = false
                         }
                         .padding()
                         .background(Color(.tertiarySystemBackground))
                         .cornerRadius(8)
                         
-                        Button("Aceptar") {
+                        Button(String(localized: "_accept")) {
                             if !categoryName.trimmingCharacters(in: .whitespaces).isEmpty {
                                 onAddCategory(categoryName)
                                 isPresented = false

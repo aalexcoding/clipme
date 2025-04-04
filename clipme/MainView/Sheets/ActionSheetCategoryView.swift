@@ -62,7 +62,7 @@ struct ActionSheetCategoryView: View {
                     }) {
                         HStack {
                             Image(systemName: "textformat")
-                            Text("Editar Título")
+                            Text(String(localized: "edit_title"))
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .foregroundColor(Color.secondary)
@@ -79,7 +79,7 @@ struct ActionSheetCategoryView: View {
                 }) {
                     HStack {
                         Image(systemName: "list.bullet")
-                        Text("Reordenar Categorías")
+                        Text(String(localized: "scroll_options_reorder_cat"))
                         Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundColor(Color.secondary)
@@ -91,13 +91,13 @@ struct ActionSheetCategoryView: View {
 
                 
                 Button(action: {
-                    print("Ordenar elementos")
+                    print(String(localized: "scroll_options_reorder_elem"))
                     showElementsOrderSelection=true
                     //onDismiss()
                 }) {
                     HStack {
                         Image(systemName: "arrow.up.arrow.down")
-                        Text("Ordenar elementos")
+                        Text(String(localized: "scroll_options_reorder_elem"))
                         Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundColor(Color.secondary)
@@ -107,11 +107,12 @@ struct ActionSheetCategoryView: View {
                     .cornerRadius(8)
                 }
                 
-                if viewModel.selectedCategory != "Todas" && viewModel.selectedCategory != "Favorites" {
+                
+                if viewModel.selectedCategory != String(localized: "horizontal_scroll_all") && viewModel.selectedCategory != String(localized: "horizontal_scroll_fav") {
                     if let category = viewModel.selectedObjectCategory {
                         let isHidden = category.isHidden
                         let lockIcon = isHidden ? "lock" : "lock.open"
-                        let lockText = isHidden ? "Desbloquear" : "Bloquear"
+                        let lockText = isHidden ? String(localized: "unblock") : String(localized: "block")
                         let backgroundColor = Color.red.opacity(UIScreen.main.traitCollection.userInterfaceStyle == .dark ? 0.4 : 0.2)
 
                         Button(role: .destructive, action: {
@@ -142,7 +143,7 @@ struct ActionSheetCategoryView: View {
                     }
                 }
                 
-                if viewModel.selectedCategory != "Todas" && viewModel.selectedCategory != "Favorites" {
+                if viewModel.selectedCategory != String(localized: "horizontal_scroll_all") && viewModel.selectedCategory != String(localized: "horizontal_scroll_fav") {
                     Button(role: .destructive, action: {
                         guard let category = viewModel.selectedObjectCategory else { return }
                         viewModel.removeCategory(category)
@@ -150,7 +151,7 @@ struct ActionSheetCategoryView: View {
                     }) {
                         HStack {
                             Image(systemName: "trash")
-                            Text("Eliminar")
+                            Text(String(localized: "scroll_options_delete"))
                             Spacer()
                         }
                         .padding()

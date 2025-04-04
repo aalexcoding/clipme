@@ -17,23 +17,23 @@ struct ItemTitleView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Editar título")) {
-                    TextField("Nuevo título", text: $newTitle)
+                Section(header: Text(String(localized: "edit_element"))) {
+                    TextField(String(localized: "new_tittle"), text: $newTitle)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .onAppear {
                             newTitle = selectedItem?.title ?? ""
                         }
                 }
             }
-            .navigationTitle("Editar Item")
+            .navigationTitle(String(localized: "edit_element"))
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancelar") {
+                    Button(String(localized: "_cancel")) {
                         isPresented = false
                     }
                 }
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Guardar") {
+                    Button(String(localized: "_save")) {
                         if let item = selectedItem {
                             viewModel.changeItemTitle(of: item, to: newTitle)
                         }
@@ -45,3 +45,4 @@ struct ItemTitleView: View {
         }
     }
 }
+
