@@ -208,7 +208,7 @@ struct ShareExtensionView: View {
                 viewModel.category = category
             }) {
                 Text(category)
-                    .foregroundColor(viewModel.category == category ? .black : .white)
+                    .foregroundColor(viewModel.category == category ? .white : .white)
                     .padding(.vertical, 8)
                     .padding(.horizontal, 16)
                     .overlay(
