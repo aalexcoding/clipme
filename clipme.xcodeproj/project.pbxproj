@@ -18,6 +18,7 @@
 		D1CD9A552D7A2EFE00FDB5CC /* SharedResources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D1CD9A5E2D7A2F3A00FDB5CC /* SharedResources.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; };
 		D1CD9A5F2D7A2F3A00FDB5CC /* SharedResources.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D1E29ADB2E89AF970046FB6D /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = D1E29ADA2E89AF970046FB6D /* ZIPFoundation */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -268,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D194D9FC2D7C6EC700AC0B9A /* RealmSwift in Frameworks */,
+				D1E29ADB2E89AF970046FB6D /* ZIPFoundation in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,6 +441,7 @@
 			name = SharedResources;
 			packageProductDependencies = (
 				D194D9FB2D7C6EC700AC0B9A /* RealmSwift */,
+				D1E29ADA2E89AF970046FB6D /* ZIPFoundation */,
 			);
 			productName = SharedResources;
 			productReference = D1CD9A4C2D7A2EFE00FDB5CC /* SharedResources.framework */;
@@ -485,6 +488,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				D194D9FA2D7C6EAE00AC0B9A /* XCRemoteSwiftPackageReference "realm-swift" */,
+				D1E29AD92E89AEE30046FB6D /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D1CD99A82D7A123E00FDB5CC /* Products */;
@@ -1090,8 +1094,16 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
 			requirement = {
-				branch = master;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		D1E29AD92E89AEE30046FB6D /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/weichsel/ZIPFoundation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.20;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1101,6 +1113,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = D194D9FA2D7C6EAE00AC0B9A /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		D1E29ADA2E89AF970046FB6D /* ZIPFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D1E29AD92E89AEE30046FB6D /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
+			productName = ZIPFoundation;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

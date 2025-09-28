@@ -224,8 +224,14 @@
         }
       }
     },
+    "Error de importación" : {
+
+    },
     "Error:" : {
       "shouldTranslate" : false
+    },
+    "Exportar" : {
+
     },
     "horizontal_scroll_all" : {
       "extractionState" : "manual",
@@ -260,6 +266,12 @@
           }
         }
       }
+    },
+    "Importación completada" : {
+
+    },
+    "Importar" : {
+
     },
     "Key" : {
       "extractionState" : "manual",
@@ -331,6 +343,15 @@
           }
         }
       }
+    },
+    "No hay backup disponible" : {
+
+    },
+    "No se pudo importar el backup." : {
+
+    },
+    "OK" : {
+
     },
     "order_by" : {
       "extractionState" : "manual",
@@ -433,6 +454,9 @@
           }
         }
       }
+    },
+    "Se importaron los datos correctamente." : {
+
     },
     "Tags" : {
       "shouldTranslate" : false

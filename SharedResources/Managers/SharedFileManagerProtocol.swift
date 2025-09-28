@@ -28,4 +28,8 @@ public protocol SharedFileManagerProtocol {
     func saveCategoryOrder(_ categories: [CategorySettingsItem])
     func updateCategoryName(_ category: CategorySettingsItem, newName: String)
     func toggleHiddenStatusCategory(for category: CategorySettingsItem)
+    
+    // Import - Export
+    func exportDatabaseZip() -> URL?
+    func importDatabaseZip(from zipURL: URL) -> Bool
 }

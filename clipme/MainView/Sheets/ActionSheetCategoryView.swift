@@ -7,6 +7,8 @@
 
 import SwiftUI
 import SharedResources
+import UIKit
+import UniformTypeIdentifiers
 
 struct ActionSheetCategoryView: View {
     @ObservedObject var viewModel: MainViewViewModel
@@ -17,8 +19,13 @@ struct ActionSheetCategoryView: View {
     @State var showCategorySelection: Bool = false
     @State var showCategoryTitleSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
     @State var showElementsOrderSelection: Bool = false // Nuevo estado para mostrar la selección de categoría
-
+    @State var showExportOption: Bool = false // Nuevo estado para mostrar la selección de categoría
+    @State var showImportOption: Bool = false // Nuevo estado para mostrar la selección de categoría
     
+    @State private var exportFileURL: URL? = nil
+    @State private var showImportAlert: Bool = false
+    @State private var importSuccess: Bool = false
+
     let onDismiss: () -> Void
     
     @StateObject private var lockManager = AppLockManager(autoLockSeconds: 60)
@@ -53,7 +60,54 @@ struct ActionSheetCategoryView: View {
 
             VStack(spacing: 12) {
                 
-                if viewModel.selectedCategory != "Todas" && viewModel.selectedCategory != "Favorites" {
+                if viewModel.selectedCategory == String(localized: "horizontal_scroll_all") {
+                    
+                    Button(action: {
+                        print("Exportar base de datos")
+                        if let url = SharedFileManager.shared.exportDatabaseZip() {
+                            self.exportFileURL = url
+                            self.showExportOption = true
+                        } else {
+                            self.exportFileURL = nil
+                            self.showExportOption = false
+                        }
+                    }) {
+                        HStack {
+                            Image(systemName: "textformat")
+                            Text(String(localized: "Exportar"))
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color.secondary)
+                        }
+                        .padding()
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .cornerRadius(8)
+                    }
+                }
+                
+                if viewModel.selectedCategory == String(localized: "horizontal_scroll_all") {
+                    
+                    Button(action: {
+                        print("Importar base de datos")
+                        showImportOption=true
+                        //onDismiss()
+                    }) {
+                        HStack {
+                            Image(systemName: "textformat")
+                            Text(String(localized: "Importar"))
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .foregroundColor(Color.secondary)
+                        }
+                        .padding()
+                        .background(Color(UIColor.secondarySystemBackground))
+                        .cornerRadius(8)
+                    }
+                }
+                
+                
+                
+                if viewModel.selectedCategory != String(localized: "horizontal_scroll_all") && viewModel.selectedCategory != String(localized: "horizontal_scroll_fav") {
                     
                     Button(action: {
                         print("Cambiar titulo categeoria")
@@ -72,6 +126,9 @@ struct ActionSheetCategoryView: View {
                         .cornerRadius(8)
                     }
                 }
+                
+                    
+
                 
                 Button(action: {
                     reorderedCategories = viewModel.fetchedCategories.sorted { $0.order < $1.order }
@@ -177,13 +234,80 @@ struct ActionSheetCategoryView: View {
         .sheet(isPresented: $showElementsOrderSelection) {
             ItemOrderSelectorView(viewModel: viewModel, isPresented: $showElementsOrderSelection)
         }
+        .sheet(isPresented: $showExportOption) {
+            if let url = exportFileURL {
+                ActivityView(activityItems: [url])
+            } else {
+                Text("No hay backup disponible")
+                    .padding()
+            }
+        }
+        .sheet(isPresented: $showImportOption) {
+            DocumentPicker(supportedTypes: [UTType.zip]) { pickedURL in
+                if let url = pickedURL {
+                    let success = SharedFileManager.shared.importDatabaseZip(from: url)
+                    self.importSuccess = success
+                    self.showImportAlert = true
+                }
+                // Cerrar el sheet del picker
+                self.showImportOption = false
+            }	
+        }
+        .alert(importSuccess ? "Importación completada" : "Error de importación", isPresented: $showImportAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(importSuccess ? "Se importaron los datos correctamente." : "No se pudo importar el backup.")
+        }
     }
 
 }
 
+struct ActivityView: UIViewControllerRepresentable {
+    let activityItems: [Any]
+    var applicationActivities: [UIActivity]? = nil
 
+    func makeUIViewController(context: Context) -> UIActivityViewController {
+        let controller = UIActivityViewController(activityItems: activityItems, applicationActivities: applicationActivities)
+        controller.excludedActivityTypes = [.assignToContact, .addToReadingList, .markupAsPDF]
+        return controller
+    }
 
+    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
+        // No-op
+    }
+}
 
+struct DocumentPicker: UIViewControllerRepresentable {
+    let supportedTypes: [UTType]
+    let onPick: (URL?) -> Void
 
+    func makeCoordinator() -> Coordinator {
+        Coordinator(onPick: onPick)
+    }
 
+    func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
+        let controller = UIDocumentPickerViewController(forOpeningContentTypes: supportedTypes, asCopy: true)
+        controller.allowsMultipleSelection = false
+        controller.delegate = context.coordinator
+        return controller
+    }
 
+    func updateUIViewController(_ uiViewController: UIDocumentPickerViewController, context: Context) {
+        // No-op
+    }
+
+    class Coordinator: NSObject, UIDocumentPickerDelegate {
+        let onPick: (URL?) -> Void
+        init(onPick: @escaping (URL?) -> Void) {
+            self.onPick = onPick
+        }
+
+        func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+            onPick(urls.first)
+        }
+
+        func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+            onPick(nil)
+        }
+    }
+}

@@ -103,4 +103,13 @@ public class SharedFileManager: SharedFileManagerProtocol {
         database.toggleHiddenStatusCategory(for: category)
     }
     
+    
+    // Import -- Export
+    public func exportDatabaseZip() -> URL? {
+        return database.exportDatabaseZip()
+    }
+    
+    public func importDatabaseZip(from zipURL: URL) -> Bool {
+        return database.importDatabaseZip(from: zipURL)
+    }
 }
